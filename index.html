@@ -100,6 +100,9 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .end::before { content: ""; grid-column: 2; grid-row: 1; background: var(--hair); }
 .end > .endcol:first-child { grid-column: 1; grid-row: 1; }
 .end > .qrcol { grid-column: 3; grid-row: 1; }
+/* No Instagram handle yet: the waitlist column stands alone. */
+.end.solo { grid-template-columns: minmax(0, 520px); justify-content: center; }
+.end.solo::before { display: none; }
 @media (max-width: 640px) { .end { grid-template-columns: 1fr; } .end::before { display: none; } .end > .endcol:first-child, .end > .qrcol { grid-column: 1; grid-row: auto; } .end > .qrcol { border-top: 1px solid var(--hair); } }
 .endcol { display: grid; gap: 16px; align-content: start; justify-items: stretch; text-align: center; padding: 36px 28px; }
 .endh { font-weight: 400; font-size: 13px; letter-spacing: 0.2em; margin: 0; }
@@ -107,7 +110,6 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .qrcol { justify-items: center; }
 .qr { width: 184px; height: 184px; display: grid; place-items: center; }
 .qr img, .qr canvas { width: 184px !important; height: 184px !important; image-rendering: pixelated; }
-.qr.empty { border: 1px dashed #cfcfcf; color: #b5b5b5; font-size: 12px; padding: 18px; text-align: center; }
 .handle { color: var(--ink); font-size: 14px; letter-spacing: 0.04em; text-decoration: none; border-bottom: 1px solid var(--ink); }
 .handle:empty { display: none; }
 .r2 { max-width: 760px; width: 100%; margin: 0 auto; display: grid; gap: 22px; border-top: 1px solid var(--hair); padding-top: 28px; text-align: center; }
@@ -673,7 +675,6 @@ undoBtn.addEventListener("click", undo);
 
 const joinEl = document.getElementById("join");
 
-// Instagram: put the handle here (without @) and the QR code appears at the end.
 // Where answers go: the Google Apps Script web app URL behind viki's sheet "Vitamin VVV 落地页回答". Empty = nothing is sent (preview copy).
 const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbySiEO4GXjxJjIKEKlxY68CbKX9uUJFjvwauzu_AWl_osCK-kt9m1NFfnMFkuRudcnn/exec";
 const RESPONSE_ID = (crypto.randomUUID && crypto.randomUUID()) || (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
@@ -701,10 +702,11 @@ function sendUnconfirmed() {
 // Phones usually leave by switching apps or locking the screen, which hides the page without a pagehide.
 addEventListener("pagehide", sendUnconfirmed);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") sendUnconfirmed(); });
+// Instagram: put the handle here (without @) and the QR code appears at the end. Empty hides that column.
 const INSTAGRAM = "";
 (function setupInstagram() {
   const box = document.getElementById("qr"), a = document.getElementById("handle");
-  if (!INSTAGRAM) { box.classList.add("empty"); box.textContent = "QR code appears once the Instagram handle is added"; return; }
+  if (!INSTAGRAM) { box.closest(".qrcol").hidden = true; box.closest(".end").classList.add("solo"); return; }
   const url = "https://instagram.com/" + INSTAGRAM;
   a.href = url; a.textContent = "@" + INSTAGRAM;
   const draw = () => { if (window.QRCode) new QRCode(box, { text: url, width: 400, height: 400, colorDark: "#141414", colorLight: "#ffffff" }); };
