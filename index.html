@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Vitamin VVV: design-led rainwear. Pick the look you would wear.">
+<style>body { margin: 0; }</style>
+<title>Vitamin VVV Waitlist</title>
+<link rel="preload" href="fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 300; font-display: swap; src: url(fonts/hanken-grotesk-latin-300-normal.woff2) format("woff2"); }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/hanken-grotesk-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/hanken-grotesk-latin-500-normal.woff2) format("woff2"); }
+</style>
+<style>
+/* Layout: a lineup rail. Six looks stand in a row; the current one is full size in the middle, neighbours fade to the sides. Visitors pick their favourite, it drifts away like dust, and they pick again until all six are ranked. Then the waitlist. Single-theme white on purpose so every look reads the same. */
+:root {
+  --white: #ffffff;
+  --ink: #141414;
+  --grey: #9a9a9a;
+  --hair: #e6e6e6;
+  --sans: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body { background: var(--white); color: var(--ink); font-family: var(--sans); font-weight: 400; font-size: 12px; line-height: 1.6; }
+.up { text-transform: uppercase; letter-spacing: 0.14em; font-size: 10.5px; }
+
+header { border-bottom: 1px solid var(--hair); padding-inline: 20px; padding-block: 22px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+header .l { justify-self: start; color: var(--grey); }
+header .r { justify-self: end; color: var(--grey); }
+.wordmark { font-weight: 500; font-size: 17px; letter-spacing: 0.42em; text-transform: uppercase; padding-left: 0.42em; white-space: nowrap; }
+@media (max-width: 380px) { header { padding-inline: 16px; } .wordmark { font-size: 15px; letter-spacing: 0.3em; padding-left: 0.3em; } }
+
+main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 36px; }
+
+.rail-wrap { position: relative; }
+.viewport { position: relative; height: min(62vh, 580px); min-height: 380px; overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; transition: opacity .6s, filter .6s; }
+.viewport.dragging { cursor: grabbing; }
+.viewport:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+.stage-intro .viewport { opacity: .22; filter: blur(1.5px); pointer-events: none; }
+.look { position: absolute; top: 0; left: 50%; height: 100%; aspect-ratio: 2 / 3; max-width: 70vw; transform-origin: 50% 100%;
+  transition: transform .5s cubic-bezier(.2,.7,.2,1), opacity .5s; }
+.viewport.dragging .look { transition: none; }
+.look svg, .look img { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: none; }
+.look.gone { display: none; }
+.arrow { position: absolute; top: calc(min(62vh, 580px) / 2); transform: translateY(-50%); background: var(--white); border: 1px solid var(--hair); width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; font: inherit; font-size: 16px; color: var(--ink); z-index: 20; }
+.arrow:hover { border-color: var(--ink); }
+.arrow.prev { left: calc(50% - 250px); }
+.arrow.next { right: calc(50% - 250px); }
+@media (max-width: 700px) { .arrow.prev { left: 0; } .arrow.next { right: 0; } }
+.stage-intro .arrow, .stage-done .arrow { display: none; }
+
+.intro { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 16px; text-align: center; padding-inline: 16px; z-index: 30; }
+.intro h2 { font-weight: 400; font-size: 22px; margin: 0; }
+.intro p { margin: 0; max-width: 40ch; font-size: 13px; }
+.namefield { display: grid; gap: 6px; width: min(280px, 80vw); margin-bottom: 10px; }
+.namefield input { font: inherit; font-size: 17px; text-align: center; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; }
+.gender { display: flex; gap: 6px; margin: -2px 0 10px; }
+.gender button { font: inherit; font-size: 12px; background: var(--white); color: var(--ink); border: 1px solid var(--hair); padding: 7px 14px; cursor: pointer; }
+.gender button:hover { border-color: var(--ink); }
+.gender button[aria-checked="true"] { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.intro ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; color: var(--grey); }
+.btn { font: inherit; text-transform: uppercase; letter-spacing: 0.16em; font-size: 10.5px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); padding: 12px 22px; cursor: pointer; }
+.btn:hover { background: var(--white); color: var(--ink); }
+.btn.ghost { background: var(--white); color: var(--ink); }
+.btn.ghost:hover { background: var(--ink); color: var(--white); }
+.btn:disabled { opacity: .35; cursor: default; }
+.btn:disabled:hover { background: var(--white); color: var(--ink); }
+.hint { color: var(--ink); }
+
+.rail-bar { display: flex; justify-content: center; align-items: center; gap: 22px; margin-top: 16px; flex-wrap: wrap; min-height: 40px; }
+.stage-intro .rail-bar, .stage-intro .ranked { visibility: hidden; }
+/* On phones the intro sits at the top, so Start is on screen without scrolling. */
+@media (max-width: 700px) { main { padding-block-start: 24px; } .intro { place-content: start center; gap: 12px; padding-top: 8px; } }
+.count { font-variant-numeric: tabular-nums; color: var(--grey); }
+.dots { display: flex; gap: 6px; }
+.dots button { width: 18px; height: 2px; padding: 0; border: 0; background: var(--hair); cursor: pointer; }
+.dots button[aria-current="true"] { background: var(--ink); }
+
+.ranked { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 18px; min-height: 96px; }
+.ranked .slot { width: 52px; display: grid; justify-items: center; gap: 4px; color: var(--grey); }
+.ranked .slot .mini { width: 52px; height: 78px; border-bottom: 1px solid var(--hair); display: grid; place-items: end center; }
+.ranked .slot .mini svg, .ranked .slot .mini img { width: 100%; height: 100%; object-fit: contain; }
+.ranked .slot.filled { color: var(--ink); }
+.ranked .slot.filled .mini { border-bottom-color: var(--ink); animation: settle .5s ease-out; }
+@keyframes settle { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.dust { position: absolute; pointer-events: none; z-index: 40; }
+
+.join { max-width: 880px; width: 100%; margin: 0 auto; display: grid; gap: 22px; border-top: 1px solid var(--hair); padding-top: 28px; }
+.join h1 { font-weight: 400; font-size: clamp(28px, 5vw, 46px); line-height: 1.25; margin: 0; text-wrap: balance; text-align: center; }
+.join > p { margin: 0; color: var(--grey); text-align: center; }
+.join[hidden], .r2[hidden], .intro[hidden], [hidden] { display: none !important; }
+.join { gap: 48px; padding-block: 56px 72px; }
+.join .endtop { text-align: center; display: grid; gap: 10px; }
+.join .endtop h1 { font-weight: 300; font-size: clamp(34px, 6vw, 56px); letter-spacing: -0.03em; line-height: 1; margin: 0; }
+.join .endtop p { margin: 0; color: var(--grey); font-size: 15px; }
+.end { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
+.end::before { content: ""; grid-column: 2; grid-row: 1; background: var(--hair); }
+.end > .endcol:first-child { grid-column: 1; grid-row: 1; }
+.end > .qrcol { grid-column: 3; grid-row: 1; }
+@media (max-width: 640px) { .end { grid-template-columns: 1fr; } .end::before { display: none; } .end > .endcol:first-child, .end > .qrcol { grid-column: 1; grid-row: auto; } .end > .qrcol { border-top: 1px solid var(--hair); } }
+.endcol { display: grid; gap: 16px; align-content: start; justify-items: stretch; text-align: center; padding: 36px 28px; }
+.endh { font-weight: 400; font-size: 13px; letter-spacing: 0.2em; margin: 0; }
+.endp { margin: -6px 0 6px; color: var(--grey); font-size: 14px; }
+.qrcol { justify-items: center; }
+.qr { width: 184px; height: 184px; display: grid; place-items: center; }
+.qr img, .qr canvas { width: 184px !important; height: 184px !important; image-rendering: pixelated; }
+.qr.empty { border: 1px dashed #cfcfcf; color: #b5b5b5; font-size: 12px; padding: 18px; text-align: center; }
+.handle { color: var(--ink); font-size: 14px; letter-spacing: 0.04em; text-decoration: none; border-bottom: 1px solid var(--ink); }
+.handle:empty { display: none; }
+.r2 { max-width: 760px; width: 100%; margin: 0 auto; display: grid; gap: 22px; border-top: 1px solid var(--hair); padding-top: 28px; text-align: center; }
+.r2 h2 { font-weight: 400; font-size: 20px; margin: 0; }
+.r2 .sub { margin: -10px 0 0; color: var(--grey); }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.card { border: 1px solid var(--hair); padding: 14px 10px 12px; display: grid; gap: 8px; justify-items: center; }
+.stage { position: relative; width: min(230px, 100%); aspect-ratio: 23 / 30; }
+.stage .fig { position: absolute; inset: 0 22% 0 0; display: grid; place-items: end center; }
+.stage .fig svg, .stage .fig img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.holes { position: absolute; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-around; }
+.hole { --d: clamp(44px, 12vw, 58px); width: var(--d); height: var(--d); border-radius: 50%; border: 1px dashed #bdbdbd; background: rgba(255,255,255,.7); display: grid; place-items: center; padding: 0; font: inherit; cursor: pointer; transition: border-color .15s, transform .15s; }
+.hole.over, .hole.ready:hover { border-color: var(--ink); transform: scale(1.06); }
+.hole .token { cursor: pointer; }
+.token { --d: clamp(44px, 12vw, 58px); width: var(--d); height: var(--d); border-radius: 50%; border: 1px solid var(--ink); background: var(--white); color: var(--ink); font: inherit; font-size: 10px; line-height: 1.15; padding: 4px; display: grid; place-items: center; text-align: center; cursor: grab; touch-action: none; user-select: none; }
+.token.sel, .hole .token { background: var(--ink); color: var(--white); }
+.hole .token { width: 100%; height: 100%; animation: settle .3s ease-out; }
+.other { display: flex; gap: 8px; justify-content: center; align-items: end; }
+.other input { font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: min(220px, 55vw); }
+.tray { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.tray .token.used { visibility: hidden; }
+.ghostchip { position: fixed; z-index: 100; pointer-events: none; transform: translate(-50%, -50%); }
+.progress { color: var(--grey); }
+.pop { position: fixed; inset: 0; z-index: 90; background: rgba(255,255,255,.86); display: grid; place-items: center; padding: 16px; animation: fadein .25s ease-out; }
+.pop[hidden] { display: none; }
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+.pop .box { background: var(--white); border: 1px solid var(--ink); padding: 24px 20px; display: grid; gap: 18px; justify-items: center; width: min(420px, 100%); }
+.pop h3 { font-weight: 400; font-size: 18px; margin: 0; }
+.pop .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+.pop .opt { font: inherit; background: var(--white); border: 1px solid var(--hair); padding: 10px 6px 8px; cursor: pointer; display: grid; gap: 6px; justify-items: center; }
+.pop .opt:hover, .pop .opt:focus-visible { border-color: var(--ink); }
+.pop .opt .mini { width: 90px; aspect-ratio: 2 / 3; display: grid; place-items: end center; }
+.pop .opt .mini svg, .pop .opt .mini img { width: 100%; height: 100%; object-fit: contain; }
+.card.chosen { border-color: var(--ink); }
+.round { text-align: center; color: var(--grey); }
+.hero { display: grid; justify-items: center; }
+.hero .fig { width: 180px; height: 270px; display: grid; place-items: end center; animation: settle .6s ease-out; }
+.hero .fig svg, .hero .fig img { width: 100%; height: 100%; object-fit: contain; }
+form { display: grid; gap: 22px; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+legend { padding: 0; margin-bottom: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips input { position: absolute; opacity: 0; pointer-events: none; }
+.chips label { border: 1px solid var(--hair); padding: 7px 12px; font-size: 12px; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
+.chips label:hover { border-color: var(--ink); }
+.chips input:checked + label { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.chips input:focus-visible + label { outline: 1px solid var(--ink); outline-offset: 2px; }
+.field { display: grid; gap: 2px; }
+input[type="email"], .field textarea { font: inherit; font-size: 17px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: 100%; }
+input::placeholder, textarea::placeholder { color: #bdbdbd; }
+.field textarea { resize: none; line-height: 1.4; font-size: 15px; }
+.gift { display: grid; gap: 8px; padding-top: 6px; }
+.gift .giftline { margin: 0; font-size: 14px; }
+.gift .note { margin: 0; color: var(--grey); font-size: 11px; }
+button[type="submit"] { font: inherit; text-transform: uppercase; letter-spacing: 0.18em; font-size: 13px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); border-radius: 0; padding: 18px 16px; cursor: pointer; }
+button[type="submit"]:hover { background: var(--white); color: var(--ink); }
+input:focus-visible, textarea:focus-visible, button:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
+.err { margin: 0; font-size: 12px; text-align: center; }
+.err:empty { display: none; }
+.thanks { text-align: center; }
+.thanks h2 { font-weight: 400; font-size: 24px; margin: 0 0 4px; }
+.thanks p { margin: 0; color: var(--grey); }
+
+footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block: 18px; display: flex; justify-content: center; gap: 56px; flex-wrap: wrap; color: var(--grey); text-align: center; }
+
+.review { max-width: 1400px; margin: 0 auto 28px; padding-inline: 20px; }
+.review > div { border: 1px dashed var(--hair); padding: 14px 16px; display: grid; gap: 6px; color: var(--grey); font-size: 12px; }
+@media (prefers-reduced-motion: reduce) { .look, .viewport { transition: none; } .ranked .slot.filled .mini { animation: none; } }
+</style>
+</head>
+<body>
+<header>
+  <span class="l up">Rainwear</span>
+  <div class="wordmark">Vitamin VVV</div>
+  <span class="r up">Waitlist</span>
+</header>
+
+<main>
+  <section class="rail-wrap stage-intro" id="railWrap" aria-label="Look test">
+    <div class="viewport" id="viewport" tabindex="0" aria-roledescription="carousel" aria-label="Looks. Use the arrow keys to move between them."></div>
+    <button class="arrow prev" id="prev" type="button" aria-label="Previous look">←</button>
+    <button class="arrow next" id="next" type="button" aria-label="Next look">→</button>
+
+    <div class="intro" id="intro">
+      <label class="namefield" for="who"><span class="up">First, your name</span>
+        <input id="who" type="text" autocomplete="name" placeholder="Your name" maxlength="60">
+      </label>
+      <span class="up" style="color:var(--grey)">You usually wear</span>
+      <div class="gender" role="radiogroup" aria-label="You usually wear">
+        <button type="button" role="radio" aria-checked="false" data-g="womenswear">Womenswear</button>
+        <button type="button" role="radio" aria-checked="false" data-g="menswear">Menswear</button>
+      </div>
+      <span class="up" style="color:var(--grey)">Six looks · one minute</span>
+      <h2>Which would you wear?</h2>
+      <p id="introText">Scroll or use the arrows to see each look. Double-click your favourite and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.</p>
+      <button class="btn" id="start" type="button" disabled>Start</button>
+    </div>
+
+    <div class="rail-bar">
+      <span class="count up" id="count"></span>
+      <div class="dots" id="dots"></div>
+      <span class="hint up" id="hint">Double-click your favourite</span>
+      <button class="btn ghost" id="undo" type="button" disabled>Undo</button>
+    </div>
+    <div class="ranked" id="ranked" aria-label="Your ranking"></div>
+  </section>
+
+  <section class="r2" id="r2" hidden aria-label="Round 2">
+    <div class="round up">Round 2</div>
+    <h2>Two takes on your favourite.</h2>
+    <p class="sub">Drag the circles into the holes: where would you wear each one?</p>
+    <div class="pair" id="pair"></div>
+    <div class="progress up" id="r2progress"></div>
+    <div class="tray" id="tray"></div>
+    <form class="other" id="otherForm">
+      <input id="otherInput" type="text" placeholder="Other place? Type it" maxlength="24" aria-label="Other place">
+      <button class="btn ghost" type="submit">Add</button>
+    </form>
+  </section>
+
+  <div class="pop" id="pop" hidden role="dialog" aria-modal="true" aria-labelledby="popTitle">
+    <div class="box">
+      <h3 id="popTitle">Which one do you prefer?</h3>
+      <div class="opts" id="opts"></div>
+    </div>
+  </div>
+
+  <section class="join" id="join" hidden aria-label="Join the waitlist">
+    <div class="endtop">
+      <h1>Thank you.</h1>
+      <p>You've completed the interview.</p>
+    </div>
+    <div class="end">
+    <div class="endcol">
+    <h2 class="endh up">Join the waitlist</h2>
+    <p class="endp">See the first collection before anyone else.</p>
+    <form id="signup" novalidate>
+      <label class="field" for="email"><span class="up">Your email</span>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+      </label>
+      <div class="gift">
+        <p class="giftline">Leave your address and we'll send you a small gift.</p>
+        <label class="field" for="address"><span class="up">Your address (optional)</span>
+          <textarea id="address" name="address" rows="2" autocomplete="street-address" maxlength="300" placeholder="Street, city, postcode, country"></textarea>
+        </label>
+        <p class="note">Only used to send your gift.</p>
+      </div>
+      <p class="err" id="formError" role="alert"></p>
+      <button type="submit">Add to waitlist</button>
+    </form>
+    <div class="thanks" id="thanks" hidden>
+      <h2>You're on the list.</h2>
+      <p id="thanksNote">We'll write when the first collection is ready to see.</p>
+    </div>
+    </div>
+    <div class="endcol qrcol">
+      <h2 class="endh up">Follow us on Instagram</h2>
+      <p class="endp">Scan with your phone camera.</p>
+      <div class="qr" id="qr" aria-label="Instagram QR code"></div>
+      <a class="handle" id="handle" target="_blank" rel="noopener"></a>
+    </div>
+    </div>
+  </section>
+</main>
+
+<div class="review" id="review" hidden>
+  <div>
+    <strong class="up" style="color:var(--ink)">Preview for viki · hidden from visitors</strong>
+    <div>Looks appear in a random order for each visitor. Names stay hidden from visitors. This visitor's order: <span id="orderNote"></span></div>
+    <div>Name and what they wear: <span id="whoNote">not entered yet</span></div>
+    <div id="rankNote"></div>
+    <div>Round 2 (sides are random; fashion = the style as in round 1, practical = same style, more practical): <span id="r2Note">not answered yet</span></div>
+    <div id="saveNote">This copy doesn't save answers. The public site does.</div>
+  </div>
+</div>
+
+<footer class="up"><span>Vitamin VVV</span><span>Positive energy, rain or shine</span></footer>
+
+<script>
+// How many picks each visitor makes: 6 ranks every look, 2 keeps only the top two.
+const PICKS = 6;
+
+// Test 1: six looks from classic to trendy. Images are Midjourney v4 picks (10/1), cut out onto transparent WebP, all figures the same height.
+// img / imgPractical: womenswear; imgMen / imgPracticalMen: shown to people who choose "Menswear". Swap any file in img/ to change a pick.
+// Round 2: imgPractical is the same style made practical for rain (mid-calf, hood up).
+const LOOK_FILES = { classic: "1-classic", quiet: "2-quiet", romantic: "3-romantic", playful: "4-playful", future: "5-future", sparkle: "6-sparkle" };
+const LOOKS = [
+  { id: "classic",  name: "Classic heritage",  fill: "#b89b72", trim: "#8f7550", mark: "belt" },
+  { id: "quiet",    name: "Quiet luxury",      fill: "#d8cfc2", trim: "#bfb4a4", mark: "none" },
+  { id: "romantic", name: "Romantic",          fill: "#f1ece4", trim: "#ffffff", mark: "ruffle" },
+  { id: "playful",  name: "Playful",           fill: "#b9cbe3", trim: "#ffffff", mark: "collar" },
+  { id: "future",   name: "Futuristic",        fill: "#aeb4bf", trim: "#e9ecf1", mark: "zip" },
+  { id: "sparkle",  name: "Glamorous sparkle", fill: "#c9ced8", trim: "#ffffff", mark: "sparkle" }
+].map(l => {
+  const f = "img/" + LOOK_FILES[l.id];
+  return { ...l, img: f + "-women.webp", imgPractical: f + "-women-practical.webp", imgMen: f + "-men.webp", imgPracticalMen: f + "-men-practical.webp" };
+});
+
+function figure(l, practical) {
+  let extra = "";
+  if (l.mark === "belt") extra = `<rect x="66" y="196" width="68" height="7" fill="${l.trim}"/>`;
+  if (l.mark === "ruffle") extra = [0,1,2,3,4,5,6].map(i => `<circle cx="${80 + i*6.7}" cy="68" r="4" fill="${l.trim}" stroke="#e2dbd0" stroke-width=".8"/>`).join("");
+  if (l.mark === "collar") extra = `<path d="M82 72 Q92 86 100 74 Q108 86 118 72 Z" fill="${l.trim}"/><circle cx="100" cy="150" r="4" fill="#fff"/><circle cx="100" cy="190" r="4" fill="#fff"/>`;
+  if (l.mark === "zip") extra = `<rect x="98.5" y="74" width="3" height="254" fill="${l.trim}"/>`;
+  if (l.mark === "sparkle") extra = [[88,120],[112,150],[80,190],[118,210],[96,250],[76,282],[122,300],[100,176]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="${l.trim}"/>`).join("");
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 420" width="200" height="420" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+    <circle cx="100" cy="44" r="18" fill="#e9e2dc"/>
+    <path d="M78 46 Q100 14 122 46 L126 70 L74 70 Z" fill="${l.fill}"/>
+    <path d="M70 72 L130 72 L142 330 L58 330 Z" fill="${l.fill}"/>
+    <path d="M70 76 L54 214 L64 216 L78 110 Z M130 76 L146 214 L136 216 L122 110 Z" fill="${l.fill}"/>
+    ${practical ? `<path d="M76 50 Q100 8 124 50 L128 72 L72 72 Z" fill="${l.fill}"/><path d="M60 330 L140 330 L146 372 L54 372 Z" fill="${l.fill}"/><rect x="72" y="232" width="20" height="4" fill="${l.trim}"/><rect x="108" y="232" width="20" height="4" fill="${l.trim}"/>` : ""}
+    ${extra}
+    <rect x="80" y="${practical ? 372 : 330}" width="14" height="${practical ? 24 : 66}" fill="#2a2a2a"/><rect x="106" y="${practical ? 372 : 330}" width="14" height="${practical ? 24 : 66}" fill="#2a2a2a"/>
+    <rect x="76" y="394" width="20" height="8" fill="#111"/><rect x="104" y="394" width="20" height="8" fill="#111"/>
+  </svg>`;
+}
+function imgFor(l, practical) {
+  const men = gender === "menswear";
+  if (practical) return (men && l.imgPracticalMen) || l.imgPractical;
+  return (men && l.imgMen) || l.img;
+}
+function lookNode(l, practical) {
+  const src = imgFor(l, practical);
+  if (src) { const img = document.createElement("img"); img.src = src; img.alt = ""; return img; }
+  const t = document.createElement("template"); t.innerHTML = figure(l, practical).trim(); return t.content.firstElementChild;
+}
+
+function loadOrder() {
+  let o = null;
+  try { o = JSON.parse(localStorage.getItem("vvv-order") || "null"); } catch (e) {}
+  const ids = LOOKS.map(l => l.id);
+  if (!Array.isArray(o) || o.length !== ids.length || !o.every(x => ids.includes(x))) {
+    o = ids.slice();
+    for (let i = o.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [o[i], o[j]] = [o[j], o[i]]; }
+    try { localStorage.setItem("vvv-order", JSON.stringify(o)); } catch (e) {}
+  }
+  return o.map(id => LOOKS.find(l => l.id === id));
+}
+const order = loadOrder();
+const pad = n => String(n).padStart(2, "0");
+
+const railWrap = document.getElementById("railWrap");
+const viewport = document.getElementById("viewport");
+const dots = document.getElementById("dots");
+const count = document.getElementById("count");
+const undoBtn = document.getElementById("undo");
+const hint = document.getElementById("hint");
+const ranked = document.getElementById("ranked");
+
+let remaining = order.map((_, i) => i);   // indices into order still on the rail
+let current = 0;                           // position within remaining
+let ranking = [];                          // indices into order, favourite first
+let gender = "";                           // womenswear / menswear: what they usually wear, chosen on the first screen
+let busy = false, dragX = 0, wheelShift = 0, lastDrag = 0, autoLast = false;
+
+const els = order.map((l, i) => {
+  const el = document.createElement("div");
+  el.className = "look";
+  el.setAttribute("role", "group");
+  el.appendChild(lookNode(l));
+  el.addEventListener("click", () => {
+    const pos = remaining.indexOf(i);
+    if (Math.abs(lastDrag) < 5 && pos !== -1 && pos !== current) go(pos);
+  });
+  el.addEventListener("dblclick", e => { e.preventDefault(); pickLook(i); });
+  viewport.appendChild(el);
+  return el;
+});
+
+// Ranking slots
+const slots = Array.from({ length: PICKS }, (_, i) => {
+  const s = document.createElement("div");
+  s.className = "slot up";
+  s.innerHTML = `<div class="mini"></div><span>${pad(i + 1)}</span>`;
+  ranked.appendChild(s);
+  return s;
+});
+
+function layout() {
+  const w = viewport.clientWidth;
+  const step = Math.min(w * 0.2, 230);
+  // Fractional shift so drags and scrolls move the rail continuously.
+  const shift = wheelShift - dragX / (step * 1.35);
+  els.forEach((el, i) => {
+    const pos = remaining.indexOf(i);
+    if (pos === -1) return;
+    const off = pos - current - shift;
+    const dist = Math.abs(off);
+    const near = Math.min(1, dist);
+    const scale = dist <= 1 ? 1 - 0.28 * near : Math.max(0.52, 0.72 - (dist - 1) * 0.08);
+    const x = off * step + Math.sign(off) * step * 0.35 * near;
+    el.style.transform = `translateX(calc(-50% + ${x}px)) scale(${scale})`;
+    el.style.opacity = dist <= 1 ? 1 - 0.72 * near : Math.max(0.08, 0.28 - (dist - 1) * 0.07);
+    el.style.zIndex = String(10 - Math.round(dist));
+    el.setAttribute("aria-label", `Look ${pad(pos + 1)} of ${remaining.length}`);
+  });
+  const done = ranking.length >= PICKS;
+  count.textContent = done ? "Ranking complete" : `Pick ${ranking.length + 1} of ${PICKS} · look ${pad(current + 1)} / ${pad(remaining.length)}`;
+  dots.textContent = "";
+  if (!done) remaining.forEach((_, p) => {
+    const d = document.createElement("button");
+    d.type = "button"; d.setAttribute("aria-label", "Show look " + (p + 1));
+    d.setAttribute("aria-current", String(p === current));
+    d.addEventListener("click", () => go(p));
+    dots.appendChild(d);
+  });
+  hint.textContent = done ? "All six ranked" : ranking.length === 0 ? "Double-click your favourite" : "Double-click your next favourite";
+  undoBtn.disabled = busy || ranking.length === 0;
+}
+function go(p) { if (busy) return; current = Math.max(0, Math.min(remaining.length - 1, p)); dragX = 0; wheelShift = 0; viewport.classList.remove("dragging"); layout(); }
+
+document.getElementById("prev").addEventListener("click", () => go(current - 1));
+document.getElementById("next").addEventListener("click", () => go(current + 1));
+viewport.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") go(current - 1);
+  if (e.key === "ArrowRight") go(current + 1);
+  if (e.key === "Enter") pick();
+  if ((e.metaKey || e.ctrlKey) && e.key === "z") { e.preventDefault(); undo(); }
+});
+
+let startX = null;
+viewport.addEventListener("pointerdown", e => { if (busy) return; startX = e.clientX; dragX = 0; lastDrag = 0; viewport.classList.add("dragging"); });
+viewport.addEventListener("pointermove", e => { if (startX === null) return; dragX = e.clientX - startX; lastDrag = dragX; layout(); });
+function endDrag() {
+  if (startX === null) return;
+  viewport.classList.remove("dragging");
+  const moved = dragX; startX = null; dragX = 0;
+  if (moved < -50) go(current + 1); else if (moved > 50) go(current - 1); else layout();
+}
+// Double-tap on touch screens counts like a double-click.
+let lastTap = { t: 0, i: -1 };
+viewport.addEventListener("pointerup", e => {
+  if (e.pointerType !== "mouse" && Math.abs(lastDrag) < 8) {
+    const el = e.target.closest(".look");
+    const i = el ? els.indexOf(el) : -1;
+    const now = performance.now();
+    if (i !== -1 && lastTap.i === i && now - lastTap.t < 350) { lastTap = { t: 0, i: -1 }; endDrag(); pickLook(i); return; }
+    lastTap = { t: now, i };
+  }
+  endDrag();
+});
+// Scroll wheel or trackpad moves between looks.
+// The rail follows the scroll, then settles on the nearest look once scrolling stops.
+let wheelTimer = 0;
+viewport.addEventListener("wheel", e => {
+  if (busy || railWrap.classList.contains("stage-intro") || railWrap.classList.contains("stage-done")) return;
+  e.preventDefault();
+  let d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  if (e.deltaMode === 1) d *= 33;
+  const unit = Math.min(viewport.clientWidth * 0.2, 230) * 1.35;
+  wheelShift = Math.max(-current - 0.3, Math.min(remaining.length - 1 - current + 0.3, wheelShift + d / unit));
+  viewport.classList.add("dragging");
+  layout();
+  clearTimeout(wheelTimer);
+  wheelTimer = setTimeout(() => {
+    // A single mouse-wheel notch still moves one look.
+    let n = Math.round(wheelShift);
+    if (n === 0 && Math.abs(wheelShift) > 0.12) n = Math.sign(wheelShift);
+    go(current + n);
+  }, 120);
+}, { passive: false });
+viewport.addEventListener("pointerleave", endDrag);
+viewport.addEventListener("pointercancel", endDrag);
+window.addEventListener("resize", layout);
+
+// The very first step: the person's name, so each result can be matched to its interview.
+let who = "";
+const whoEl = document.getElementById("who"), startBtn = document.getElementById("start");
+// Womenswear or menswear decides which images a person sees, since the cuts differ.
+const readyToStart = () => { startBtn.disabled = !(whoEl.value.trim() && gender); };
+document.querySelectorAll(".gender button").forEach(b => b.addEventListener("click", () => {
+  gender = b.dataset.g;
+  document.querySelectorAll(".gender button").forEach(x => x.setAttribute("aria-checked", String(x === b)));
+  applyGender(); readyToStart();
+}));
+whoEl.addEventListener("input", readyToStart);
+whoEl.addEventListener("keydown", e => { if (e.key === "Enter" && !startBtn.disabled) startBtn.click(); });
+function applyGender() {
+  // Redraw the rail with the matching images (men's if given, otherwise the default).
+  els.forEach((el, i) => el.replaceChildren(lookNode(order[i])));
+  imgCache.clear();
+}
+startBtn.addEventListener("click", () => {
+  who = whoEl.value.trim();
+  if (!who || !gender) { whoEl.focus(); return; }
+  if (location.hash === "#preview") document.getElementById("whoNote").textContent = `${who} · ${gender}`;
+  LOOKS.forEach(sourceImage);
+  LOOKS.forEach(l => { const src = imgFor(l, true); if (src) new Image().src = src; }); // round 2 shows the practical versions
+  railWrap.classList.remove("stage-intro");
+  document.getElementById("intro").hidden = true;
+  viewport.focus({ preventScroll: true });
+  layout();
+});
+if (PICKS < LOOKS.length) {
+  document.getElementById("introText").textContent = `Scroll or use the arrows to see each look. Double-click your favourite and it drifts away, then pick your next favourite. ${PICKS} picks and you're done. Changed your mind? Press Undo.`;
+}
+
+// Turn a look into dust that blows away to the right.
+// Images are prepared ahead of time so a double-click dissolves at once.
+const imgCache = new Map();
+function sourceImage(l) {
+  if (!imgCache.has(l.id)) imgCache.set(l.id, loadSource(l));
+  return imgCache.get(l.id);
+}
+function loadSource(l) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = imgFor(l) || ("data:image/svg+xml;charset=utf-8," + encodeURIComponent(figure(l)));
+  });
+}
+async function dissolve(el, l) {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const img = await sourceImage(l);
+  const r = el.getBoundingClientRect();
+  if (reduce || !img || r.width < 2) {
+    el.style.transition = "opacity .3s"; el.style.opacity = "0";
+    await new Promise(res => setTimeout(res, 320));
+    return;
+  }
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  // Fit the source inside the element box, anchored bottom-centre, like object-fit: contain.
+  const s = Math.min(r.width / img.width, r.height / img.height);
+  const dw = img.width * s, dh = img.height * s, dx = (r.width - dw) / 2, dy = r.height - dh;
+  const off = document.createElement("canvas");
+  off.width = Math.ceil(r.width * dpr); off.height = Math.ceil(r.height * dpr);
+  const octx = off.getContext("2d");
+  octx.scale(dpr, dpr);
+  octx.drawImage(img, dx, dy, dw, dh);
+  let data;
+  try { data = octx.getImageData(0, 0, off.width, off.height).data; } catch (e) { data = null; }
+  if (!data) { el.style.transition = "opacity .3s"; el.style.opacity = "0"; await new Promise(res => setTimeout(res, 320)); return; }
+
+  const grain = r.width * r.height > 90000 ? 4 : 3; // css px per particle; bigger grains on big looks keep it at 60fps
+  const parts = [];
+  for (let y = 0; y < r.height; y += grain) {
+    for (let x = 0; x < r.width; x += grain) {
+      const i = (Math.floor(y * dpr) * off.width + Math.floor(x * dpr)) * 4;
+      const a = data[i + 3];
+      if (a < 40) continue;
+      const lum = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      if (lum > 250 && !imgFor(l)) continue; // the SVG fallback's white trim; photos are already cut out
+      parts.push({
+        x, y, c: `rgba(${data[i]},${data[i+1]},${data[i+2]},`,
+        vx: 90 + Math.random() * 170, vy: -20 - Math.random() * 90,
+        delay: (x / r.width) * 70 + ((r.height - y) / r.height) * 50 + Math.random() * 70,
+        life: 700 + Math.random() * 350
+      });
+    }
+  }
+  const spreadY = 220, spreadX = Math.max(0, Math.min(320, document.documentElement.clientWidth - r.right));
+  const cv = document.createElement("canvas");
+  cv.className = "dust";
+  cv.style.left = (r.left + window.scrollX) + "px";
+  cv.style.top = (r.top + window.scrollY - spreadY) + "px";
+  cv.style.width = (r.width + spreadX) + "px";
+  cv.style.height = (r.height + spreadY) + "px";
+  cv.width = Math.ceil((r.width + spreadX) * dpr); cv.height = Math.ceil((r.height + spreadY) * dpr);
+  document.body.appendChild(cv);
+  const ctx = cv.getContext("2d");
+  ctx.scale(dpr, dpr);
+  el.style.transition = "none"; el.style.opacity = "0";
+
+  const t0 = performance.now();
+  const total = Math.max(...parts.map(p => p.delay + p.life)) || 1;
+  // The dust keeps flying on its own; the rail moves on straight away.
+  new Promise(res => {
+    function frame(now) {
+      const t = now - t0;
+      ctx.clearRect(0, 0, r.width + spreadX, r.height + spreadY);
+      for (const p of parts) {
+        const k = t - p.delay;
+        if (k <= 0) { ctx.fillStyle = p.c + "1)"; ctx.fillRect(p.x, p.y + spreadY, grain, grain); continue; }
+        if (k >= p.life) continue;
+        const u = k / p.life;
+        const e = u * u * (3 - 2 * u) * 0.35 + u * u * 0.65; // eases in like a gust picking it up
+        const gust = Math.sin(p.y * 0.05 + u * 4) * 6 * u;
+        const px = p.x + p.vx * e + gust;
+        const py = p.y + spreadY + p.vy * e;
+        const alpha = (1 - u) * (1 - u);
+        ctx.fillStyle = p.c + alpha.toFixed(3) + ")";
+        const sz = grain * (1 - 0.4 * u);
+        ctx.fillRect(px, py, sz, sz);
+      }
+      if (t < total) requestAnimationFrame(frame); else res();
+    }
+    requestAnimationFrame(frame);
+  }).then(() => cv.remove());
+}
+
+function fillSlot(n, idx) {
+  const s = slots[n];
+  s.classList.add("filled");
+  const m = s.querySelector(".mini"); m.textContent = ""; m.appendChild(lookNode(order[idx]));
+}
+
+function pickLook(i) {
+  const pos = remaining.indexOf(i);
+  if (busy || pos === -1) return;
+  current = pos; dragX = 0; layout();
+  pick();
+}
+
+async function pick() {
+  if (busy || railWrap.classList.contains("stage-intro") || ranking.length >= PICKS) return;
+  busy = true; layout();
+  const idx = remaining[current];
+  ranking.push(idx);
+  fillSlot(ranking.length - 1, idx);
+  await dissolve(els[idx], order[idx]);
+  els[idx].classList.add("gone");
+  remaining.splice(current, 1);
+  current = Math.min(current, remaining.length - 1);
+  // The last look left is the least favourite; rank it without asking.
+  if (PICKS === LOOKS.length && remaining.length === 1) {
+    const last = remaining[0];
+    await new Promise(res => setTimeout(res, 220));
+    ranking.push(last);
+    fillSlot(ranking.length - 1, last);
+    await dissolve(els[last], order[last]);
+    els[last].classList.add("gone");
+    remaining = [];
+    autoLast = true;
+  }
+  busy = false;
+  if (ranking.length >= PICKS) finish();
+  layout();
+}
+function clearSlot(n) {
+  const s = slots[n];
+  s.classList.remove("filled");
+  s.querySelector(".mini").textContent = "";
+}
+function restore(idx) {
+  const el = els[idx];
+  el.classList.remove("gone");
+  el.style.transition = "none"; el.style.opacity = "0";
+  remaining.splice(current, 0, idx);
+  layout();
+  requestAnimationFrame(() => { el.style.transition = ""; layout(); });
+}
+function undo() {
+  if (busy || ranking.length === 0) return;
+  if (railWrap.classList.contains("stage-done")) {
+    railWrap.classList.remove("stage-done");
+    joinEl.hidden = true; r2El.hidden = true; popEl.hidden = true;
+    viewport.style.height = ""; viewport.style.minHeight = "";
+  }
+  // If the last look was ranked automatically, undo it together with the pick before it.
+  const steps = autoLast ? 2 : 1;
+  autoLast = false;
+  for (let k = 0; k < steps && ranking.length; k++) {
+    const idx = ranking.pop();
+    clearSlot(ranking.length);
+    current = Math.min(current, remaining.length);
+    restore(idx);
+  }
+  current = Math.max(0, Math.min(current, remaining.length - 1));
+  layout();
+}
+undoBtn.addEventListener("click", undo);
+
+const joinEl = document.getElementById("join");
+
+// Instagram: put the handle here (without @) and the QR code appears at the end.
+// Where answers go: the Google Apps Script web app URL behind viki's sheet "Vitamin VVV 落地页回答". Empty = nothing is sent (preview copy).
+const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbySiEO4GXjxJjIKEKlxY68CbKX9uUJFjvwauzu_AWl_osCK-kt9m1NFfnMFkuRudcnn/exec";
+const RESPONSE_ID = (crypto.randomUUID && crypto.randomUUID()) || (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
+// One row per finished interview (sent when they pick A or B), then the email is added to that row if they join.
+// seq orders the posts: the sheet keeps the answers from the highest seq, so a changed answer replaces the old one.
+// Each post is retried twice if the sheet doesn't answer "ok", and any still unconfirmed is re-sent when the page closes.
+let seq = 0;
+const unconfirmed = new Set();
+function send(type, extra) {
+  if (!SUBMIT_URL) return;
+  const body = JSON.stringify({ type, id: RESPONSE_ID, seq: ++seq, test: location.hash === "#preview", name: who, gender,
+    ranking: ranking.map(i => order[i].id), shownOrder: order.map(l => l.id),
+    round2: r2, device: window.innerWidth < 700 ? "phone" : "desktop", ...extra });
+  unconfirmed.add(body);
+  const attempt = n => fetch(SUBMIT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body })
+    .then(r => r.text())
+    .then(t => { if (t !== "ok" && t !== "bad request") throw new Error(t); unconfirmed.delete(body); })
+    .catch(() => { if (n < 2) setTimeout(() => attempt(n + 1), 2000 * (n + 1)); });
+  attempt(0);
+}
+function sendUnconfirmed() {
+  flushResend();
+  unconfirmed.forEach(body => fetch(SUBMIT_URL, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body }).catch(() => {}));
+}
+// Phones usually leave by switching apps or locking the screen, which hides the page without a pagehide.
+addEventListener("pagehide", sendUnconfirmed);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") sendUnconfirmed(); });
+const INSTAGRAM = "";
+(function setupInstagram() {
+  const box = document.getElementById("qr"), a = document.getElementById("handle");
+  if (!INSTAGRAM) { box.classList.add("empty"); box.textContent = "QR code appears once the Instagram handle is added"; return; }
+  const url = "https://instagram.com/" + INSTAGRAM;
+  a.href = url; a.textContent = "@" + INSTAGRAM;
+  const draw = () => { if (window.QRCode) new QRCode(box, { text: url, width: 400, height: 400, colorDark: "#141414", colorLight: "#ffffff" }); };
+  const sc = document.createElement("script");
+  sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+  sc.onload = draw; document.head.appendChild(sc);
+})();
+
+// Round 2: the visitor's top style in two versions, fashion-first and practical.
+// Each version has holes; visitors drag place circles into them. When every hole is filled,
+// a pop-up asks which version they prefer.
+const SCENES = ["Everyday", "Class or studio", "Client meeting", "Bike or scooter", "Date", "Night out", "Party", "Concert", "Wedding", "Travel photos", "Content shoot", "Cosplay"];
+const HOLES = 3; // per version
+const r2El = document.getElementById("r2");
+const popEl = document.getElementById("pop");
+let r2 = null, selScene = null;
+function startRound2() {
+  const l = order[ranking[0]];
+  const sides = Math.random() < 0.5 ? ["fashion", "practical"] : ["practical", "fashion"];
+  r2 = { style: l.id, sides, scenes: { fashion: Array(HOLES).fill(null), practical: Array(HOLES).fill(null) }, prefer: null };
+  const pair = document.getElementById("pair"); pair.textContent = "";
+  sides.forEach((v, k) => {
+    const c = document.createElement("div");
+    c.className = "card"; c.dataset.v = v;
+    c.setAttribute("role", "group"); c.setAttribute("aria-label", "Version " + "AB"[k]);
+    const st = document.createElement("div"); st.className = "stage";
+    const f = document.createElement("div"); f.className = "fig"; f.appendChild(lookNode(l, v === "practical"));
+    const holes = document.createElement("div"); holes.className = "holes";
+    for (let h = 0; h < HOLES; h++) {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "hole"; b.dataset.v = v; b.dataset.h = h;
+      b.setAttribute("aria-label", `Version ${"AB"[k]}, empty place ${h + 1}`);
+      b.addEventListener("click", () => holeClick(v, h));
+      holes.appendChild(b);
+    }
+    st.append(f, holes);
+    const name = document.createElement("div"); name.className = "up"; name.textContent = "AB"[k];
+    c.append(st, name);
+    pair.appendChild(c);
+  });
+  document.getElementById("tray").textContent = "";
+  SCENES.forEach(addToken);
+  const opts = document.getElementById("opts"); opts.textContent = "";
+  sides.forEach((v, k) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "opt";
+    const m = document.createElement("div"); m.className = "mini"; m.appendChild(lookNode(l, v === "practical"));
+    const t = document.createElement("span"); t.className = "up"; t.textContent = "AB"[k];
+    b.append(m, t);
+    b.addEventListener("click", () => prefer(v));
+    opts.appendChild(b);
+  });
+  popEl.hidden = true;
+  joinEl.hidden = true;
+  r2El.hidden = false;
+  renderHoles();
+}
+function addToken(name) {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "token"; b.textContent = name; b.dataset.name = name;
+  b.addEventListener("pointerdown", e => tokenDown(e, b, name));
+  b.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSel(selScene === name ? null : name); } });
+  document.getElementById("tray").appendChild(b);
+  return b;
+}
+// "Other": the typed place becomes a new circle, selected so the next tap on a hole places it.
+document.getElementById("otherForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const inp = document.getElementById("otherInput");
+  const typed = inp.value.replace(/[,;|]/g, " ").replace(/\s+/g, " ").trim();
+  if (!typed || !r2) return;
+  const hit = [...document.querySelectorAll("#tray .token")].find(b => b.dataset.name.toLowerCase() === typed.toLowerCase());
+  const name = hit ? hit.dataset.name : typed;
+  if (!hit) { addToken(name); r2.others = (r2.others || []).concat(name); }
+  inp.value = "";
+  setSel(name);
+  renderHoles();
+});
+function setSel(name) {
+  selScene = name;
+  document.querySelectorAll("#tray .token").forEach(b => b.classList.toggle("sel", b.dataset.name === name));
+  document.querySelectorAll(".hole").forEach(h => h.classList.toggle("ready", !!name));
+}
+function placed(name) { return r2.sides.some(v => r2.scenes[v].includes(name)); }
+function renderHoles() {
+  document.querySelectorAll(".hole").forEach(h => {
+    const name = r2.scenes[h.dataset.v][+h.dataset.h];
+    h.textContent = "";
+    if (name) { const t = document.createElement("span"); t.className = "token"; t.textContent = name; h.appendChild(t); }
+    h.setAttribute("aria-label", name ? `${name}, tap to take out` : "Empty place");
+  });
+  document.querySelectorAll("#tray .token").forEach(b => b.classList.toggle("used", placed(b.dataset.name)));
+  const filled = filledCount();
+  document.getElementById("r2progress").textContent = `${filled} / ${HOLES * 2} filled`;
+  const cur = r2;
+  if (filled === HOLES * 2 && !r2.prefer) setTimeout(() => {
+    if (r2 !== cur || r2.prefer || r2El.hidden || filledCount() < HOLES * 2) return;
+    popEl.hidden = false; popEl.querySelector(".opt").focus();
+  }, 350);
+}
+function filledCount() { return r2.sides.reduce((n, v) => n + r2.scenes[v].filter(Boolean).length, 0); }
+// After they've picked A or B, a change to the places is sent again (once they stop for a moment).
+let resendTimer = 0;
+function changed() {
+  renderHoles();
+  if (!r2.prefer) return;
+  clearTimeout(resendTimer);
+  resendTimer = setTimeout(flushResend, 1500);
+}
+function flushResend() {
+  if (!resendTimer) return;
+  clearTimeout(resendTimer); resendTimer = 0;
+  if (r2 && r2.prefer && !r2El.hidden && ranking.length === PICKS && filledCount() === HOLES * 2) send("response");
+}
+// Put a place into a hole. If the hole has one already, that one goes back to the tray.
+function fill(v, h, name) {
+  r2.sides.forEach(s => { const k = r2.scenes[s].indexOf(name); if (k !== -1) r2.scenes[s][k] = null; });
+  r2.scenes[v][h] = name;
+  changed();
+}
+function holeClick(v, h) {
+  if (selScene) { fill(v, h, selScene); setSel(null); return; }
+  if (r2.scenes[v][h]) { r2.scenes[v][h] = null; changed(); }
+}
+function firstEmpty(v) { return r2.scenes[v].indexOf(null); }
+// Drag a circle with mouse or finger; a tap without moving selects it, then tap a hole.
+function tokenDown(e, b, name) {
+  e.preventDefault();
+  const x0 = e.clientX, y0 = e.clientY; let ghost = null, over = null;
+  const holeAt = (x, y) => {
+    const el = document.elementFromPoint(x, y); if (!el) return null;
+    const h = el.closest(".hole"); if (h) return h;
+    const c = el.closest(".card"); if (!c) return null;
+    const k = firstEmpty(c.dataset.v); return k === -1 ? null : c.querySelector(`.hole[data-h="${k}"]`);
+  };
+  const move = ev => {
+    if (!ghost && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) {
+      ghost = b.cloneNode(true); ghost.classList.add("ghostchip", "sel"); document.body.appendChild(ghost);
+      b.classList.add("used");
+    }
+    if (!ghost) return;
+    ghost.style.left = ev.clientX + "px"; ghost.style.top = ev.clientY + "px";
+    const h = holeAt(ev.clientX, ev.clientY);
+    if (h !== over) { if (over) over.classList.remove("over"); over = h; if (over) over.classList.add("over"); }
+  };
+  const up = ev => {
+    window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); window.removeEventListener("pointercancel", up);
+    if (over) over.classList.remove("over");
+    if (ghost) {
+      ghost.remove();
+      const h = holeAt(ev.clientX, ev.clientY);
+      if (h) fill(h.dataset.v, +h.dataset.h, name); else renderHoles();
+      setSel(null);
+    } else setSel(selScene === name ? null : name);
+  };
+  window.addEventListener("pointermove", move); window.addEventListener("pointerup", up); window.addEventListener("pointercancel", up);
+}
+function prefer(v) {
+  if (!r2 || r2.prefer || filledCount() < HOLES * 2) { popEl.hidden = true; return; }
+  r2.prefer = v;
+  popEl.hidden = true;
+  document.querySelectorAll(".card").forEach(c => c.classList.toggle("chosen", c.dataset.v === v));
+  if (location.hash === "#preview") document.getElementById("r2Note").textContent = JSON.stringify(r2);
+  send("response");
+  joinEl.hidden = false;
+  joinEl.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+
+function finish() {
+  railWrap.classList.add("stage-done");
+  startRound2();
+  viewport.style.height = "0px"; viewport.style.minHeight = "0";
+  if (location.hash === "#preview") {
+    document.getElementById("rankNote").textContent = "Ranking: " + ranking.map((i, n) => `${n + 1}. ${order[i].name}`).join(" · ");
+  }
+  r2El.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+
+if (location.hash === "#preview") {
+  document.getElementById("review").hidden = false;
+  document.getElementById("orderNote").textContent = order.map((l, i) => `Look ${pad(i + 1)} = ${l.name}`).join(" · ");
+  if (SUBMIT_URL) document.getElementById("saveNote").textContent = "Answers from this preview are saved to the sheet too, marked Test.";
+}
+
+layout();
+
+document.getElementById("signup").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target;
+  const err = document.getElementById("formError");
+  if (ranking.length < PICKS) { err.textContent = "Finish picking your looks above first."; railWrap.scrollIntoView({ behavior: "smooth" }); return; }
+  if (!r2 || !r2.prefer) { err.textContent = "Fill the holes in round 2 first."; r2El.scrollIntoView({ behavior: "smooth" }); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) { err.textContent = "Enter an email address, like you@example.com."; f.email.focus(); return; }
+  err.textContent = "";
+  const address = f.address.value.trim();
+  send("email", { email: f.email.value.trim(), address });
+  if (address) document.getElementById("thanksNote").textContent = "We'll write when the first collection is ready to see, and your gift is on its way.";
+  f.hidden = true;
+  document.getElementById("thanks").hidden = false;
+});
+</script>
+</body>
+</html>
