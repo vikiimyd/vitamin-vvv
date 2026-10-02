@@ -13,7 +13,7 @@
 @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/hanken-grotesk-latin-500-normal.woff2) format("woff2"); }
 </style>
 <style>
-/* Layout: a lineup rail. Six looks stand in a row; the current one is full size in the middle, neighbours fade to the sides. Visitors pick their favourite, it drifts away like dust, and they pick again until all six are ranked. Then the waitlist. Single-theme white on purpose so every look reads the same. */
+/* Layout: a lineup rail. Five looks stand in a row; the current one is full size in the middle, neighbours fade to the sides. Visitors pick their favourite, it drifts away like dust, and they pick again until all five are ranked. Then the waitlist. Single-theme white on purpose so every look reads the same. */
 :root {
   --white: #ffffff;
   --ink: #141414;
@@ -192,9 +192,9 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
         <button type="button" role="radio" aria-checked="false" data-g="womenswear">Womenswear</button>
         <button type="button" role="radio" aria-checked="false" data-g="menswear">Menswear</button>
       </div>
-      <span class="up" style="color:var(--grey)">Six looks · one minute</span>
+      <span class="up" style="color:var(--grey)">Five looks · one minute</span>
       <h2>Which would you wear?</h2>
-      <p id="introText">Scroll or use the arrows to see each look. Double-click your favourite and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.</p>
+      <p id="introText">Scroll or use the arrows to see each look. Double-click your favourite and it drifts away, then pick again from the rest until you've ranked all five. Changed your mind? Press Undo. Then one short second round.</p>
       <button class="btn" id="start" type="button" disabled>Start</button>
     </div>
 
@@ -294,20 +294,20 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
 <footer class="up"><span>Vitamin VVV</span><span>Positive energy, rain or shine</span></footer>
 
 <script>
-// How many picks each visitor makes: 6 ranks every look, 2 keeps only the top two.
-const PICKS = 6;
+// How many picks each visitor makes: 5 ranks every look, 2 keeps only the top two.
+const PICKS = 5;
 
-// Test 1: six looks from classic to trendy. Images are Midjourney v4 picks (10/1), cut out onto transparent WebP, all figures the same height.
+// Test 1: five looks from classic to trendy. Images are Midjourney picks (v4 on 10/1, later fixes on 10/2), cut out onto transparent WebP, all figures the same height.
+// 10/2: viki dropped Playful and Glamorous sparkle (too close to Romantic) and added Power tailoring.
 // img / imgPractical: womenswear; imgMen / imgPracticalMen: shown to people who choose "Menswear". Swap any file in img/ to change a pick.
 // Round 2: imgPractical is the same style made practical for rain (mid-calf, hood up).
-const LOOK_FILES = { classic: "1-classic", quiet: "2-quiet", romantic: "3-romantic", playful: "4-playful", future: "5-future", sparkle: "6-sparkle" };
+const LOOK_FILES = { classic: "1-classic", quiet: "2-quiet", romantic: "3-romantic", tailored: "4-tailored", future: "5-future" };
 const LOOKS = [
   { id: "classic",  name: "Classic heritage",  fill: "#b89b72", trim: "#8f7550", mark: "belt" },
   { id: "quiet",    name: "Quiet luxury",      fill: "#d8cfc2", trim: "#bfb4a4", mark: "none" },
   { id: "romantic", name: "Romantic",          fill: "#f1ece4", trim: "#ffffff", mark: "ruffle" },
-  { id: "playful",  name: "Playful",           fill: "#b9cbe3", trim: "#ffffff", mark: "collar" },
-  { id: "future",   name: "Futuristic",        fill: "#aeb4bf", trim: "#e9ecf1", mark: "zip" },
-  { id: "sparkle",  name: "Glamorous sparkle", fill: "#c9ced8", trim: "#ffffff", mark: "sparkle" }
+  { id: "tailored", name: "Power tailoring",   fill: "#4a5a78", trim: "#2f3b52", mark: "lapel" },
+  { id: "future",   name: "Futuristic",        fill: "#aeb4bf", trim: "#e9ecf1", mark: "zip" }
 ].map(l => {
   const f = "img/" + LOOK_FILES[l.id];
   return { ...l, img: f + "-women.webp", imgPractical: f + "-women-practical.webp", imgMen: f + "-men.webp", imgPracticalMen: f + "-men-practical.webp" };
@@ -317,9 +317,8 @@ function figure(l, practical) {
   let extra = "";
   if (l.mark === "belt") extra = `<rect x="66" y="196" width="68" height="7" fill="${l.trim}"/>`;
   if (l.mark === "ruffle") extra = [0,1,2,3,4,5,6].map(i => `<circle cx="${80 + i*6.7}" cy="68" r="4" fill="${l.trim}" stroke="#e2dbd0" stroke-width=".8"/>`).join("");
-  if (l.mark === "collar") extra = `<path d="M82 72 Q92 86 100 74 Q108 86 118 72 Z" fill="${l.trim}"/><circle cx="100" cy="150" r="4" fill="#fff"/><circle cx="100" cy="190" r="4" fill="#fff"/>`;
+  if (l.mark === "lapel") extra = `<path d="M84 72 L100 132 L116 72 L110 72 L100 112 L90 72 Z" fill="${l.trim}"/><circle cx="100" cy="160" r="3.5" fill="${l.trim}"/>`;
   if (l.mark === "zip") extra = `<rect x="98.5" y="74" width="3" height="254" fill="${l.trim}"/>`;
-  if (l.mark === "sparkle") extra = [[88,120],[112,150],[80,190],[118,210],[96,250],[76,282],[122,300],[100,176]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="2.4" fill="${l.trim}"/>`).join("");
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 420" width="200" height="420" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
     <circle cx="100" cy="44" r="18" fill="#e9e2dc"/>
     <path d="M78 46 Q100 14 122 46 L126 70 L74 70 Z" fill="${l.fill}"/>
@@ -421,7 +420,7 @@ function layout() {
     d.addEventListener("click", () => go(p));
     dots.appendChild(d);
   });
-  hint.textContent = done ? "All six ranked" : ranking.length === 0 ? "Double-click your favourite" : "Double-click your next favourite";
+  hint.textContent = done ? "All five ranked" : ranking.length === 0 ? "Double-click your favourite" : "Double-click your next favourite";
   undoBtn.disabled = busy || ranking.length === 0;
 }
 function go(p) { if (busy) return; current = Math.max(0, Math.min(remaining.length - 1, p)); dragX = 0; wheelShift = 0; viewport.classList.remove("dragging"); layout(); }
