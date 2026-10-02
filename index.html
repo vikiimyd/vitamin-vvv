@@ -96,22 +96,10 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .join .endtop { text-align: center; display: grid; gap: 10px; }
 .join .endtop h1 { font-weight: 300; font-size: clamp(34px, 6vw, 56px); letter-spacing: -0.03em; line-height: 1; margin: 0; }
 .join .endtop p { margin: 0; color: var(--grey); font-size: 15px; }
-.end { display: grid; grid-template-columns: 1fr 1px 1fr; gap: 0; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
-.end::before { content: ""; grid-column: 2; grid-row: 1; background: var(--hair); }
-.end > .endcol:first-child { grid-column: 1; grid-row: 1; }
-.end > .qrcol { grid-column: 3; grid-row: 1; }
-/* No Instagram handle yet: the waitlist column stands alone. */
-.end.solo { grid-template-columns: minmax(0, 520px); justify-content: center; }
-.end.solo::before { display: none; }
-@media (max-width: 640px) { .end { grid-template-columns: 1fr; } .end::before { display: none; } .end > .endcol:first-child, .end > .qrcol { grid-column: 1; grid-row: auto; } .end > .qrcol { border-top: 1px solid var(--hair); } }
+.end { display: grid; grid-template-columns: minmax(0, 520px); justify-content: center; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
 .endcol { display: grid; gap: 16px; align-content: start; justify-items: stretch; text-align: center; padding: 36px 28px; }
 .endh { font-weight: 400; font-size: 13px; letter-spacing: 0.2em; margin: 0; }
 .endp { margin: -6px 0 6px; color: var(--grey); font-size: 14px; }
-.qrcol { justify-items: center; }
-.qr { width: 184px; height: 184px; display: grid; place-items: center; }
-.qr img, .qr canvas { width: 184px !important; height: 184px !important; image-rendering: pixelated; }
-.handle { color: var(--ink); font-size: 14px; letter-spacing: 0.04em; text-decoration: none; border-bottom: 1px solid var(--ink); }
-.handle:empty { display: none; }
 .r2 { max-width: 760px; width: 100%; margin: 0 auto; display: grid; gap: 22px; border-top: 1px solid var(--hair); padding-top: 28px; text-align: center; }
 .r2 h2 { font-weight: 400; font-size: 20px; margin: 0; }
 .r2 .sub { margin: -10px 0 0; color: var(--grey); }
@@ -130,7 +118,6 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .other { display: flex; gap: 8px; justify-content: center; align-items: end; }
 .other input { font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: min(220px, 55vw); }
 .tray { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
-.tray .token.used { visibility: hidden; }
 .ghostchip { position: fixed; z-index: 100; pointer-events: none; transform: translate(-50%, -50%); }
 .progress { color: var(--grey); }
 .pop { position: fixed; inset: 0; z-index: 90; background: rgba(255,255,255,.86); display: grid; place-items: center; padding: 16px; animation: fadein .25s ease-out; }
@@ -158,11 +145,14 @@ legend { padding: 0; margin-bottom: 10px; }
 .chips input:checked + label { background: var(--ink); color: var(--white); border-color: var(--ink); }
 .chips input:focus-visible + label { outline: 1px solid var(--ink); outline-offset: 2px; }
 .field { display: grid; gap: 2px; }
-input[type="email"], .field textarea { font: inherit; font-size: 17px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: 100%; }
-input::placeholder, textarea::placeholder { color: #bdbdbd; }
-.field textarea { resize: none; line-height: 1.4; font-size: 15px; }
-.gift { display: grid; gap: 8px; padding-top: 6px; }
-.gift .giftline { margin: 0; font-size: 14px; }
+input[type="email"], .field input[type="text"] { font: inherit; font-size: 17px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: 100%; }
+.gift .field input[type="text"] { font-size: 16px; }
+input::placeholder { color: #bdbdbd; }
+.gift { display: grid; gap: 12px; padding-top: 6px; text-align: left; }
+.gift .giftline, .gift .note { text-align: center; }
+.addr-row { display: grid; grid-template-columns: 1.4fr 1fr 0.8fr; gap: 12px; }
+@media (max-width: 480px) { .addr-row { grid-template-columns: 1fr 1fr; } .addr-row .field:first-child { grid-column: 1 / -1; } }
+.gift .giftline { margin: 0 0 -8px; font-size: 14px; }
 .gift .note { margin: 0; color: var(--grey); font-size: 11px; }
 button[type="submit"] { font: inherit; text-transform: uppercase; letter-spacing: 0.18em; font-size: 13px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); border-radius: 0; padding: 18px 16px; cursor: pointer; }
 button[type="submit"]:hover { background: var(--white); color: var(--ink); }
@@ -250,12 +240,33 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
       <label class="field" for="email"><span class="up">Your email</span>
         <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
       </label>
-      <div class="gift">
-        <p class="giftline">Leave your address and we'll send you a small gift.</p>
-        <label class="field" for="address"><span class="up">Your address (optional)</span>
-          <textarea id="address" name="address" rows="2" autocomplete="street-address" maxlength="300" placeholder="Street, city, postcode, country"></textarea>
+      <!-- The gift fields are their own autofill section, so filling the email doesn't fill them too. -->
+      <div class="gift" role="group" aria-labelledby="giftLine" aria-describedby="giftNote">
+        <p class="giftline" id="giftLine">Leave your address and we'll send you a small gift.</p>
+        <p class="note" id="giftNote">Optional. Only used to send your gift.</p>
+        <label class="field" for="shipName"><span class="up">Full name</span>
+          <input id="shipName" name="shipName" type="text" autocomplete="section-gift shipping name" maxlength="60" placeholder="First and last name">
         </label>
-        <p class="note">Only used to send your gift.</p>
+        <label class="field" for="shipStreet"><span class="up">Street address</span>
+          <input id="shipStreet" name="shipStreet" type="text" autocomplete="section-gift shipping address-line1" maxlength="70" placeholder="Street and number">
+        </label>
+        <label class="field" for="shipApt"><span class="up">Apartment, suite</span>
+          <input id="shipApt" name="shipApt" type="text" autocomplete="section-gift shipping address-line2" maxlength="30" placeholder="Optional">
+        </label>
+        <div class="addr-row">
+          <label class="field" for="shipCity"><span class="up">City</span>
+            <input id="shipCity" name="shipCity" type="text" autocomplete="section-gift shipping address-level2" maxlength="40">
+          </label>
+          <label class="field" for="shipState"><span class="up">State / province</span>
+            <input id="shipState" name="shipState" type="text" autocomplete="section-gift shipping address-level1" maxlength="30">
+          </label>
+          <label class="field" for="shipPostcode"><span class="up">Postal code</span>
+            <input id="shipPostcode" name="shipPostcode" type="text" autocomplete="section-gift shipping postal-code" maxlength="12">
+          </label>
+        </div>
+        <label class="field" for="shipCountry"><span class="up">Country</span>
+          <input id="shipCountry" name="shipCountry" type="text" autocomplete="section-gift shipping country-name" maxlength="40">
+        </label>
       </div>
       <p class="err" id="formError" role="alert"></p>
       <button type="submit">Add to waitlist</button>
@@ -264,12 +275,6 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
       <h2>You're on the list.</h2>
       <p id="thanksNote">We'll write when the first collection is ready to see.</p>
     </div>
-    </div>
-    <div class="endcol qrcol">
-      <h2 class="endh up">Follow us on Instagram</h2>
-      <p class="endp">Scan with your phone camera.</p>
-      <div class="qr" id="qr" aria-label="Instagram QR code"></div>
-      <a class="handle" id="handle" target="_blank" rel="noopener"></a>
     </div>
     </div>
   </section>
@@ -702,18 +707,6 @@ function sendUnconfirmed() {
 // Phones usually leave by switching apps or locking the screen, which hides the page without a pagehide.
 addEventListener("pagehide", sendUnconfirmed);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") sendUnconfirmed(); });
-// Instagram: put the handle here (without @) and the QR code appears at the end. Empty hides that column.
-const INSTAGRAM = "";
-(function setupInstagram() {
-  const box = document.getElementById("qr"), a = document.getElementById("handle");
-  if (!INSTAGRAM) { box.closest(".qrcol").hidden = true; box.closest(".end").classList.add("solo"); return; }
-  const url = "https://instagram.com/" + INSTAGRAM;
-  a.href = url; a.textContent = "@" + INSTAGRAM;
-  const draw = () => { if (window.QRCode) new QRCode(box, { text: url, width: 400, height: 400, colorDark: "#141414", colorLight: "#ffffff" }); };
-  const sc = document.createElement("script");
-  sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
-  sc.onload = draw; document.head.appendChild(sc);
-})();
 
 // Round 2: the visitor's top style in two versions, fashion-first and practical.
 // Each version has holes; visitors drag place circles into them. When every hole is filled,
@@ -790,7 +783,6 @@ function setSel(name) {
   document.querySelectorAll("#tray .token").forEach(b => b.classList.toggle("sel", b.dataset.name === name));
   document.querySelectorAll(".hole").forEach(h => h.classList.toggle("ready", !!name));
 }
-function placed(name) { return r2.sides.some(v => r2.scenes[v].includes(name)); }
 function renderHoles() {
   document.querySelectorAll(".hole").forEach(h => {
     const name = r2.scenes[h.dataset.v][+h.dataset.h];
@@ -798,7 +790,6 @@ function renderHoles() {
     if (name) { const t = document.createElement("span"); t.className = "token"; t.textContent = name; h.appendChild(t); }
     h.setAttribute("aria-label", name ? `${name}, tap to take out` : "Empty place");
   });
-  document.querySelectorAll("#tray .token").forEach(b => b.classList.toggle("used", placed(b.dataset.name)));
   const filled = filledCount();
   document.getElementById("r2progress").textContent = `${filled} / ${HOLES * 2} filled`;
   const cur = r2;
@@ -808,7 +799,8 @@ function renderHoles() {
   }, 350);
 }
 function filledCount() { return r2.sides.reduce((n, v) => n + r2.scenes[v].filter(Boolean).length, 0); }
-// After they've picked A or B, a change to the places is sent again (once they stop for a moment).
+// After they've picked A or B, a change to the places is sent again (once they stop for a moment),
+// even with a hole left empty, so the sheet always matches what the page shows.
 let resendTimer = 0;
 function changed() {
   renderHoles();
@@ -819,12 +811,15 @@ function changed() {
 function flushResend() {
   if (!resendTimer) return;
   clearTimeout(resendTimer); resendTimer = 0;
-  if (r2 && r2.prefer && !r2El.hidden && ranking.length === PICKS && filledCount() === HOLES * 2) send("response");
+  if (r2 && r2.prefer && !r2El.hidden && ranking.length === PICKS) send("response");
 }
-// Put a place into a hole. If the hole has one already, that one goes back to the tray.
+// Put a place into a hole, replacing whatever was there. Places stay in the tray, so one place can go on
+// both versions; within one version it appears once, so putting it in another hole there swaps the two holes.
 function fill(v, h, name) {
-  r2.sides.forEach(s => { const k = r2.scenes[s].indexOf(name); if (k !== -1) r2.scenes[s][k] = null; });
-  r2.scenes[v][h] = name;
+  const s = r2.scenes[v], k = s.indexOf(name);
+  if (k === h) { renderHoles(); return; }
+  if (k !== -1) s[k] = s[h];
+  s[h] = name;
   changed();
 }
 function holeClick(v, h) {
@@ -839,13 +834,12 @@ function tokenDown(e, b, name) {
   const holeAt = (x, y) => {
     const el = document.elementFromPoint(x, y); if (!el) return null;
     const h = el.closest(".hole"); if (h) return h;
-    const c = el.closest(".card"); if (!c) return null;
+    const c = el.closest(".card"); if (!c || r2.scenes[c.dataset.v].includes(name)) return null;
     const k = firstEmpty(c.dataset.v); return k === -1 ? null : c.querySelector(`.hole[data-h="${k}"]`);
   };
   const move = ev => {
     if (!ghost && Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) {
       ghost = b.cloneNode(true); ghost.classList.add("ghostchip", "sel"); document.body.appendChild(ghost);
-      b.classList.add("used");
     }
     if (!ghost) return;
     ghost.style.left = ev.clientX + "px"; ghost.style.top = ev.clientY + "px";
@@ -897,12 +891,28 @@ document.getElementById("signup").addEventListener("submit", e => {
   e.preventDefault();
   const f = e.target;
   const err = document.getElementById("formError");
-  if (ranking.length < PICKS) { err.textContent = "Finish picking your looks above first."; railWrap.scrollIntoView({ behavior: "smooth" }); return; }
-  if (!r2 || !r2.prefer) { err.textContent = "Fill the holes in round 2 first."; r2El.scrollIntoView({ behavior: "smooth" }); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) { err.textContent = "Enter an email address, like you@example.com."; f.email.focus(); return; }
+  const submitBtn = f.querySelector('button[type="submit"]');
+  f.querySelectorAll("[aria-invalid]").forEach(i => { i.removeAttribute("aria-invalid"); i.removeAttribute("aria-describedby"); });
+  // The message goes right under the field it's about (so a phone keyboard doesn't hide it), else above the button.
+  const fail = (msg, input) => {
+    if (input) (input.closest(".addr-row") || input.closest(".field")).after(err); else submitBtn.before(err);
+    err.textContent = msg;
+    if (input) { input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", "formError"); input.focus(); }
+  };
+  if (ranking.length < PICKS) { fail("Finish picking your looks above first."); railWrap.scrollIntoView({ behavior: "smooth" }); return; }
+  if (!r2 || !r2.prefer) { fail("Fill the holes in round 2 first."); r2El.scrollIntoView({ behavior: "smooth" }); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) { fail("Enter an email address, like you@example.com.", f.email); return; }
+  // Gift address is optional, but once started it needs enough to post: name, street, city and country.
+  // A name or country on its own (what autofill tends to leave) doesn't count as starting it.
+  const ship = {};
+  ["Name", "Street", "Apt", "City", "State", "Postcode", "Country"].forEach(k => { ship[k.toLowerCase()] = f["ship" + k].value.replace(/\s+/g, " ").trim(); });
+  const started = ["street", "apt", "city", "state", "postcode"].some(k => ship[k]);
+  const missing = ["name", "street", "city", "country"].find(k => !ship[k]);
+  if (started && missing) { fail("For the gift we need your full name, street, city and country. Or clear the address to join without a gift.", f["ship" + missing[0].toUpperCase() + missing.slice(1)]); return; }
   err.textContent = "";
-  const address = f.address.value.trim();
-  send("email", { email: f.email.value.trim(), address });
+  // The sheet's Address column gets the whole label, one line each: name, street, city state postcode, country.
+  const address = started ? [ship.name, [ship.street, ship.apt].filter(Boolean).join(", "), [ship.city, [ship.state, ship.postcode].filter(Boolean).join(" ")].filter(Boolean).join(", "), ship.country].join("\n") : "";
+  send("email", { email: f.email.value.trim(), address, ship: started ? ship : null });
   if (address) document.getElementById("thanksNote").textContent = "We'll write when the first collection is ready to see, and your gift is on its way.";
   f.hidden = true;
   document.getElementById("thanks").hidden = false;
