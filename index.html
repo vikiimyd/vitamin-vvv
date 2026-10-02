@@ -298,16 +298,16 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
 const PICKS = 6;
 
 // Test 1: six looks from classic to trendy. Images are Midjourney picks (v4 on 10/1, later fixes on 10/2), cut out onto transparent WebP, all figures the same height.
-// 10/2: viki dropped Playful and Glamorous sparkle (too close to Romantic) and added Power tailoring. Later the same day she added Sporty as a sixth style, and replaced Futuristic with Minimalism (black, the simplest cut).
+// 10/2: viki dropped Playful and Glamorous sparkle (too close to Romantic) and added Power tailoring. Later the same day she added Sporty as a sixth style, and replaced Futuristic with Minimalism (black, the simplest cut). Late that night she replaced Minimalism with Gown (white cropped top, huge emerald bubble skirt).
 // img / imgPractical: womenswear; imgMen / imgPracticalMen: shown to people who choose "Menswear". Swap any file in img/ to change a pick.
 // Round 2: imgPractical is the same style made practical for rain (mid-calf, hood up).
-const LOOK_FILES = { classic: "1-classic", quiet: "2-quiet", romantic: "3-romantic", tailored: "4-tailored", minimal: "5-minimal", sporty: "6-sporty" };
+const LOOK_FILES = { classic: "1-classic", quiet: "2-quiet", romantic: "3-romantic", tailored: "4-tailored", gown: "5-gown", sporty: "6-sporty" };
 const LOOKS = [
   { id: "classic",  name: "Classic heritage",  fill: "#b89b72", trim: "#8f7550", mark: "belt" },
   { id: "quiet",    name: "Quiet luxury",      fill: "#d8cfc2", trim: "#bfb4a4", mark: "none" },
   { id: "romantic", name: "Romantic",          fill: "#f1ece4", trim: "#ffffff", mark: "ruffle" },
   { id: "tailored", name: "Power tailoring",   fill: "#4a5a78", trim: "#2f3b52", mark: "lapel" },
-  { id: "minimal",  name: "Minimalism",        fill: "#1f1f1f", trim: "#5c5c5c", mark: "none" },
+  { id: "gown",     name: "Gown",              fill: "#2f7d62", trim: "#f4f1ea", mark: "none" },
   { id: "sporty",   name: "Sporty",            fill: "#efe3a8", trim: "#b39d4a", mark: "zip" }
 ].map(l => {
   const f = "img/" + LOOK_FILES[l.id];
