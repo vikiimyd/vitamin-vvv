@@ -3,7 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Vitamin VVV: design-led rainwear. Pick the look you would wear.">
+<meta name="description" content="A designer lifestyle brand built around rainwear: coats you'd wear any day and reach for first when it rains. Rank six looks and join the waitlist.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vitamin VVV">
+<meta property="og:title" content="Vitamin VVV · Which would you wear?">
+<meta property="og:description" content="A designer lifestyle brand built around rainwear: coats you'd wear any day and reach for first when it rains. Rank six looks and join the waitlist.">
+<meta property="og:url" content="https://vikiimyd.github.io/vitamin-vvv/">
+<meta property="og:image" content="https://vikiimyd.github.io/vitamin-vvv/share.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Six Vitamin VVV rain looks in a row">
+<meta name="twitter:card" content="summary_large_image">
 <style>body { margin: 0; }</style>
 <title>Vitamin VVV Waitlist</title>
 <link rel="preload" href="fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -13,7 +23,7 @@
 @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/hanken-grotesk-latin-500-normal.woff2) format("woff2"); }
 </style>
 <style>
-/* Layout: a lineup rail. Six looks stand in a row; the current one is full size in the middle, neighbours fade to the sides. Visitors pick their favourite, it drifts away like dust, and they pick again until all six are ranked. Then the waitlist. Single-theme white on purpose so every look reads the same. */
+
 :root {
   --white: #ffffff;
   --ink: #141414;
@@ -34,8 +44,13 @@ header .r { justify-self: end; color: var(--grey); }
 
 main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 64px; display: grid; gap: 36px; }
 
-.rail-wrap { position: relative; }
-.viewport { position: relative; height: min(62vh, 580px); min-height: 380px; overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; transition: opacity .6s, filter .6s; }
+
+.rail-wrap { position: relative; --rail-h: max(min(62vh, 580px), 380px); }
+@media (max-width: 700px) { .rail-wrap { --rail-h: clamp(250px, calc(100vh - 240px), min(62vh, 580px)); } }
+@supports (height: 100svh) { @media (max-width: 700px) { .rail-wrap { --rail-h: clamp(250px, calc(100svh - 240px), min(62svh, 580px)); } } }
+@media (max-height: 500px) { .rail-wrap { --rail-h: max(180px, calc(100vh - 190px)); } }
+@supports (height: 100svh) { @media (max-height: 500px) { .rail-wrap { --rail-h: max(180px, calc(100svh - 190px)); } } }
+.viewport { position: relative; height: var(--rail-h); overflow: hidden; touch-action: pan-y; cursor: grab; user-select: none; transition: opacity .6s, filter .6s; }
 .viewport.dragging { cursor: grabbing; }
 .viewport:focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
 .stage-intro .viewport { opacity: .22; filter: blur(1.5px); pointer-events: none; }
@@ -44,8 +59,7 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .viewport.dragging .look { transition: none; }
 .look svg, .look img { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: none; }
 .look.gone { display: none; }
-.arrow { position: absolute; top: calc(min(62vh, 580px) / 2); transform: translateY(-50%); background: var(--white); border: 1px solid var(--hair); width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; font: inherit; font-size: 16px; color: var(--ink); z-index: 20; }
-.arrow:hover { border-color: var(--ink); }
+.arrow { position: absolute; top: calc(var(--rail-h) / 2); transform: translateY(-50%); background: var(--white); border: 1px solid var(--hair); width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; font: inherit; font-size: 16px; color: var(--ink); z-index: 20; }
 .arrow.prev { left: calc(50% - 250px); }
 .arrow.next { right: calc(50% - 250px); }
 @media (max-width: 700px) { .arrow.prev { left: 0; } .arrow.next { right: 0; } }
@@ -53,34 +67,47 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 
 .intro { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 16px; text-align: center; padding-inline: 16px; z-index: 30; }
 .intro h2 { font-weight: 400; font-size: 22px; margin: 0; }
-.intro p { margin: 0; max-width: 40ch; font-size: 13px; }
+.intro p { margin: 0; max-width: 40ch; font-size: 13px; text-wrap: pretty; }
 .namefield { display: grid; gap: 6px; width: min(280px, 80vw); margin-bottom: 10px; }
 .namefield input { font: inherit; font-size: 17px; text-align: center; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; }
 .gender { display: flex; gap: 6px; margin: -2px 0 10px; }
 .gender button { font: inherit; font-size: 12px; background: var(--white); color: var(--ink); border: 1px solid var(--hair); padding: 7px 14px; cursor: pointer; }
-.gender button:hover { border-color: var(--ink); }
 .gender button[aria-checked="true"] { background: var(--ink); color: var(--white); border-color: var(--ink); }
 .intro ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; color: var(--grey); }
 .btn { font: inherit; text-transform: uppercase; letter-spacing: 0.16em; font-size: 10.5px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); padding: 12px 22px; cursor: pointer; }
-.btn:hover { background: var(--white); color: var(--ink); }
 .btn.ghost { background: var(--white); color: var(--ink); }
-.btn.ghost:hover { background: var(--ink); color: var(--white); }
-.btn:disabled { opacity: .35; cursor: default; }
-.btn:disabled:hover { background: var(--white); color: var(--ink); }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: .35; cursor: default; }
+
+@media (hover: hover) {
+  .btn:hover { background: var(--white); color: var(--ink); }
+  .btn.ghost:hover { background: var(--ink); color: var(--white); }
+  .btn:disabled:hover { background: var(--white); color: var(--ink); }
+  #signup button[type="submit"]:hover { background: var(--white); color: var(--ink); }
+  .arrow:hover, .gender button:hover, .chips label:hover, .pop .opt:hover { border-color: var(--ink); }
+  .linkbtn:hover { color: var(--ink); }
+  .hole.ready:hover { border-color: var(--ink); transform: scale(1.06); }
+}
 .hint { color: var(--ink); }
+.kicker { color: var(--grey); }
+.linkbtn { font: inherit; font-size: 12px; background: none; border: 0; padding: 4px 2px; color: var(--grey); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+header .r.link { background: none; border: 0; padding: 14px 0 14px 14px; margin: -14px 0; font-family: inherit; font-weight: inherit; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
 .rail-bar { display: flex; justify-content: center; align-items: center; gap: 22px; margin-top: 16px; flex-wrap: wrap; min-height: 40px; }
+.rail-btns { display: flex; gap: 22px; }
+
+@media (min-width: 901px) { .rail-wrap:not(.stage-done) .rail-bar .dots { min-width: 138px; justify-content: center; } .rail-wrap:not(.stage-done) .rail-bar .hint { min-width: 280px; text-align: center; } }
+@media (max-width: 900px) { .rail-bar { display: grid; justify-items: center; gap: 12px; } .rail-btns { gap: 12px; } }
 .stage-intro .rail-bar, .stage-intro .ranked { visibility: hidden; }
-/* On phones the intro sits at the top, so Start is on screen without scrolling. */
+
 @media (max-width: 700px) { main { padding-block-start: 24px; } .intro { place-content: start center; gap: 12px; padding-top: 8px; } }
 .count { font-variant-numeric: tabular-nums; color: var(--grey); }
 .dots { display: flex; gap: 6px; }
 .dots button { width: 18px; height: 2px; padding: 0; border: 0; background: var(--hair); cursor: pointer; }
 .dots button[aria-current="true"] { background: var(--ink); }
 
-.ranked { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 18px; min-height: 96px; }
-.ranked .slot { width: 52px; display: grid; justify-items: center; gap: 4px; color: var(--grey); }
-.ranked .slot .mini { width: 52px; height: 78px; border-bottom: 1px solid var(--hair); display: grid; place-items: end center; }
+.ranked { display: grid; grid-template-columns: repeat(6, minmax(0, 52px)); justify-content: center; gap: clamp(6px, 2.5vw, 14px); margin-top: 18px; min-height: 96px; }
+.ranked .slot { display: grid; justify-items: center; gap: 4px; color: var(--grey); }
+.ranked .slot .mini { width: 100%; aspect-ratio: 2 / 3; border-bottom: 1px solid var(--hair); display: grid; place-items: end center; }
 .ranked .slot .mini svg, .ranked .slot .mini img { width: 100%; height: 100%; object-fit: contain; }
 .ranked .slot.filled { color: var(--ink); }
 .ranked .slot.filled .mini { border-bottom-color: var(--ink); animation: settle .5s ease-out; }
@@ -92,17 +119,18 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .join h1 { font-weight: 400; font-size: clamp(28px, 5vw, 46px); line-height: 1.25; margin: 0; text-wrap: balance; text-align: center; }
 .join > p { margin: 0; color: var(--grey); text-align: center; }
 .join[hidden], .r2[hidden], .intro[hidden], [hidden] { display: none !important; }
-.join { gap: 48px; padding-block: 56px 72px; }
+.join { gap: 48px; padding-block: 56px 8px; }
 .join .endtop { text-align: center; display: grid; gap: 10px; }
+.join.bare { border-top: 0; padding-top: 8px; } 
 .join .endtop h1 { font-weight: 300; font-size: clamp(34px, 6vw, 56px); letter-spacing: -0.03em; line-height: 1; margin: 0; }
-.join .endtop p { margin: 0; color: var(--grey); font-size: 15px; }
+.join .endtop p { margin: 0; color: var(--grey); font-size: 15px; text-wrap: balance; }
 .end { display: grid; grid-template-columns: minmax(0, 520px); justify-content: center; border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
 .endcol { display: grid; gap: 16px; align-content: start; justify-items: stretch; text-align: center; padding: 36px 28px; }
 .endh { font-weight: 400; font-size: 13px; letter-spacing: 0.2em; margin: 0; }
-.endp { margin: -6px 0 6px; color: var(--grey); font-size: 14px; }
+.endp { margin: -6px 0 6px; color: var(--grey); font-size: 14px; text-wrap: pretty; }
 .r2 { max-width: 760px; width: 100%; margin: 0 auto; display: grid; gap: 22px; border-top: 1px solid var(--hair); padding-top: 28px; text-align: center; }
 .r2 h2 { font-weight: 400; font-size: 20px; margin: 0; }
-.r2 .sub { margin: -10px 0 0; color: var(--grey); }
+.r2 .sub { margin: -10px 0 0; color: var(--ink); }
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .card { border: 1px solid var(--hair); padding: 14px 10px 12px; display: grid; gap: 8px; justify-items: center; }
 .stage { position: relative; width: min(230px, 100%); aspect-ratio: 23 / 30; }
@@ -110,11 +138,13 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .stage .fig svg, .stage .fig img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
 .holes { position: absolute; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: space-around; }
 .hole { --d: clamp(44px, 12vw, 58px); width: var(--d); height: var(--d); border-radius: 50%; border: 1px dashed #bdbdbd; background: rgba(255,255,255,.7); display: grid; place-items: center; padding: 0; font: inherit; cursor: pointer; transition: border-color .15s, transform .15s; }
-.hole.over, .hole.ready:hover { border-color: var(--ink); transform: scale(1.06); }
+.hole.over { border-color: var(--ink); transform: scale(1.06); }
 .hole .token { cursor: pointer; }
 .token { --d: clamp(44px, 12vw, 58px); width: var(--d); height: var(--d); border-radius: 50%; border: 1px solid var(--ink); background: var(--white); color: var(--ink); font: inherit; font-size: 10px; line-height: 1.15; padding: 4px; display: grid; place-items: center; text-align: center; cursor: grab; touch-action: none; user-select: none; }
+.token.typed { white-space: pre-line; padding: 0; } 
+.token.long { white-space: normal; overflow: hidden; overflow-wrap: anywhere; }
 .token.sel, .hole .token { background: var(--ink); color: var(--white); }
-.hole .token { width: 100%; height: 100%; animation: settle .3s ease-out; }
+.hole .token { width: 100%; height: 100%; min-width: 0; animation: settle .3s ease-out; }
 .other { display: flex; gap: 8px; justify-content: center; align-items: end; }
 .other input { font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: min(220px, 55vw); }
 .tray { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
@@ -127,7 +157,7 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .pop h3 { font-weight: 400; font-size: 18px; margin: 0; }
 .pop .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
 .pop .opt { font: inherit; background: var(--white); border: 1px solid var(--hair); padding: 10px 6px 8px; cursor: pointer; display: grid; gap: 6px; justify-items: center; }
-.pop .opt:hover, .pop .opt:focus-visible { border-color: var(--ink); }
+.pop .opt:focus-visible { border-color: var(--ink); }
 .pop .opt .mini { width: 90px; aspect-ratio: 2 / 3; display: grid; place-items: end center; }
 .pop .opt .mini svg, .pop .opt .mini img { width: 100%; height: 100%; object-fit: contain; }
 .card.chosen { border-color: var(--ink); }
@@ -141,7 +171,6 @@ legend { padding: 0; margin-bottom: 10px; }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips input { position: absolute; opacity: 0; pointer-events: none; }
 .chips label { border: 1px solid var(--hair); padding: 7px 12px; font-size: 12px; cursor: pointer; transition: background .15s, color .15s, border-color .15s; }
-.chips label:hover { border-color: var(--ink); }
 .chips input:checked + label { background: var(--ink); color: var(--white); border-color: var(--ink); }
 .chips input:focus-visible + label { outline: 1px solid var(--ink); outline-offset: 2px; }
 .field { display: grid; gap: 2px; }
@@ -152,21 +181,28 @@ input::placeholder { color: #bdbdbd; }
 .gift .giftline, .gift .note { text-align: center; }
 .addr-row { display: grid; grid-template-columns: 1.4fr 1fr 0.8fr; gap: 12px; }
 @media (max-width: 480px) { .addr-row { grid-template-columns: 1fr 1fr; } .addr-row .field:first-child { grid-column: 1 / -1; } }
-.gift .giftline { margin: 0 0 -8px; font-size: 14px; }
+.gift .giftline { margin: 0 0 -8px; font-size: 14px; text-wrap: pretty; }
 .gift .note { margin: 0; color: var(--grey); font-size: 11px; }
-button[type="submit"] { font: inherit; text-transform: uppercase; letter-spacing: 0.18em; font-size: 13px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); border-radius: 0; padding: 18px 16px; cursor: pointer; }
-button[type="submit"]:hover { background: var(--white); color: var(--ink); }
+#signup button[type="submit"] { font: inherit; text-transform: uppercase; letter-spacing: 0.18em; font-size: 13px; background: var(--ink); color: var(--white); border: 1px solid var(--ink); border-radius: 0; padding: 18px 16px; cursor: pointer; }
 input:focus-visible, textarea:focus-visible, button:focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 .err { margin: 0; font-size: 12px; text-align: center; }
 .err:empty { display: none; }
 .thanks { text-align: center; }
 .thanks h2 { font-weight: 400; font-size: 24px; margin: 0 0 4px; }
-.thanks p { margin: 0; color: var(--grey); }
+.thanks p { margin: 0; color: var(--grey); text-wrap: pretty; }
+.thanks { display: grid; gap: 6px; justify-items: center; }
+.thanks .btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 14px; }
+.privacy { margin: -8px 0 0; color: var(--grey); font-size: 11px; text-align: center; }
 
-footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block: 18px; display: flex; justify-content: center; gap: 56px; flex-wrap: wrap; color: var(--grey); text-align: center; }
+footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block: 18px; display: flex; justify-content: center; gap: 4px 56px; flex-wrap: wrap; color: var(--grey); text-align: center; }
 
 .review { max-width: 1400px; margin: 0 auto 28px; padding-inline: 20px; }
 .review > div { border: 1px dashed var(--hair); padding: 14px 16px; display: grid; gap: 6px; color: var(--grey); font-size: 12px; }
+
+@media (max-width: 420px) { .token { font-size: 9px; padding: 2px; } }
+@media (max-width: 380px) { .token { font-size: 8.5px; } }
+@media (max-height: 500px) { main { padding-block-start: 16px; } .intro { place-content: start center; gap: 10px; padding-top: 8px; }
+  .rail-bar { display: flex; gap: 8px 22px; } .rail-bar .dots { display: none; } .rail-btns { flex-basis: 100%; justify-content: center; } }
 @media (prefers-reduced-motion: reduce) { .look, .viewport { transition: none; } .ranked .slot.filled .mini { animation: none; } }
 </style>
 </head>
@@ -174,35 +210,39 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
 <header>
   <span class="l up">Rainwear</span>
   <div class="wordmark">Vitamin VVV</div>
-  <span class="r up">Waitlist</span>
+  <button class="r up link" id="toWaitlist" type="button">Waitlist</button>
 </header>
 
 <main>
   <section class="rail-wrap stage-intro" id="railWrap" aria-label="Look test">
-    <div class="viewport" id="viewport" tabindex="0" aria-roledescription="carousel" aria-label="Looks. Use the arrow keys to move between them."></div>
+    <div class="viewport" id="viewport" tabindex="-1" aria-roledescription="carousel" aria-label="Looks. Use the arrow keys to move between them."></div>
     <button class="arrow prev" id="prev" type="button" aria-label="Previous look">←</button>
     <button class="arrow next" id="next" type="button" aria-label="Next look">→</button>
 
     <div class="intro" id="intro">
-      <label class="namefield" for="who"><span class="up">First, your name</span>
+      <label class="namefield" for="who" id="nameField" hidden><span class="up">First, your name</span>
         <input id="who" type="text" autocomplete="name" placeholder="Your name" maxlength="60">
       </label>
-      <span class="up" style="color:var(--grey)">You usually wear</span>
+      <span class="up kicker" id="kicker">Six looks · about two minutes</span>
+      <h2>Which would you wear?</h2>
+      <p id="introText">Vitamin VVV is a designer lifestyle brand built around rainwear: coats you'd wear any day and reach for first when it rains. Rank six looks to help choose what we make first<span id="introJoin">, then join the waitlist to see the collection before anyone else</span>.</p>
+      <span class="up" id="wearLabel" style="color:var(--grey)">You usually wear</span>
       <div class="gender" role="radiogroup" aria-label="You usually wear">
         <button type="button" role="radio" aria-checked="false" data-g="womenswear">Womenswear</button>
         <button type="button" role="radio" aria-checked="false" data-g="menswear">Menswear</button>
       </div>
-      <span class="up" style="color:var(--grey)">Six looks · one minute</span>
-      <h2>Which would you wear?</h2>
-      <p id="introText">Scroll or use the arrows to see each look. Double-click your favourite and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.</p>
       <button class="btn" id="start" type="button" disabled>Start</button>
+      <button class="linkbtn" id="skip" type="button">Or just join the waitlist</button>
     </div>
 
     <div class="rail-bar">
       <span class="count up" id="count"></span>
       <div class="dots" id="dots"></div>
       <span class="hint up" id="hint">Double-click your favourite</span>
-      <button class="btn ghost" id="undo" type="button" disabled>Undo</button>
+      <div class="rail-btns">
+        <button class="btn" id="choose" type="button">Choose this look</button>
+        <button class="btn ghost" id="undo" type="button" disabled>Undo</button>
+      </div>
     </div>
     <div class="ranked" id="ranked" aria-label="Your ranking"></div>
   </section>
@@ -210,12 +250,12 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
   <section class="r2" id="r2" hidden aria-label="Round 2">
     <div class="round up">Round 2</div>
     <h2>Two takes on your favourite.</h2>
-    <p class="sub">Drag the circles into the holes: where would you wear each one?</p>
+    <p class="sub" id="r2sub">Where would you wear each one? Drag an occasion into each empty circle, or tap one and then a circle. Three for A, three for B.</p>
     <div class="pair" id="pair"></div>
     <div class="progress up" id="r2progress"></div>
     <div class="tray" id="tray"></div>
     <form class="other" id="otherForm">
-      <input id="otherInput" type="text" placeholder="Other place? Type it" maxlength="24" aria-label="Other place">
+      <input id="otherInput" type="text" placeholder="Other occasion? Type it" maxlength="24" aria-label="Other occasion">
       <button class="btn ghost" type="submit">Add</button>
     </form>
   </section>
@@ -228,20 +268,22 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
   </div>
 
   <section class="join" id="join" hidden aria-label="Join the waitlist">
-    <div class="endtop">
+    <div class="endtop" id="endTop">
       <h1>Thank you.</h1>
-      <p>You've completed the interview.</p>
+      <p id="endSub">Your picks help decide what we make first.</p>
     </div>
     <div class="end">
     <div class="endcol">
-    <h2 class="endh up">Join the waitlist</h2>
-    <p class="endp">See the first collection before anyone else.</p>
+    <h2 class="endh up" id="joinHead">Join the waitlist</h2>
+    <p class="endp" id="joinLine">See the first collection before anyone else.</p>
     <form id="signup" novalidate>
       <label class="field" for="email"><span class="up">Your email</span>
         <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
       </label>
-      <!-- The gift fields are their own autofill section, so filling the email doesn't fill them too. -->
-      <div class="gift" role="group" aria-labelledby="giftLine" aria-describedby="giftNote">
+      <label class="field" for="firstName" id="firstNameField"><span class="up">First name</span>
+        <input id="firstName" name="firstName" type="text" autocomplete="given-name" maxlength="40" placeholder="Optional">
+      </label>
+            <div class="gift" id="gift" role="group" aria-labelledby="giftLine" aria-describedby="giftNote">
         <p class="giftline" id="giftLine">Leave your address and we'll send you a small gift.</p>
         <p class="note" id="giftNote">Optional. Only used to send your gift.</p>
         <label class="field" for="shipName"><span class="up">Full name</span>
@@ -268,12 +310,18 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
           <input id="shipCountry" name="shipCountry" type="text" autocomplete="section-gift shipping country-name" maxlength="40">
         </label>
       </div>
+      <p class="privacy" id="privacy">We'll only email you about Vitamin VVV.</p>
       <p class="err" id="formError" role="alert"></p>
       <button type="submit">Add to waitlist</button>
     </form>
     <div class="thanks" id="thanks" hidden>
       <h2>You're on the list.</h2>
       <p id="thanksNote">We'll write when the first collection is ready to see.</p>
+      <div class="btns">
+        <button class="btn" id="rankLooks" type="button" hidden>Rank the looks</button>
+        <button class="btn ghost" id="share" type="button">Share the test</button>
+      </div>
+      <p class="note" id="shareNote" aria-live="polite"></p>
     </div>
     </div>
     </div>
@@ -282,7 +330,8 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
 
 <div class="review" id="review" hidden>
   <div>
-    <strong class="up" style="color:var(--ink)">Preview for viki · hidden from visitors</strong>
+    <strong class="up" style="color:var(--ink)">Preview · hidden from visitors</strong>
+    <div>Mode: <span id="modeNote"></span></div>
     <div>Looks appear in a random order for each visitor. Names stay hidden from visitors. This visitor's order: <span id="orderNote"></span></div>
     <div>Name and what they wear: <span id="whoNote">not entered yet</span></div>
     <div id="rankNote"></div>
@@ -294,13 +343,13 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
 <footer class="up"><span>Vitamin VVV</span><span>Positive energy, rain or shine</span></footer>
 
 <script>
-// How many picks each visitor makes: 6 ranks every look, 2 keeps only the top two.
 const PICKS = 6;
 
-// Test 1: six looks from classic to trendy. Images are Midjourney picks (v4 on 10/1, later fixes on 10/2), cut out onto transparent WebP, all figures the same height.
-// 10/2: viki dropped Playful and Glamorous sparkle (too close to Romantic) and added Power tailoring. Later the same day she added Sporty as a sixth style, and replaced Futuristic with Minimalism (black, the simplest cut). Late that night she replaced Minimalism with Gown (white cropped top, huge emerald bubble skirt).
-// img / imgPractical: womenswear; imgMen / imgPracticalMen: shown to people who choose "Menswear". Swap any file in img/ to change a pick.
-// Round 2: imgPractical is the same style made practical for rain (mid-calf, hood up).
+const HASH = location.hash.toLowerCase();
+const INTERVIEW = HASH.includes("interview");
+const TEST = HASH.includes("preview");
+const PUBLIC_URL = "https://vikiimyd.github.io/vitamin-vvv/";
+
 const LOOK_FILES = { classic: "1-classic", quiet: "2-quiet", romantic: "3-romantic", tailored: "4-tailored", gown: "5-gown", sporty: "6-sporty" };
 const LOOKS = [
   { id: "classic",  name: "Classic heritage",  fill: "#b89b72", trim: "#8f7550", mark: "belt" },
@@ -361,30 +410,29 @@ const viewport = document.getElementById("viewport");
 const dots = document.getElementById("dots");
 const count = document.getElementById("count");
 const undoBtn = document.getElementById("undo");
+const chooseBtn = document.getElementById("choose");
 const hint = document.getElementById("hint");
 const ranked = document.getElementById("ranked");
 
 let remaining = order.map((_, i) => i);   // indices into order still on the rail
 let current = 0;                           // position within remaining
 let ranking = [];                          // indices into order, favourite first
+let rankPos = [];                          // where each ranked look stood on the rail, so Undo puts it back there
 let gender = "";                           // womenswear / menswear: what they usually wear, chosen on the first screen
 let busy = false, dragX = 0, wheelShift = 0, lastDrag = 0, autoLast = false;
+let lastPointerType = "mouse", clickLook = -1;
+const TOUCH = window.matchMedia("(pointer: coarse)").matches;
 
 const els = order.map((l, i) => {
   const el = document.createElement("div");
   el.className = "look";
   el.setAttribute("role", "group");
   el.appendChild(lookNode(l));
-  el.addEventListener("click", () => {
-    const pos = remaining.indexOf(i);
-    if (Math.abs(lastDrag) < 5 && pos !== -1 && pos !== current) go(pos);
-  });
-  el.addEventListener("dblclick", e => { e.preventDefault(); pickLook(i); });
   viewport.appendChild(el);
   return el;
 });
 
-// Ranking slots
+ranked.style.gridTemplateColumns = `repeat(${PICKS}, minmax(0, 52px))`;
 const slots = Array.from({ length: PICKS }, (_, i) => {
   const s = document.createElement("div");
   s.className = "slot up";
@@ -393,10 +441,49 @@ const slots = Array.from({ length: PICKS }, (_, i) => {
   return s;
 });
 
+const masks = new Map();
+function maskFor(img) {
+  if (!img || img.tagName !== "IMG" || !img.complete || !img.naturalWidth) return null;
+  if (!masks.has(img.src)) {
+    let m = null;
+    try {
+      const c = document.createElement("canvas"); c.width = 40; c.height = 60;
+      const ctx = c.getContext("2d"); ctx.drawImage(img, 0, 0, 40, 60);
+      const d = ctx.getImageData(0, 0, 40, 60).data;
+      m = new Uint8Array(40 * 60).map((_, k) => d[k * 4 + 3] > 40 ? 1 : 0);
+    } catch (e) { m = null; }
+    masks.set(img.src, m);
+  }
+  return masks.get(img.src);
+}
+function onFigure(el, r, x, y, slack) {
+  const img = el.firstElementChild, m = maskFor(img);
+  if (!m) return false;
+  const s = Math.min(r.width / img.naturalWidth, r.height / img.naturalHeight);
+  const w = img.naturalWidth * s, h = img.naturalHeight * s;
+  const cx = Math.floor((x - r.left - (r.width - w) / 2) / w * 40), cy = Math.floor((y - r.top - (r.height - h) / 2) / h * 60);
+  for (let j = cy - slack; j <= cy + slack; j++) for (let k = cx - slack; k <= cx + slack; k++)
+    if (j >= 0 && j < 60 && k >= 0 && k < 40 && m[j * 40 + k]) return true;
+  return false;
+}
+function lookAt(x, y) {
+  let near = -1, nearD = Infinity;
+  const under = [];
+  remaining.forEach(i => {
+    const el = els[i], r = el.getBoundingClientRect();
+    if (x < r.left || x > r.right || y < r.top || y > r.bottom) return;
+    const d = Math.abs(x - (r.left + r.right) / 2);
+    if (d < nearD) { nearD = d; near = i; }
+    under.push({ i, el, r, z: +el.style.zIndex || 0 });
+  });
+  under.sort((a, b) => b.z - a.z);
+  for (const slack of [0, 1]) for (const u of under) if (onFigure(u.el, u.r, x, y, slack)) return u.i;
+  return near;
+}
+
 function layout() {
   const w = viewport.clientWidth;
   const step = Math.min(w * 0.2, 230);
-  // Fractional shift so drags and scrolls move the rail continuously.
   const shift = wheelShift - dragX / (step * 1.35);
   els.forEach((el, i) => {
     const pos = remaining.indexOf(i);
@@ -421,14 +508,19 @@ function layout() {
     d.addEventListener("click", () => go(p));
     dots.appendChild(d);
   });
-  hint.textContent = done ? "All six ranked" : ranking.length === 0 ? "Double-click your favourite" : "Double-click your next favourite";
+  const tap = TOUCH ? "Double-tap" : "Double-click";
+  hint.textContent = done ? "All six ranked" : ranking.length === 0 ? `${tap} your favourite` : `${tap} your next favourite`;
   undoBtn.disabled = busy || ranking.length === 0;
+  chooseBtn.setAttribute("aria-disabled", String(busy));
+  chooseBtn.hidden = done;
 }
 function go(p) { if (busy) return; current = Math.max(0, Math.min(remaining.length - 1, p)); dragX = 0; wheelShift = 0; viewport.classList.remove("dragging"); layout(); }
 
 document.getElementById("prev").addEventListener("click", () => go(current - 1));
+chooseBtn.addEventListener("click", pick);
 document.getElementById("next").addEventListener("click", () => go(current + 1));
 viewport.addEventListener("keydown", e => {
+  if (railWrap.classList.contains("stage-intro")) return;
   if (e.key === "ArrowLeft") go(current - 1);
   if (e.key === "ArrowRight") go(current + 1);
   if (e.key === "Enter") pick();
@@ -436,7 +528,7 @@ viewport.addEventListener("keydown", e => {
 });
 
 let startX = null;
-viewport.addEventListener("pointerdown", e => { if (busy) return; startX = e.clientX; dragX = 0; lastDrag = 0; viewport.classList.add("dragging"); });
+viewport.addEventListener("pointerdown", e => { lastPointerType = e.pointerType; if (busy) return; startX = e.clientX; dragX = 0; lastDrag = 0; viewport.classList.add("dragging"); });
 viewport.addEventListener("pointermove", e => { if (startX === null) return; dragX = e.clientX - startX; lastDrag = dragX; layout(); });
 function endDrag() {
   if (startX === null) return;
@@ -444,20 +536,35 @@ function endDrag() {
   const moved = dragX; startX = null; dragX = 0;
   if (moved < -50) go(current + 1); else if (moved > 50) go(current - 1); else layout();
 }
-// Double-tap on touch screens counts like a double-click.
-let lastTap = { t: 0, i: -1 };
+let lastTap = { t: 0, i: -1, x: 0, y: 0 };
 viewport.addEventListener("pointerup", e => {
-  if (e.pointerType !== "mouse" && Math.abs(lastDrag) < 8) {
-    const el = e.target.closest(".look");
-    const i = el ? els.indexOf(el) : -1;
-    const now = performance.now();
-    if (i !== -1 && lastTap.i === i && now - lastTap.t < 350) { lastTap = { t: 0, i: -1 }; endDrag(); pickLook(i); return; }
-    lastTap = { t: now, i };
+  if (e.pointerType !== "mouse") {
+    if (busy) { lastTap.i = -1; endDrag(); return; }
+    if (Math.abs(lastDrag) < 8) {
+      const now = performance.now();
+      if (lastTap.i !== -1 && now - lastTap.t < 450 && Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 40) {
+        const k = lastTap.i; lastTap.i = -1; endDrag(); pickLook(k); return;
+      }
+      lastTap = { t: now, i: lookAt(e.clientX, e.clientY), x: e.clientX, y: e.clientY };
+    } else lastTap.i = -1;
   }
   endDrag();
 });
-// Scroll wheel or trackpad moves between looks.
-// The rail follows the scroll, then settles on the nearest look once scrolling stops.
+viewport.addEventListener("click", e => {
+  if (e.detail > 1) return; // the second click of a double-click
+  const i = lookAt(e.clientX, e.clientY);
+  clickLook = i;
+  const pos = remaining.indexOf(i);
+  if (Math.abs(lastDrag) < 5 && pos !== -1 && pos !== current) go(pos);
+});
+viewport.addEventListener("dblclick", e => {
+  e.preventDefault();
+  if (lastPointerType !== "mouse") return; // touch double-taps were already handled on pointerup
+  const i = clickLook;
+  clickLook = -1;
+  if (i !== -1) pickLook(i);
+});
+document.addEventListener("pointerdown", e => { if (!viewport.contains(e.target)) clickLook = -1; }, true);
 let wheelTimer = 0;
 viewport.addEventListener("wheel", e => {
   if (busy || railWrap.classList.contains("stage-intro") || railWrap.classList.contains("stage-done")) return;
@@ -470,21 +577,18 @@ viewport.addEventListener("wheel", e => {
   layout();
   clearTimeout(wheelTimer);
   wheelTimer = setTimeout(() => {
-    // A single mouse-wheel notch still moves one look.
     let n = Math.round(wheelShift);
     if (n === 0 && Math.abs(wheelShift) > 0.12) n = Math.sign(wheelShift);
     go(current + n);
   }, 120);
 }, { passive: false });
 viewport.addEventListener("pointerleave", endDrag);
-viewport.addEventListener("pointercancel", endDrag);
+viewport.addEventListener("pointercancel", () => { lastTap.i = -1; endDrag(); }); // e.g. the page scrolled
 window.addEventListener("resize", layout);
 
-// The very first step: the person's name, so each result can be matched to its interview.
 let who = "";
 const whoEl = document.getElementById("who"), startBtn = document.getElementById("start");
-// Womenswear or menswear decides which images a person sees, since the cuts differ.
-const readyToStart = () => { startBtn.disabled = !(whoEl.value.trim() && gender); };
+const readyToStart = () => { startBtn.disabled = !((!INTERVIEW || whoEl.value.trim()) && gender); };
 document.querySelectorAll(".gender button").forEach(b => b.addEventListener("click", () => {
   gender = b.dataset.g;
   document.querySelectorAll(".gender button").forEach(x => x.setAttribute("aria-checked", String(x === b)));
@@ -493,27 +597,44 @@ document.querySelectorAll(".gender button").forEach(b => b.addEventListener("cli
 whoEl.addEventListener("input", readyToStart);
 whoEl.addEventListener("keydown", e => { if (e.key === "Enter" && !startBtn.disabled) startBtn.click(); });
 function applyGender() {
-  // Redraw the rail with the matching images (men's if given, otherwise the default).
   els.forEach((el, i) => el.replaceChildren(lookNode(order[i])));
   imgCache.clear();
 }
 startBtn.addEventListener("click", () => {
-  who = whoEl.value.trim();
-  if (!who || !gender) { whoEl.focus(); return; }
-  if (location.hash === "#preview") document.getElementById("whoNote").textContent = `${who} · ${gender}`;
+  if (INTERVIEW) who = whoEl.value.trim();
+  if ((INTERVIEW && !who) || !gender) { (INTERVIEW ? whoEl : startBtn).focus(); return; }
+  if (TEST) document.getElementById("whoNote").textContent = `${who || "(no name)"} · ${gender}`;
   LOOKS.forEach(sourceImage);
   LOOKS.forEach(l => { const src = imgFor(l, true); if (src) new Image().src = src; }); // round 2 shows the practical versions
   railWrap.classList.remove("stage-intro");
   document.getElementById("intro").hidden = true;
+  viewport.tabIndex = 0; // the rail takes keyboard focus only once the test is running
   viewport.focus({ preventScroll: true });
   layout();
+  if (railWrap.getBoundingClientRect().top < 0) railWrap.scrollIntoView({ block: "start", behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
 });
+if (INTERVIEW) {
+  const nameField = document.getElementById("nameField");
+  nameField.hidden = false;
+  nameField.after(document.getElementById("wearLabel"), document.querySelector(".gender")); // same order as before: name, then what they wear
+  document.getElementById("kicker").textContent = "Six looks · one minute";
+  document.getElementById("introText").textContent = `Scroll or use the arrows to see each look. ${TOUCH ? "Double-tap" : "Double-click"} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.`;
+  document.getElementById("skip").remove();
+  document.getElementById("firstNameField").remove();
+  document.getElementById("privacy").remove();
+  document.querySelector("#thanks .btns").remove();
+  document.getElementById("shareNote").remove();
+  document.getElementById("endSub").textContent = "You've completed the interview.";
+  const toW = document.getElementById("toWaitlist");
+  toW.replaceWith(Object.assign(document.createElement("span"), { className: "r up", textContent: toW.textContent }));
+} else {
+  document.getElementById("gift").remove();
+}
+document.getElementById("r2sub").textContent = `Where would you wear each one? Drag an occasion into each empty circle, or ${TOUCH ? "tap" : "click"} one and then a circle. Three for A, three for B.`;
 if (PICKS < LOOKS.length) {
   document.getElementById("introText").textContent = `Scroll or use the arrows to see each look. Double-click your favourite and it drifts away, then pick your next favourite. ${PICKS} picks and you're done. Changed your mind? Press Undo.`;
 }
 
-// Turn a look into dust that blows away to the right.
-// Images are prepared ahead of time so a double-click dissolves at once.
 const imgCache = new Map();
 function sourceImage(l) {
   if (!imgCache.has(l.id)) imgCache.set(l.id, loadSource(l));
@@ -537,7 +658,6 @@ async function dissolve(el, l) {
     return;
   }
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  // Fit the source inside the element box, anchored bottom-centre, like object-fit: contain.
   const s = Math.min(r.width / img.width, r.height / img.height);
   const dw = img.width * s, dh = img.height * s, dx = (r.width - dw) / 2, dy = r.height - dh;
   const off = document.createElement("canvas");
@@ -581,7 +701,6 @@ async function dissolve(el, l) {
 
   const t0 = performance.now();
   const total = Math.max(...parts.map(p => p.delay + p.life)) || 1;
-  // The dust keeps flying on its own; the rail moves on straight away.
   new Promise(res => {
     function frame(now) {
       const t = now - t0;
@@ -623,17 +742,17 @@ async function pick() {
   if (busy || railWrap.classList.contains("stage-intro") || ranking.length >= PICKS) return;
   busy = true; layout();
   const idx = remaining[current];
-  ranking.push(idx);
+  ranking.push(idx); rankPos.push(current);
   fillSlot(ranking.length - 1, idx);
   await dissolve(els[idx], order[idx]);
   els[idx].classList.add("gone");
   remaining.splice(current, 1);
   current = Math.min(current, remaining.length - 1);
-  // The last look left is the least favourite; rank it without asking.
+  if (remaining.length > 1) { layout(); await new Promise(res => setTimeout(res, 450)); }
   if (PICKS === LOOKS.length && remaining.length === 1) {
     const last = remaining[0];
     await new Promise(res => setTimeout(res, 220));
-    ranking.push(last);
+    ranking.push(last); rankPos.push(0);
     fillSlot(ranking.length - 1, last);
     await dissolve(els[last], order[last]);
     els[last].classList.add("gone");
@@ -641,8 +760,8 @@ async function pick() {
     autoLast = true;
   }
   busy = false;
+  layout(); // first, so the rail bar has its final height before finish() scrolls to round 2
   if (ranking.length >= PICKS) finish();
-  layout();
 }
 function clearSlot(n) {
   const s = slots[n];
@@ -659,62 +778,97 @@ function restore(idx) {
 }
 function undo() {
   if (busy || ranking.length === 0) return;
+  const hadFocus = document.activeElement === undoBtn;
   if (railWrap.classList.contains("stage-done")) {
+    flushResend(); // a place changed just before Undo still reaches the sheet
     railWrap.classList.remove("stage-done");
-    joinEl.hidden = true; r2El.hidden = true; popEl.hidden = true;
+    joinEl.hidden = true; r2El.hidden = true; showPop(false);
+    answers(); // keeps a half-done round 2 for the sheet
+    r2 = null; // round 2 starts over once the ranking is complete again
     viewport.style.height = ""; viewport.style.minHeight = "";
   }
-  // If the last look was ranked automatically, undo it together with the pick before it.
   const steps = autoLast ? 2 : 1;
   autoLast = false;
   for (let k = 0; k < steps && ranking.length; k++) {
-    const idx = ranking.pop();
+    const idx = ranking.pop(), was = rankPos.pop();
     clearSlot(ranking.length);
-    current = Math.min(current, remaining.length);
+    current = Math.min(was ?? current, remaining.length);
     restore(idx);
   }
   current = Math.max(0, Math.min(current, remaining.length - 1));
   layout();
+  if (hadFocus && undoBtn.disabled) viewport.focus({ preventScroll: true });
 }
 undoBtn.addEventListener("click", undo);
 
 const joinEl = document.getElementById("join");
+const endTop = document.getElementById("endTop");
+function setEndTop(show) { endTop.hidden = !show; joinEl.classList.toggle("bare", !show); }
 
-// Where answers go: the Google Apps Script web app URL behind viki's sheet "Vitamin VVV 落地页回答". Empty = nothing is sent (preview copy).
+function openWaitlist() {
+  const motion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  if (joinEl.hidden) { setEndTop(!!(r2 && r2.prefer)); joinEl.hidden = false; }
+  joinEl.scrollIntoView({ behavior: motion, block: "start" });
+  const email = document.getElementById("email");
+  if (email && !document.getElementById("signup").hidden) email.focus({ preventScroll: true });
+}
+if (!INTERVIEW) {
+  document.getElementById("skip").addEventListener("click", openWaitlist);
+  document.getElementById("toWaitlist").addEventListener("click", openWaitlist);
+}
+
 const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbySiEO4GXjxJjIKEKlxY68CbKX9uUJFjvwauzu_AWl_osCK-kt9m1NFfnMFkuRudcnn/exec";
 const RESPONSE_ID = (crypto.randomUUID && crypto.randomUUID()) || (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
-// One row per finished interview (sent when they pick A or B), then the email is added to that row if they join.
-// seq orders the posts: the sheet keeps the answers from the highest seq, so a changed answer replaces the old one.
-// Each post is retried twice if the sheet doesn't answer "ok", and any still unconfirmed is re-sent when the page closes.
-let seq = 0;
-const unconfirmed = new Set();
+let seq = 0, lastFull = null, lastR2 = null, lastR2Any = null, lastSent = "";
+const unconfirmed = new Map(), resent = new Set(); // unconfirmed: body -> { type, seq }
+function answers() {
+  const cur = ranking.map(i => order[i].id);
+  if (cur.length === PICKS) lastFull = cur;
+  if (r2) lastR2Any = JSON.parse(JSON.stringify(r2));
+  if (r2 && r2.prefer) lastR2 = lastR2Any;
+  return { gender, ranking: lastFull || cur, round2: lastR2 || lastR2Any };
+}
+const answersChanged = () => JSON.stringify([who, answers()]) !== lastSent;
+const responsePending = () => [...unconfirmed.values()].some(m => m.type === "response");
 function send(type, extra) {
+  const a = answers();
+  if (type === "response") lastSent = JSON.stringify([who, a]);
   if (!SUBMIT_URL) return;
-  const body = JSON.stringify({ type, id: RESPONSE_ID, seq: ++seq, test: location.hash === "#preview", name: who, gender,
-    ranking: ranking.map(i => order[i].id), shownOrder: order.map(l => l.id),
-    round2: r2, device: window.innerWidth < 700 ? "phone" : "desktop", ...extra });
-  unconfirmed.add(body);
-  const attempt = n => fetch(SUBMIT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body })
+  const body = JSON.stringify({ type, id: RESPONSE_ID, seq: ++seq, test: TEST, name: who,
+    ...a, shownOrder: order.map(l => l.id), device: window.innerWidth < 700 ? "phone" : "desktop", ...extra });
+  const meta = { type, seq };
+  unconfirmed.set(body, meta);
+  const attempt = n => !unconfirmed.has(body) ? null : fetch(SUBMIT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body })
     .then(r => r.text())
-    .then(t => { if (t !== "ok" && t !== "bad request") throw new Error(t); unconfirmed.delete(body); })
-    .catch(() => { if (n < 2) setTimeout(() => attempt(n + 1), 2000 * (n + 1)); });
+    .then(t => {
+      if (t !== "ok" && t !== "bad request") throw new Error(t);
+      unconfirmed.delete(body);
+      if (type === "response") unconfirmed.forEach((m, b) => { if (m.type === "response" && m.seq < meta.seq) unconfirmed.delete(b); });
+    })
+    .catch(() => { if (n < 2) setTimeout(() => attempt(n + 1), 2000 * (n + 1)); }); // a retry is skipped if a newer answers post got in meanwhile
   attempt(0);
 }
 function sendUnconfirmed() {
   flushResend();
-  unconfirmed.forEach(body => fetch(SUBMIT_URL, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body }).catch(() => {}));
+  if (seq && answersChanged()) send("response"); // a visitor who already has a row keeps it up to date, e.g. picks made after joining early
+  unconfirmed.forEach((m, body) => {
+    if (resent.has(body)) return;
+    resent.add(body);
+    fetch(SUBMIT_URL, { method: "POST", mode: "no-cors", keepalive: true, headers: { "Content-Type": "text/plain;charset=utf-8" }, body }).catch(() => {});
+  });
 }
-// Phones usually leave by switching apps or locking the screen, which hides the page without a pagehide.
 addEventListener("pagehide", sendUnconfirmed);
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") sendUnconfirmed(); });
 
-// Round 2: the visitor's top style in two versions, fashion-first and practical.
-// Each version has holes; visitors drag place circles into them. When every hole is filled,
-// a pop-up asks which version they prefer.
 const SCENES = ["Everyday", "Class or studio", "Client meeting", "Bike or scooter", "Date", "Night out", "Party", "Concert", "Wedding", "Travel photos", "Content shoot", "Cosplay"];
 const HOLES = 3; // per version
 const r2El = document.getElementById("r2");
 const popEl = document.getElementById("pop");
+function showPop(on) {
+  popEl.hidden = !on;
+  [document.querySelector("header"), document.querySelector("footer"), railWrap, r2El, joinEl, document.getElementById("review")]
+    .forEach(el => { if (el) el.inert = on; });
+}
 let r2 = null, selScene = null;
 function startRound2() {
   const l = order[ranking[0]];
@@ -731,7 +885,7 @@ function startRound2() {
     for (let h = 0; h < HOLES; h++) {
       const b = document.createElement("button");
       b.type = "button"; b.className = "hole"; b.dataset.v = v; b.dataset.h = h;
-      b.setAttribute("aria-label", `Version ${"AB"[k]}, empty place ${h + 1}`);
+      b.setAttribute("aria-label", `Version ${"AB"[k]}, empty circle ${h + 1}`);
       b.addEventListener("click", () => holeClick(v, h));
       holes.appendChild(b);
     }
@@ -752,20 +906,19 @@ function startRound2() {
     b.addEventListener("click", () => prefer(v));
     opts.appendChild(b);
   });
-  popEl.hidden = true;
+  showPop(false);
   joinEl.hidden = true;
   r2El.hidden = false;
   renderHoles();
 }
 function addToken(name) {
   const b = document.createElement("button");
-  b.type = "button"; b.className = "token"; b.textContent = name; b.dataset.name = name;
+  b.type = "button"; b.className = "token"; b.textContent = name; b.dataset.name = name; b.setAttribute("aria-pressed", "false");
   b.addEventListener("pointerdown", e => tokenDown(e, b, name));
   b.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setSel(selScene === name ? null : name); } });
   document.getElementById("tray").appendChild(b);
   return b;
 }
-// "Other": the typed place becomes a new circle, selected so the next tap on a hole places it.
 document.getElementById("otherForm").addEventListener("submit", e => {
   e.preventDefault();
   const inp = document.getElementById("otherInput");
@@ -773,34 +926,92 @@ document.getElementById("otherForm").addEventListener("submit", e => {
   if (!typed || !r2) return;
   const hit = [...document.querySelectorAll("#tray .token")].find(b => b.dataset.name.toLowerCase() === typed.toLowerCase());
   const name = hit ? hit.dataset.name : typed;
-  if (!hit) { addToken(name); r2.others = (r2.others || []).concat(name); }
+  if (!hit) { const b = addToken(name); b.classList.add("typed"); fitLabel(b); r2.others = (r2.others || []).concat(name); }
   inp.value = "";
   setSel(name);
   renderHoles();
 });
 function setSel(name) {
   selScene = name;
-  document.querySelectorAll("#tray .token").forEach(b => b.classList.toggle("sel", b.dataset.name === name));
-  document.querySelectorAll(".hole").forEach(h => h.classList.toggle("ready", !!name));
+  document.querySelectorAll("#tray .token").forEach(b => { b.classList.toggle("sel", b.dataset.name === name); b.setAttribute("aria-pressed", String(b.dataset.name === name)); });
+  document.querySelectorAll(".hole").forEach(h => { h.classList.toggle("ready", !!name); labelHole(h); });
+}
+const measure = document.createElement("canvas").getContext("2d");
+function fitLabel(el) {
+  const words = el.dataset.name.split(" ");
+  el.classList.remove("long"); el.style.fontSize = ""; el.textContent = el.dataset.name;
+  const d = el.offsetWidth, inner = el.clientWidth; // not getBoundingClientRect: a hovered or dragged-over hole is zoomed in
+  if (!d) return;
+  const cs = getComputedStyle(el), r = d / 2 - 1.5, base = parseFloat(cs.fontSize);
+  const chord = (k, n, lh) => { const top = (k - n / 2) * lh, far = Math.max(Math.abs(top), Math.abs(top + lh)); return Math.min(inner, 2 * Math.sqrt(Math.max(0, r * r - far * far))); };
+  const lay = (size, n, split) => {
+    measure.font = `${cs.fontWeight} ${size}px ${cs.fontFamily}`;
+    const W = t => measure.measureText(t).width, lh = size * 1.15, lines = [], queue = words.slice();
+    let line = "", cuts = 0, shortest = Infinity;
+    while (queue.length) {
+      const word = queue.shift();
+      if (line && W(line + " " + word) <= chord(lines.length, n, lh)) { line += " " + word; continue; }
+      if (line) { lines.push(line); line = ""; if (lines.length >= n) return null; }
+      const room = chord(lines.length, n, lh);
+      if (W(word) <= room) { line = word; continue; }
+      if (!split) return null;
+      let k = -1, head = "";
+      for (let j = word.length - 2; j >= 2; j--) if (word[j] === "-" && W(word.slice(0, j + 1)) <= room) { k = j + 1; break; }
+      if (k !== -1) head = word.slice(0, k);
+      else {
+        k = word.length - 3;
+        while (k >= 3 && (word[k - 1] === "-" || word[k] === "-" || W(word.slice(0, k) + "-") > room)) k--;
+        if (k < 3) return null;
+        head = word.slice(0, k) + "-"; cuts++; shortest = Math.min(shortest, k, word.length - k);
+      }
+      lines.push(head);
+      if (lines.length >= n) return null;
+      queue.unshift(word.slice(k));
+    }
+    lines.push(line);
+    return { lines, cuts, shortest };
+  };
+  const use = (lines, size) => { el.style.fontSize = size + "px"; el.textContent = lines.join("\n"); };
+  for (let size = base; size >= 7.5; size -= 0.5)
+    for (let n = 1; n <= 4; n++) { const L = lay(size, n, false); if (L) return use(L.lines, size); }
+  let best = null;
+  for (let size = base; size >= 7; size -= 0.5)
+    for (let n = 1; n <= 4; n++) {
+      const L = lay(size, n, true);
+      if (!L) continue;
+      const cost = L.cuts * 4 + (L.shortest < 4 ? 6 : 0) + (base - size) * 2 + L.lines.length * 0.5;
+      if (!best || cost < best.cost) best = { ...L, size, cost };
+    }
+  if (best) return use(best.lines, best.size);
+  el.classList.add("long"); el.style.fontSize = "7px";
+}
+window.addEventListener("resize", () => document.querySelectorAll(".token.typed").forEach(fitLabel));
+function labelHole(h) {
+  if (!r2) return;
+  const name = r2.scenes[h.dataset.v][+h.dataset.h], ab = "AB"[r2.sides.indexOf(h.dataset.v)], tap = TOUCH ? "Tap" : "Click";
+  h.setAttribute("aria-label", selScene
+    ? (name ? `Version ${ab}: ${name}. ${tap} to put ${selScene} here instead` : `Version ${ab}, empty circle ${+h.dataset.h + 1}. ${tap} to put ${selScene} here`)
+    : (name ? `Version ${ab}: ${name}. ${tap} to take it out` : `Version ${ab}, empty circle ${+h.dataset.h + 1}`));
 }
 function renderHoles() {
   document.querySelectorAll(".hole").forEach(h => {
     const name = r2.scenes[h.dataset.v][+h.dataset.h];
     h.textContent = "";
-    if (name) { const t = document.createElement("span"); t.className = "token"; t.textContent = name; h.appendChild(t); }
-    h.setAttribute("aria-label", name ? `${name}, tap to take out` : "Empty place");
+    if (name) {
+      const t = document.createElement("span"); t.className = "token"; t.textContent = name; t.dataset.name = name; h.appendChild(t);
+      if (!SCENES.includes(name)) { t.classList.add("typed"); fitLabel(t); }
+    }
+    labelHole(h);
   });
   const filled = filledCount();
   document.getElementById("r2progress").textContent = `${filled} / ${HOLES * 2} filled`;
   const cur = r2;
   if (filled === HOLES * 2 && !r2.prefer) setTimeout(() => {
     if (r2 !== cur || r2.prefer || r2El.hidden || filledCount() < HOLES * 2) return;
-    popEl.hidden = false; popEl.querySelector(".opt").focus();
+    showPop(true); popEl.querySelector(".opt").focus();
   }, 350);
 }
 function filledCount() { return r2.sides.reduce((n, v) => n + r2.scenes[v].filter(Boolean).length, 0); }
-// After they've picked A or B, a change to the places is sent again (once they stop for a moment),
-// even with a hole left empty, so the sheet always matches what the page shows.
 let resendTimer = 0;
 function changed() {
   renderHoles();
@@ -811,10 +1022,8 @@ function changed() {
 function flushResend() {
   if (!resendTimer) return;
   clearTimeout(resendTimer); resendTimer = 0;
-  if (r2 && r2.prefer && !r2El.hidden && ranking.length === PICKS) send("response");
+  if (r2 && r2.prefer && !r2El.hidden && ranking.length === PICKS && answersChanged()) send("response");
 }
-// Put a place into a hole, replacing whatever was there. Places stay in the tray, so one place can go on
-// both versions; within one version it appears once, so putting it in another hole there swaps the two holes.
 function fill(v, h, name) {
   const s = r2.scenes[v], k = s.indexOf(name);
   if (k === h) { renderHoles(); return; }
@@ -827,7 +1036,6 @@ function holeClick(v, h) {
   if (r2.scenes[v][h]) { r2.scenes[v][h] = null; changed(); }
 }
 function firstEmpty(v) { return r2.scenes[v].indexOf(null); }
-// Drag a circle with mouse or finger; a tap without moving selects it, then tap a hole.
 function tokenDown(e, b, name) {
   e.preventDefault();
   const x0 = e.clientX, y0 = e.clientY; let ghost = null, over = null;
@@ -859,12 +1067,13 @@ function tokenDown(e, b, name) {
   window.addEventListener("pointermove", move); window.addEventListener("pointerup", up); window.addEventListener("pointercancel", up);
 }
 function prefer(v) {
-  if (!r2 || r2.prefer || filledCount() < HOLES * 2) { popEl.hidden = true; return; }
+  if (!r2 || r2.prefer || filledCount() < HOLES * 2) { showPop(false); return; }
   r2.prefer = v;
-  popEl.hidden = true;
+  showPop(false);
   document.querySelectorAll(".card").forEach(c => c.classList.toggle("chosen", c.dataset.v === v));
-  if (location.hash === "#preview") document.getElementById("r2Note").textContent = JSON.stringify(r2);
+  if (TEST) document.getElementById("r2Note").textContent = JSON.stringify(r2);
   send("response");
+  setEndTop(true);
   joinEl.hidden = false;
   joinEl.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
 }
@@ -872,15 +1081,19 @@ function prefer(v) {
 function finish() {
   railWrap.classList.add("stage-done");
   startRound2();
+  if (answersChanged()) send("response");
+  const rankLooks = document.getElementById("rankLooks");
+  if (rankLooks && !rankLooks.hidden) { rankLooks.hidden = true; document.getElementById("thanksNote").textContent = THANKS_OPEN; }
   viewport.style.height = "0px"; viewport.style.minHeight = "0";
-  if (location.hash === "#preview") {
+  if (TEST) {
     document.getElementById("rankNote").textContent = "Ranking: " + ranking.map((i, n) => `${n + 1}. ${order[i].name}`).join(" · ");
   }
-  r2El.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  requestAnimationFrame(() => r2El.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" }));
 }
 
-if (location.hash === "#preview") {
+if (TEST) {
   document.getElementById("review").hidden = false;
+  document.getElementById("modeNote").textContent = INTERVIEW ? "interview (#interview: name first, gift address)" : "open to anyone (the plain link; #interview is the interview flow)";
   document.getElementById("orderNote").textContent = order.map((l, i) => `Look ${pad(i + 1)} = ${l.name}`).join(" · ");
   if (SUBMIT_URL) document.getElementById("saveNote").textContent = "Answers from this preview are saved to the sheet too, marked Test.";
 }
@@ -893,29 +1106,57 @@ document.getElementById("signup").addEventListener("submit", e => {
   const err = document.getElementById("formError");
   const submitBtn = f.querySelector('button[type="submit"]');
   f.querySelectorAll("[aria-invalid]").forEach(i => { i.removeAttribute("aria-invalid"); i.removeAttribute("aria-describedby"); });
-  // The message goes right under the field it's about (so a phone keyboard doesn't hide it), else above the button.
   const fail = (msg, input) => {
     if (input) (input.closest(".addr-row") || input.closest(".field")).after(err); else submitBtn.before(err);
     err.textContent = msg;
     if (input) { input.setAttribute("aria-invalid", "true"); input.setAttribute("aria-describedby", "formError"); input.focus(); }
   };
-  if (ranking.length < PICKS) { fail("Finish picking your looks above first."); railWrap.scrollIntoView({ behavior: "smooth" }); return; }
-  if (!r2 || !r2.prefer) { fail("Fill the holes in round 2 first."); r2El.scrollIntoView({ behavior: "smooth" }); return; }
+  if (INTERVIEW && ranking.length < PICKS) { fail("Finish picking your looks above first."); railWrap.scrollIntoView({ behavior: "smooth" }); return; }
+  if (INTERVIEW && (!r2 || !r2.prefer)) { fail("Fill the holes in round 2 first."); r2El.scrollIntoView({ behavior: "smooth" }); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) { fail("Enter an email address, like you@example.com.", f.email); return; }
-  // Gift address is optional, but once started it needs enough to post: name, street, city and country.
-  // A name or country on its own (what autofill tends to leave) doesn't count as starting it.
   const ship = {};
-  ["Name", "Street", "Apt", "City", "State", "Postcode", "Country"].forEach(k => { ship[k.toLowerCase()] = f["ship" + k].value.replace(/\s+/g, " ").trim(); });
+  ["Name", "Street", "Apt", "City", "State", "Postcode", "Country"].forEach(k => { ship[k.toLowerCase()] = f["ship" + k] ? f["ship" + k].value.replace(/\s+/g, " ").trim() : ""; });
   const started = ["street", "apt", "city", "state", "postcode"].some(k => ship[k]);
   const missing = ["name", "street", "city", "country"].find(k => !ship[k]);
   if (started && missing) { fail("For the gift we need your full name, street, city and country. Or clear the address to join without a gift.", f["ship" + missing[0].toUpperCase() + missing.slice(1)]); return; }
   err.textContent = "";
-  // The sheet's Address column gets the whole label, one line each: name, street, city state postcode, country.
   const address = started ? [ship.name, [ship.street, ship.apt].filter(Boolean).join(", "), [ship.city, [ship.state, ship.postcode].filter(Boolean).join(" ")].filter(Boolean).join(", "), ship.country].join("\n") : "";
+  const first = f.firstName ? f.firstName.value.replace(/\s+/g, " ").trim().slice(0, 40) : "";
+  if (first && !who) who = first;
+  clearTimeout(resendTimer); resendTimer = 0;
+  if (!seq) lastSent = JSON.stringify([who, answers()]);
+  else if (answersChanged() || responsePending()) send("response");
   send("email", { email: f.email.value.trim(), address, ship: started ? ship : null });
   if (address) document.getElementById("thanksNote").textContent = "We'll write when the first collection is ready to see, and your gift is on its way.";
   f.hidden = true;
+  document.getElementById("joinHead").hidden = true;
+  document.getElementById("joinLine").hidden = true;
   document.getElementById("thanks").hidden = false;
+  if (!INTERVIEW) {
+    const unranked = !lastFull && ranking.length < PICKS;
+    document.getElementById("thanksNote").textContent = unranked ? "We'll write when the first collection is ready to see. Got two minutes? Rank the six looks to help choose what we make first." : THANKS_OPEN;
+    document.getElementById("rankLooks").hidden = !unranked;
+    document.getElementById("skip").hidden = true;
+    document.getElementById("introJoin").hidden = true;
+  }
+});
+const THANKS_OPEN = "We'll write when the first collection is ready to see. We may also ask a few people for a short chat about how they dress for the rain.";
+const rankLooksBtn = document.getElementById("rankLooks");
+if (rankLooksBtn) rankLooksBtn.addEventListener("click", () => {
+  railWrap.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  if (railWrap.classList.contains("stage-intro")) (gender ? startBtn : document.querySelector(".gender button")).focus({ preventScroll: true });
+  else viewport.focus({ preventScroll: true });
+});
+
+const shareBtn = document.getElementById("share");
+if (shareBtn) shareBtn.addEventListener("click", async () => {
+  const note = document.getElementById("shareNote");
+  const data = { title: "Vitamin VVV", text: "Which of these rain looks would you wear?", url: PUBLIC_URL };
+  if (navigator.share) {
+    try { await navigator.share(data); return; } catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  try { await navigator.clipboard.writeText(PUBLIC_URL); note.textContent = "Link copied."; }
+  catch (e) { note.textContent = PUBLIC_URL; }
 });
 </script>
 </body>
