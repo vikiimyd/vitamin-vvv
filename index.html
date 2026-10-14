@@ -346,9 +346,9 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
 const PICKS = 6;
 
 const HASH = location.hash.toLowerCase();
-const INTERVIEW = HASH.includes("interview");
+const INTERVIEW = !/\bjoin\b/.test(HASH);
 const TEST = HASH.includes("preview");
-const PUBLIC_URL = "https://vikiimyd.github.io/vitamin-vvv/";
+const PUBLIC_URL = "https://vikiimyd.github.io/vitamin-vvv/#join";
 
 const LOOK_FILES = { classic: "1-classic", quiet: "2-quiet", romantic: "3-romantic", tailored: "4-tailored", gown: "5-gown", sporty: "6-sporty" };
 const LOOKS = [
@@ -1093,7 +1093,7 @@ function finish() {
 
 if (TEST) {
   document.getElementById("review").hidden = false;
-  document.getElementById("modeNote").textContent = INTERVIEW ? "interview (#interview: name first, gift address)" : "open to anyone (the plain link; #interview is the interview flow)";
+  document.getElementById("modeNote").textContent = INTERVIEW ? "interview (the plain link: name first, gift address; #join is the open version)" : "open to anyone (#join: no name, waitlist first)";
   document.getElementById("orderNote").textContent = order.map((l, i) => `Look ${pad(i + 1)} = ${l.name}`).join(" · ");
   if (SUBMIT_URL) document.getElementById("saveNote").textContent = "Answers from this preview are saved to the sheet too, marked Test.";
 }
