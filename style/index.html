@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Rank six looks and see which rainy-day style is yours.">
+<meta name="description" content="Rank six looks and tell us where you'd wear them.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Vitamin VVV">
 <meta property="og:title" content="Vitamin VVV · Style test">
-<meta property="og:description" content="Rank six looks and see which rainy-day style is yours.">
+<meta property="og:description" content="Rank six looks and tell us where you'd wear them.">
 <meta property="og:url" content="https://vikiimyd.github.io/vitamin-vvv/style/">
 <meta property="og:image" content="https://vikiimyd.github.io/vitamin-vvv/share.jpg">
 <meta property="og:image:width" content="1200">
@@ -146,7 +146,7 @@ header .r.link { background: none; border: 0; padding: 14px 0 14px 14px; margin:
 .token.sel, .hole .token { background: var(--ink); color: var(--white); }
 .hole .token { width: 100%; height: 100%; min-width: 0; animation: settle .3s ease-out; }
 .other { display: flex; gap: 8px; justify-content: center; align-items: end; }
-.other input { font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: min(220px, 55vw); }
+.other input { flex: 0 1 auto; min-width: 0; font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: min(220px, 55vw); }
 .tray { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .ghostchip { position: fixed; z-index: 100; pointer-events: none; transform: translate(-50%, -50%); }
 .progress { color: var(--grey); }
@@ -451,7 +451,16 @@ const OCC_TEXT = {
   nl: { "everyday": "gewone dagen", "nights-out": "avondjes uit", "concerts": "concerten en festivals", "special-events": "speciale gelegenheden", "other": "de momenten waarop je let op wat je draagt", "": "regendagen" }
 };
 const OCC_PARAM = (PARAMS.get("occ") || "").toLowerCase() in OCC_TEXT.en ? (PARAMS.get("occ") || "").toLowerCase() : "";
-const RID = (PARAMS.get("rid") || "").replace(/[^\w-]/g, "").slice(0, 64);
+const STYLE_KEY = "vvv-style-v4";
+const ID_OK = s => typeof s === "string" && /^[A-Za-z0-9-]{8,40}$/.test(s);
+let KEPT = null;
+try { KEPT = JSON.parse(sessionStorage.getItem(STYLE_KEY)); } catch (e) {}
+if (!KEPT || typeof KEPT !== "object" || !ID_OK(KEPT.rid)) KEPT = null;
+if (ID_OK(PARAMS.get("rid")) && (!KEPT || KEPT.rid !== PARAMS.get("rid"))) KEPT = { rid: PARAMS.get("rid") };
+const keep = () => { try { if (KEPT) sessionStorage.setItem(STYLE_KEY, JSON.stringify(KEPT)); } catch (e) {} };
+keep();
+if (PARAMS.has("rid")) { const q = new URLSearchParams(location.search); q.delete("rid"); try { history.replaceState(history.state, "", location.pathname + (String(q) ? "?" + q : "") + location.hash); } catch (e) {} }
+const RID = KEPT ? KEPT.rid : "";
 
 const HASH = location.hash.toLowerCase();
 const INTERVIEW = false;
@@ -911,16 +920,16 @@ function send(type, extra) {
   if (!SUBMIT_URL) return;
   const body = JSON.stringify({ type, id: RESPONSE_ID, seq: (seq = Math.max(seq + 1, Date.now())), test: TEST, name: who, source: "survey", occ: OCC_PARAM, lang,
     ...a, shownOrder: order.map(l => l.id), device: window.innerWidth < 700 ? "phone" : "desktop", ...extra });
-  const meta = { type, seq };
+  const meta = { type, seq, retry: () => attempt(0) };
   unconfirmed.set(body, meta);
   const attempt = n => !unconfirmed.has(body) ? null : fetch(SUBMIT_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body })
     .then(r => r.text())
     .then(t => {
       if (t !== "ok" && t !== "bad request") throw new Error(t);
       unconfirmed.delete(body);
-      if (type === "response") unconfirmed.forEach((m, b) => { if (m.type === "response" && m.seq < meta.seq) unconfirmed.delete(b); });
+      if (type !== "email") unconfirmed.forEach((m, b) => { if (m.type === type && m.seq < meta.seq) unconfirmed.delete(b); });
     })
-    .catch(() => { if (n < 2) setTimeout(() => attempt(n + 1), 2000 * (n + 1)); }); // a retry is skipped if a newer answers post got in meanwhile
+    .catch(() => { if (n < 5) setTimeout(() => attempt(n + 1), 2000 * 2 ** n); }); // a retry is skipped if a newer answers post got in meanwhile
   attempt(0);
 }
 function sendUnconfirmed() {
@@ -933,6 +942,10 @@ function sendUnconfirmed() {
   });
 }
 addEventListener("pagehide", sendUnconfirmed);
+const retryUnconfirmed = () => { if (!SUBMIT_URL) return; unconfirmed.forEach((m, b) => { resent.delete(b); m.retry(); }); };
+addEventListener("online", retryUnconfirmed);
+addEventListener("pageshow", e => { if (e.persisted) retryUnconfirmed(); });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") retryUnconfirmed(); });
 document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") sendUnconfirmed(); });
 
 const SCENES = ["Everyday", "Class or studio", "Client meeting", "Bike or scooter", "Date", "Night out", "Party", "Concert", "Wedding", "Travel photos", "Content shoot", "Cosplay"];
@@ -1176,6 +1189,7 @@ layout();
 
 const STEPS = ["sample", "price", "try", "invite", "waitlist", "done"];
 const E = { price_vs_last: null, try_on: null, chat: null, name: "", contact: "", call_by: "Zoom", waitlist: null };
+if (KEPT && KEPT.E && typeof KEPT.E === "object") for (const k in E) if (k in KEPT.E) E[k] = KEPT.E[k];
 const ending = document.getElementById("ending");
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 let step = 0;
@@ -1183,7 +1197,8 @@ const mk = (tag, props = {}, kids = []) => { const n = Object.assign(document.cr
 const motion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 function saveFollowup() {
   const callBy = E.chat === "yes" ? (lang === "zh" && E.call_by === "Zoom" ? "Tencent Meeting" : E.call_by) : "";
-  send("followup", { price_vs_last: E.price_vs_last, try_on: E.try_on, chat: E.chat, name: E.chat === "yes" ? E.name : "", contact: E.contact, call_by: callBy, waitlist: E.waitlist });
+  send("followup", { price_vs_last: E.price_vs_last, try_on: E.try_on, chat: E.chat, name: E.chat === "yes" ? E.name : "", contact: E.chat === "yes" || E.waitlist === "yes" ? E.contact : "", call_by: callBy, waitlist: E.waitlist });
+  if (KEPT) { KEPT.E = Object.assign({}, E); keep(); }
   if (TEST) document.getElementById("saveNote").textContent = "Follow-up: " + JSON.stringify({ ...E, call_by: callBy });
 }
 function showEnding(n) {

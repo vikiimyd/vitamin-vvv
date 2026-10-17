@@ -869,7 +869,7 @@ function render() {
 const langs = document.getElementById("langs");
 [["en", "EN"], ["zh", "中文"], ["fr", "FR"], ["nl", "NL"]].forEach(([k, l]) => {
   const b = el("button", { className: "lang up", type: "button", textContent: l });
-  b.onclick = () => { lang = k; if (!a.cur) a.cur = k === "zh" ? "¥" : "€"; document.documentElement.lang = k === "zh" ? "zh-CN" : k; langs.querySelectorAll(".lang").forEach(x => x.setAttribute("aria-pressed", x === b)); render(); };
+  b.onclick = () => { lang = k; if (!a.cur && !a.price) a.cur = k === "zh" ? "¥" : "€"; document.documentElement.lang = k === "zh" ? "zh-CN" : k; langs.querySelectorAll(".lang").forEach(x => x.setAttribute("aria-pressed", x === b)); render(); };
   b.setAttribute("aria-pressed", k === "en");
   langs.append(b);
 });
@@ -1028,27 +1028,31 @@ const QCOLS = [["Gender", "gender"], ["Age", "age"], ["Cities", "city"], ["Job",
   ["Discovers clothes on", "discover"], ["Shops", "shopmode"], ["Shopping area", "shopstreet"], ["Favourite brands", "brands"], ["Boutique", "boutique"]];
 function columns() {
   const shown = new Map(visibleFor(a).map(q => [q.id, q]));
-  const txt = k => typeof a[k] === "string" ? a[k].replace(/\s+/g, " ").trim() : "";
+  const clip = x => String(x || "").replace(/\s+/g, " ").trim().slice(0, 300);
+  const txt = k => typeof a[k] === "string" ? clip(a[k]) : "";
   const word = (id, o) => o === "Other" ? "Other" + (txt(id + "_other") ? ": " + txt(id + "_other") : "") : o;
+  const now = Object.assign({}, a);
   const val = id => {
     const q = shown.get(id);
     if (!q) return undefined;
     let v = a[id];
-    if (typeof q.o === "function") { const o = optsFor(q, a); v = Array.isArray(v) ? v.filter(x => o.includes(x)) : o.includes(v) ? v : undefined; }
+    if (typeof q.o === "function") { const o = optsFor(q, now); v = Array.isArray(v) ? v.filter(x => o.includes(x)) : o.includes(v) ? v : undefined; }
     return v;
   };
+  ["onway", "before", "arrive"].forEach(k => { now[k] = val(k); });
   const list = id => { const v = val(id); return Array.isArray(v) ? v : []; };
+  const cur = Object.keys(PRICE_B).find(c => PRICE_B[c].includes(a.price)) || "";
   const cols = {};
   QCOLS.forEach(([name, id]) => {
     let s = "";
-    if (id === "cur") s = shown.has("price") && a.price ? CUR_NAME[a.cur || "€"] || "" : "";
+    if (id === "cur") s = cur && shown.has("price") ? CUR_NAME[cur] : "";
     else if (id === "price") s = typeof val("price") === "string" ? val("price") : "";
     else if (id === "focus") s = typeof val("focus") === "string" ? val("focus") === "Other" ? "Other" + (txt("dress_other") ? ": " + txt("dress_other") : "") : val("focus") : "";
-    else if (id === "brands") s = list("brands").map(x => String(x || "").replace(/\s+/g, " ").trim()).filter(Boolean).join("; ");
+    else if (id === "brands") s = list("brands").map(clip).filter(Boolean).join("; ");
     else {
       const v = val(id);
       if (Array.isArray(v)) s = v.map(o => word(id, o)).join("; ");
-      else if (typeof v === "string") s = shown.get(id).o ? word(id, v) : v.replace(/\s+/g, " ").trim();
+      else if (typeof v === "string") s = shown.get(id).o ? word(id, v) : clip(v);
     }
     cols[name] = s;
   });
@@ -1061,7 +1065,7 @@ function columns() {
   const outfit = coat.length ? (coat.some(c => LOOK_REASONS.includes(c)) ? "yes" : "no") : "";
   const story = shown.has("did") && list("did").length > 0;
   const compromised = story ? ([...list("did"), ...list("before")].some(x => COMPROMISE.includes(x)) ? "yes" : shown.has("before") && !list("before").length ? "" : "no") : "";
-  const b = (PRICE_B[a.cur || "€"] || []).indexOf(price);
+  const b = cur ? PRICE_B[cur].indexOf(price) : -1;
   const paid = b >= 2 ? "yes" : b >= 0 ? "no" : "";
   const sig = [outfit, compromised, paid];
   const derived = [["Group", group], ["Signals", sig.some(Boolean) ? String(sig.filter(x => x === "yes").length) : ""], ["Coat is part of the outfit", outfit],
