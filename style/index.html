@@ -702,7 +702,7 @@ viewport.addEventListener("pointerleave", endDrag);
 viewport.addEventListener("pointercancel", () => { lastTap.i = -1; endDrag(); }); // e.g. the page scrolled
 window.addEventListener("resize", layout);
 
-let who = "";
+let who = KEPT && KEPT.E && KEPT.E.chat === "yes" && typeof KEPT.E.name === "string" ? KEPT.E.name : "";
 const whoEl = document.getElementById("who"), startBtn = document.getElementById("start");
 const readyToStart = () => { startBtn.disabled = !((!INTERVIEW || whoEl.value.trim()) && gender); };
 document.querySelectorAll(".gender button").forEach(b => b.addEventListener("click", () => {
@@ -903,13 +903,14 @@ function setEndTop(show) { endTop.hidden = !show; joinEl.classList.toggle("bare"
 
 const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbySiEO4GXjxJjIKEKlxY68CbKX9uUJFjvwauzu_AWl_osCK-kt9m1NFfnMFkuRudcnn/exec";
 const RESPONSE_ID = RID || (crypto.randomUUID && crypto.randomUUID()) || (Date.now().toString(36) + Math.random().toString(36).slice(2, 10));
-let seq = 0, lastFull = null, lastR2 = null, lastR2Any = null, lastSent = "";
+let seq = 0, lastFull = KEPT && Array.isArray(KEPT.full) ? KEPT.full : null, lastR2 = KEPT && KEPT.r2 && typeof KEPT.r2 === "object" ? KEPT.r2 : null, lastR2Any = null, lastSent = "";
 const unconfirmed = new Map(), resent = new Set(); // unconfirmed: body -> { type, seq }
 function answers() {
   const cur = ranking.map(i => order[i].id);
   if (cur.length === PICKS) lastFull = cur;
   if (r2) lastR2Any = JSON.parse(JSON.stringify(r2));
   if (r2 && r2.prefer) lastR2 = lastR2Any;
+  if (KEPT && (KEPT.full !== lastFull || KEPT.r2 !== lastR2)) { KEPT.full = lastFull; KEPT.r2 = lastR2; keep(); }
   return { gender, ranking: lastFull || cur, round2: lastR2 || lastR2Any };
 }
 const answersChanged = () => JSON.stringify([who, answers()]) !== lastSent;
