@@ -319,6 +319,7 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 .lv-say.in { animation: lvSayIn 0.32s ease-out 0.12s both; }
 @media (prefers-reduced-motion: reduce) { .lv-say.in { animation: none; } }
 .shotdots + .follow { margin-top: 16px; }
+.invbox { display: grid; gap: 18px; padding-bottom: 30px; border-bottom: 1px solid var(--hair); }
 </style>
 </head>
 <body>
@@ -1547,7 +1548,7 @@ function finish() {
 
 if (TEST) {
   document.getElementById("review").hidden = false;
-  document.getElementById("modeNote").textContent = "survey version (?lang ?occ ?rid ?inv from the survey; ending: sample with Follow us)" + (SURVEY_INV ? " · inv=" + SURVEY_INV : "");
+  document.getElementById("modeNote").textContent = "survey version (?lang ?occ ?rid ?inv from the survey; ending: one page: thank-you, chat invite (skipped with ?inv), sample, Follow us)" + (SURVEY_INV ? " · inv=" + SURVEY_INV : "");
   document.getElementById("orderNote").textContent = order.map((l, i) => `Look ${pad(i + 1)} = ${l.name}`).join(" · ");
   if (SUBMIT_URL) document.getElementById("saveNote").textContent = "Answers from this preview are saved to the sheet too, marked Test.";
 }
@@ -1624,6 +1625,55 @@ const igIcon = () => { const s = mk("span", { className: "ig" }); s.setAttribute
 const followEl = () => mk("p", { className: "follow" }, [mk("span", { className: "up", textContent: tr("Follow us") }),
   mk("a", { href: "https://www.instagram.com/vitaminvvv.studio/", target: "_blank", rel: "noopener", className: "soc" }, [igIcon(), mk("span", { textContent: "Instagram" })]),
   mk("a", { href: "http://xhslink.com/m/6OpSEpuv9o3", target: "_blank", rel: "noopener", className: "soc" }, [mk("img", { src: XHS_MARK, alt: "", width: 42, height: 20, className: "xhs" }), mk("span", { textContent: tr("Xiaohongshu") })])]);
+const inviteDone = s => { s.replaceChildren(); if (E.chat === "yes") s.append(mk("p", { className: "endp", textContent: tr("We'll be in touch to pick a time for the call.") })); else s.hidden = true; };
+function inviteBox() {
+  const s = mk("div", { className: "invbox" });
+  if (E.chat === "yes" || E.chat === "not now") { inviteDone(s); return s; }
+    const occ = OCC_TEXT[lang][OCC_PARAM];
+    const name = mk("input", { id: "chatName", type: "text", autocomplete: "given-name", maxLength: 40, placeholder: tr("First name"), value: E.name });
+    const contact = mk("input", { id: "chatContact", type: "text", autocomplete: "email", maxLength: 80, placeholder: tr("you@example.com or WeChat ID"), value: E.contact && E.chat !== "not now" ? E.contact : "" });
+    contact.setAttribute("autocapitalize", "off"); contact.setAttribute("spellcheck", "false");
+    const contactField = field("chatContact", "", contact);
+    const setBy = () => {
+      const by = E.call_by === "Phone" ? "Phone" : "Zoom";
+      contactField.firstChild.textContent = tr(CONTACT_UI[by][0]); contact.placeholder = tr(CONTACT_UI[by][1]);
+      contact.autocomplete = by === "Phone" ? "tel" : "email"; contact.inputMode = by === "Phone" ? "tel" : "text";
+    };
+    setBy();
+    const how = mk("div", { className: "seg", role: "radiogroup" });
+    ["Zoom", "Phone"].forEach(m => {
+      const b = mk("button", { className: "choice", type: "button", textContent: tr(m) });
+      b.setAttribute("role", "radio"); b.setAttribute("aria-checked", String(E.call_by === m)); b.setAttribute("aria-pressed", String(E.call_by === m));
+      b.onclick = () => { E.call_by = m; setBy(); err.textContent = ""; contact.removeAttribute("aria-invalid"); how.querySelectorAll(".choice").forEach(x => { x.setAttribute("aria-pressed", String(x === b)); x.setAttribute("aria-checked", String(x === b)); }); };
+      how.append(b);
+    });
+    const err = mk("p", { className: "err", role: "alert" });
+    const yes = mk("button", { className: "btn", type: "button", textContent: tr("Yes, let's talk") });
+    yes.onclick = () => {
+      const n = name.value.replace(/\s+/g, " ").trim(), c = contact.value.trim();
+      [name, contact].forEach(i => i.removeAttribute("aria-invalid"));
+      const okContact = contactOk(c, E.call_by);
+      if (!n) { err.textContent = tr("Tell us what to call you."); name.setAttribute("aria-invalid", "true"); name.focus(); return; }
+      if (!okContact) { err.textContent = tr(CONTACT_UI[E.call_by === "Phone" ? "Phone" : "Zoom"][2]); contact.setAttribute("aria-invalid", "true"); contact.focus(); return; }
+      E.chat = "yes"; E.name = n; E.contact = c; who = n;
+      saveFollowup(); inviteDone(s);
+    };
+    [name, contact].forEach(i => i.addEventListener("keydown", e => { if (e.key === "Enter") yes.click(); }));
+    s.append(
+      mk("span", { className: "up kicker", textContent: tr("One more thing") }),
+      mk("h2", { textContent: tr("We're designing for {occ} right now.", { occ }) }),
+      mk("p", { className: "endp", textContent: tr("Would you have 30 minutes to talk with our designer?") }),
+      field("chatName", tr("What should we call you?"), name),
+      contactField,
+      mk("div", { className: "fieldset" }, [mk("span", { className: "up", textContent: tr("Call by") }), how]),
+      mk("figure", { className: "giftfig hat both" }, [mk("div", { className: "giftrow" }, GIFTS.map(([f, alt]) => mk("img", { src: HAT_BASE + f, alt: tr(alt), width: 640, height: 800, loading: "eager", decoding: "async", draggable: false }))),
+        mk("figcaption", {}, [mk("span", { textContent: tr("As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.") }), mk("span", { className: "ainote", textContent: tr("AI-generated concept photos. The real pieces will look different.") })])]),
+      err,
+      mk("div", { className: "endnav" }, [mk("span"), yes]),
+      mk("button", { className: "linkbtn", type: "button", textContent: tr("Not now"), onclick: () => { E.chat = "not now"; E.name = ""; if (!EMAIL_RE.test(E.contact)) E.contact = ""; who = ""; saveFollowup(); inviteDone(s); } })
+    );
+  return s;
+}
 function renderEnding() {
   renderResult();
   const s = mk("div", { className: "step" });
@@ -1726,6 +1776,7 @@ function renderEnding() {
     );
   }
   if (id === "invite" || id === "waitlist") s.append(followEl());
+  if (!SKIP_INVITE) s.prepend(inviteBox());
   s.prepend(littleV("thank-you", "style_thanks"));
   ending.replaceChildren(s);
 }
