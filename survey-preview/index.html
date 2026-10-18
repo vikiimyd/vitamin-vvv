@@ -236,7 +236,7 @@ header, .preview, main { position: relative; z-index: 1; }
 
 .qhead, .qbody { display: contents; }
 
-@media (min-width: 900px) {
+@media (min-width: 900px) and (min-height: 520px) {
   body { font-size: 17px; }
   .up { font-size: 11.5px; }
   header { padding-left: max(40px, env(safe-area-inset-left, 0px)); padding-right: max(40px, env(safe-area-inset-right, 0px)); }
@@ -255,7 +255,7 @@ header, .preview, main { position: relative; z-index: 1; }
   .fields { gap: 22px; }
   .cur .opt { font-size: 14px; padding: 11px 8px; }
   .story { padding: 30px 32px; gap: 16px; }
-  .facts span { padding: 15px 0; }
+  .facts span { flex: 1 1 auto; padding: 15px 12px; }
   .gift img { width: 140px; height: 140px; }
   .screen.intro { max-width: 1120px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); column-gap: clamp(48px, 6vw, 96px); row-gap: 28px; align-items: start; }
   .intro > * { grid-column: 1; }
@@ -263,7 +263,7 @@ header, .preview, main { position: relative; z-index: 1; }
   .intro > .process { grid-column: 2; grid-row: 1 / span 4; margin: 0; align-self: end; }
   .intro > .nav { justify-content: flex-start; }
   .intro > .nav > span:empty { display: none; }
-  .screen.q { max-width: 1120px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(48px, 6vw, 104px); row-gap: 14px; align-items: center; }
+  .screen.q { max-width: 1120px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: clamp(48px, 6vw, 104px); row-gap: 14px; align-items: start; }
   .q > .progress, .q > .bar { grid-column: 1 / -1; }
   .q > .bar { margin-bottom: clamp(20px, 5vh, 52px); }
   .qhead, .qbody { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
@@ -271,13 +271,27 @@ header, .preview, main { position: relative; z-index: 1; }
   .qhead .vig svg { height: 112px; width: 168px; }
   .qhead h2 { font-size: clamp(30px, 2.7vw, 40px); line-height: 1.2; }
   .qbody .nav { margin-top: 4px; }
+  
+  .q:not(:has(.opts)) .qbody { padding-top: 134px; }
   .q:has(.opts > .opt:nth-child(7)) .qhead { align-self: start; position: sticky; top: 24px; }
+  
+  .screen.done:has(> .story) { max-width: 1120px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(48px, 6vw, 96px); row-gap: 24px; align-items: start; }
+  .done:has(> .story) > * { grid-column: 1; }
+  .done > .story { grid-column: 2; grid-row: 1 / span 4; align-self: center; }
+}
+
+@media (min-width: 900px) and (min-height: 520px) and (max-height: 760px) {
+  main { padding-block: 28px 56px; }
+  .screen.intro { row-gap: 18px; }
+  .intro .hero { gap: 8px; }
+  .intro h1 { font-size: clamp(38px, 3.5vw, 50px); }
+  .intro .facts span { padding-block: 11px; }
 }
 </style>
 </head>
 <body>
 <header>
-  <span class="l up" id="hl">Rainy nights</span>
+  <span class="l up" aria-hidden="true"></span>
   <span class="wordmark">Vitamin VVV</span>
   <span class="r langs" id="langs"></span>
 </header>
@@ -408,7 +422,7 @@ const ZH = {
   
   "Next": "下一题", "Back": "返回", "Type your answer": "写下你的答案", "Start": "开始",
   "How do you dress when it rains?": "下雨的时候，你怎么穿？",
-  "Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes, and at the end you'll find out which of our looks is most you.": "你好！我们是 Vitamin VVV，一个从康奈尔大学起步的设计团队，在做一个让你在雨天也能做自己的品牌。这份问卷想了解你平时怎么穿，以及下雨时你的穿搭会发生什么，好让我们为真实的日子做设计。大约 12–15 分钟，最后你会知道我们哪一款 look 最像你。",
+  "Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes. At the end you'll find out which of our looks is most you, and get a first look at a piece unlike anything you've seen.": "你好！我们是 Vitamin VVV，一个从康奈尔大学起步的设计团队，在做一个让你在雨天也能做自己的品牌。这份问卷想了解你平时怎么穿，以及下雨时你的穿搭会发生什么，好让我们为真实的日子做设计。大约 12–15 分钟。最后你会知道我们哪一款 look 最像你，还能抢先看到一件你从没见过的新作品。",
   "12\u201315 minutes": "约 12–15 分钟", "5 short parts": "5 个小部分", "A small gift": "你的风格结果",
   
   "Thank you": "谢谢", "Thank you for your answers.": "谢谢你的回答。",
@@ -464,7 +478,7 @@ const FR = {
   
   "Next": "Suivant", "Back": "Retour", "Type your answer": "Écris ta réponse", "Start": "Commencer",
   "How do you dress when it rains?": "Comment t'habilles-tu quand il pleut ?",
-  "Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes, and at the end you'll find out which of our looks is most you.": "Bonjour ! Nous sommes Vitamin VVV, une équipe de design née à l'université Cornell. Nous créons une marque qui te permet d'être toi-même, même sous la pluie. Ce questionnaire porte sur ta façon de t'habiller et sur ce qui arrive à ta tenue quand il pleut, pour qu'on crée des pièces pour la vraie vie. Il prend environ 12 à 15 minutes, et à la fin tu découvriras lequel de nos looks te ressemble le plus.",
+  "Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes. At the end you'll find out which of our looks is most you, and get a first look at a piece unlike anything you've seen.": "Bonjour ! Nous sommes Vitamin VVV, une équipe de design née à l'université Cornell. Nous créons une marque qui te permet d'être toi-même, même sous la pluie. Ce questionnaire porte sur ta façon de t'habiller et sur ce qui arrive à ta tenue quand il pleut, pour qu'on crée des pièces pour la vraie vie. Il prend environ 12 à 15 minutes. À la fin, tu découvriras lequel de nos looks te ressemble le plus, et tu verras en avant-première une pièce comme tu n'en as jamais vu.",
   "12\u201315 minutes": "12 à 15 minutes", "5 short parts": "5 petites parties", "A small gift": "Ton résultat de style",
   
   "Thank you": "Merci", "Thank you for your answers.": "Merci pour tes réponses.",
@@ -519,7 +533,7 @@ const NL = {
   
   "Next": "Volgende", "Back": "Terug", "Type your answer": "Typ je antwoord", "Start": "Start",
   "How do you dress when it rains?": "Hoe kleed jij je als het regent?",
-  "Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes, and at the end you'll find out which of our looks is most you.": "Hoi! Wij zijn Vitamin VVV, een ontwerpteam dat begon aan Cornell University. We bouwen een merk waarmee je jezelf kunt zijn, ook in de regen. Deze vragenlijst gaat over hoe je je kleedt en wat er met je outfit gebeurt als het regent, zodat we ontwerpen voor echte dagen. Het duurt ongeveer 12 tot 15 minuten, en aan het eind ontdek je welke van onze looks het meest bij je past.",
+  "Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes. At the end you'll find out which of our looks is most you, and get a first look at a piece unlike anything you've seen.": "Hoi! Wij zijn Vitamin VVV, een ontwerpteam dat begon aan Cornell University. We bouwen een merk waarmee je jezelf kunt zijn, ook in de regen. Deze vragenlijst gaat over hoe je je kleedt en wat er met je outfit gebeurt als het regent, zodat we ontwerpen voor echte dagen. Het duurt ongeveer 12 tot 15 minuten. Aan het eind ontdek je welke van onze looks het meest bij je past, en zie je als eerste een stuk dat je nog nooit hebt gezien.",
   "12\u201315 minutes": "12 tot 15 minuten", "5 short parts": "5 korte delen", "A small gift": "Je stijlresultaat",
   
   "Thank you": "Bedankt", "Thank you for your answers.": "Bedankt voor je antwoorden.",
@@ -796,27 +810,31 @@ function choices(q, opts, box, other, onPick) {
   sync();
   return { sync, isOn };
 }
+function frWJ(s) {
+  if (lang === "fr") s.querySelectorAll("h1, h2").forEach(h => h.childNodes.forEach(n => { if (n.nodeType === 3) n.data = n.data.replace(/(\p{L})-(ce|tu|il|elle|on|je|nous|vous|ils|elles)\b/gu, "$1-\u2060$2"); }));
+  return s;
+}
 function render() {
   persist();
   if (blink) { clearInterval(blink); blink = null; }
   Rain.set(i < 0 ? .25 : rainLevel(visible()));
   app.innerHTML = "";
-  document.getElementById("hl").textContent = t("Rainy nights");
   document.getElementById("pv").textContent = t("Preview · answers here are not saved");
   const s = el("section", { className: "screen" });
   if (i < 0) {
     s.classList.add("intro");
     s.append(
       el("div", { className: "hero" }, [flowerEl(44), el("h1", { textContent: t("How do you dress when it rains?") })]),
-      el("p", { textContent: t("Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes, and at the end you'll find out which of our looks is most you.") }),
+      el("p", { textContent: t("Hi! We're Vitamin VVV, a design team that started at Cornell University. We're building a brand that lets you be yourself, even in the rain. This survey asks how you dress and what happens to your outfit when it rains, so we can design pieces for real days. It takes about 12–15 minutes. At the end you'll find out which of our looks is most you, and get a first look at a piece unlike anything you've seen.") }),
       el("figure", { className: "process" }, [PROCESS_PHOTO ? el("img", { className: "process-img", src: PROCESS_PHOTO, alt: "Sketching in the studio" }) : el("div", { className: "ph-process", textContent: "process photo" }), el("figcaption", { className: "note", textContent: t("Our team, designing in the studio") })]),
       el("div", { className: "facts up" }, [el("span", { textContent: t("12\u201315 minutes") }), el("span", { textContent: t("5 short parts") }), el("span", { textContent: t("A small gift") === "A small gift" ? "Your style result" : t("A small gift") })]),
       el("div", { className: "nav" }, [el("span"), el("button", { className: "btn", textContent: t("Start"), onclick: () => { i = 0; render(); } })])
     );
-    app.append(s); return;
+    app.append(frWJ(s)); return;
   }
   const list = visible();
   if (i >= list.length) {
+    s.classList.add("done");
     s.append(
       el("span", { className: "up note", textContent: t("Thank you") }),
       el("h1", { textContent: t("Thank you for your answers.") }),
@@ -827,7 +845,7 @@ function render() {
         el("a", { className: "btn", href: styleLink(), target: "_blank", rel: "noopener", textContent: t("Take the style test") })
       ])
     );
-    app.append(s); return;
+    app.append(frWJ(s)); return;
   }
   const q = list[i];
   const bar = el("div", { className: "bar" }, [el("i")]);
@@ -913,7 +931,7 @@ function render() {
     const kids = [...s.children], h = kids.findIndex(k => k.tagName === "H2"), end = h + (kids[h + 1] && kids[h + 1].matches("p.note") ? 2 : 1);
     s.append(el("div", { className: "qhead" }, kids.slice(h - 1, end)), el("div", { className: "qbody" }, kids.slice(end)));
   }
-  app.append(s);
+  app.append(frWJ(s));
   const first = s.querySelector("input:not([hidden])"); if (first) first.focus({ preventScroll: true });
 }
 const langs = document.getElementById("langs");

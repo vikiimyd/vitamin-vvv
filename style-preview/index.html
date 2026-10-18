@@ -249,9 +249,12 @@ body { margin: 0; }
 .sharelink { font: inherit; font-size: 13px; width: min(100%, 360px); padding: 8px 10px; border: 1px solid var(--hair); background: var(--white); color: var(--ink); }
 .sharerow { display: grid; justify-items: start; gap: 6px; }
 .sharerow .sharemsg { justify-items: start; }
+footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing: 0.04em; text-underline-offset: 3px; }
+.follow { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 6px 18px; margin: 4px 0 0; color: var(--grey); }
+.follow a { color: var(--ink); font-size: 14px; text-underline-offset: 3px; }
 
 
-@media (min-width: 900px) {
+@media (min-width: 900px) and (min-height: 520px) {
   header { padding-inline: 40px; }
   .wordmark { font-size: 19px; }
   .intro h2 { font-size: 28px; }
@@ -275,7 +278,7 @@ body { margin: 0; }
 </head>
 <body>
 <header>
-  <span class="l up">Rainwear</span>
+  <span class="l up" aria-hidden="true"></span>
   <div class="wordmark">Vitamin VVV</div>
   <span class="r langs" id="langs" role="group" aria-label="Language"></span>
 </header>
@@ -360,7 +363,7 @@ body { margin: 0; }
   </div>
 </div>
 
-<footer class="up"><span>Vitamin VVV</span><span>Positive energy, rain or shine</span></footer>
+<footer class="up"><span>Vitamin VVV</span><span>Positive energy, rain or shine</span><a href="mailto:nihao@vitaminvvv.studio">nihao@vitaminvvv.studio</a></footer>
 
 <script>
 const PICKS = 6;
@@ -387,6 +390,8 @@ const ZH = {
   "Which Vitamin VVV look are you?": "你是 Vitamin VVV 的哪一款 look？",
   "Link copied. Paste it to a friend.": "链接已复制，粘贴发给朋友吧。",
   "Copy this link:": "复制这个链接：",
+  "Follow us": "关注我们",
+  "Xiaohongshu": "小红书",
   "Rainwear": "雨天穿搭", "Preview · answers here are not saved": "预览 · 这里的答案不会保存",
   "Six looks · one minute": "六套造型 · 大约一分钟", "Which would you wear?": "你会穿哪一套？",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "左右滑动或用箭头查看每一套。{tap}你最喜欢的那套（或点「选这一套」），它会随风飘走；再从剩下的里面继续选，直到六套都排好。改主意了？点「撤销」。之后还有一个很短的第二轮。",
@@ -434,6 +439,8 @@ const FR = {
   "Which Vitamin VVV look are you?": "Quel look Vitamin VVV es-tu ?",
   "Link copied. Paste it to a friend.": "Lien copié. Colle-le dans un message à un·e ami·e.",
   "Copy this link:": "Copie ce lien :",
+  "Follow us": "Suis-nous",
+  "Xiaohongshu": "Xiaohongshu",
   "Rainwear": "Vêtements de pluie", "Preview · answers here are not saved": "Aperçu · les réponses ne sont pas enregistrées",
   "Six looks · one minute": "Six looks · une minute", "Which would you wear?": "Lequel porterais-tu ?",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "Fais défiler ou utilise les flèches pour voir chaque look. {tap} ton préféré (ou appuie sur Choisir ce look) : il s'envole, puis choisis à nouveau parmi les autres jusqu'à avoir classé les six. Tu as changé d'avis ? Appuie sur Annuler. Ensuite, un court deuxième tour.",
@@ -481,6 +488,8 @@ const NL = {
   "Which Vitamin VVV look are you?": "Welke Vitamin VVV-look ben jij?",
   "Link copied. Paste it to a friend.": "Link gekopieerd. Plak het in een bericht aan een vriend(in).",
   "Copy this link:": "Kopieer deze link:",
+  "Follow us": "Volg ons",
+  "Xiaohongshu": "Xiaohongshu",
   "Rainwear": "Regenkleding", "Preview · answers here are not saved": "Voorbeeld · antwoorden worden niet opgeslagen",
   "Six looks · one minute": "Zes looks · één minuut", "Which would you wear?": "Welke zou jij dragen?",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "Scroll of gebruik de pijlen om elke look te zien. {tap} je favoriet (of druk op Kies deze look) en hij waait weg; kies daarna opnieuw uit de rest tot je alle zes hebt gerangschikt. Van gedachten veranderd? Druk op Ongedaan maken. Daarna volgt nog een korte tweede ronde.",
@@ -1427,6 +1436,9 @@ function renderEnding() {
       mk("h2", { textContent: tr("Thank you.") }),
       mk("p", { className: "endp", textContent: lines.length ? lines.join(lang === "zh" ? "" : " ") : tr("Thank you for taking part.") }),
       mk("div", { className: "sharerow" }, shareButton("linkbtn", "Send to a friend")),
+      mk("p", { className: "follow" }, [mk("span", { className: "up", textContent: tr("Follow us") }),
+        mk("a", { href: "https://www.instagram.com/vitaminvvv.studio/", target: "_blank", rel: "noopener", textContent: "Instagram" }),
+        mk("a", { href: "http://xhslink.com/m/6OpSEpuv9o3", target: "_blank", rel: "noopener", textContent: tr("Xiaohongshu") })]),
       mk("div", { className: "endnav" }, [backBtn(), mk("span")])
     );
   }
@@ -1438,10 +1450,10 @@ function labelToken(b) {
   if (lang === "en") { delete b.dataset.label; b.classList.remove("typed", "long"); b.style.fontSize = ""; b.textContent = b.dataset.name; return; }
   b.dataset.label = tr(b.dataset.name); b.classList.add("typed"); fitLabel(b);
 }
-const STATIC = [["header .l", "Rainwear"], ["#pv", "Preview · answers here are not saved"], ["#kicker", "Six looks · one minute"], ["#intro h2", "Which would you wear?"],
+const STATIC = [["#pv", "Preview · answers here are not saved"], ["#kicker", "Six looks · one minute"], ["#intro h2", "Which would you wear?"],
   ["#wearLabel", "You usually wear"], ['.gender [data-g="womenswear"]', "Womenswear"], ['.gender [data-g="menswear"]', "Menswear"], ["#start", "Start"],
   ["#choose", "Choose this look"], ["#undo", "Undo"], ["#r2 .round", "Round 2"], ["#r2 h2", "Two takes on your favourite."], ["#otherForm button", "Add"],
-  ["#popTitle", "Which one do you prefer?"], ["#endTop h1", "Thank you."], ["#endSub", "Your picks help decide what we make first."], ["footer span:last-child", "Positive energy, rain or shine"]];
+  ["#popTitle", "Which one do you prefer?"], ["#endTop h1", "Thank you."], ["#endSub", "Your picks help decide what we make first."], ["footer span:nth-child(2)", "Positive energy, rain or shine"]];
 function applyLang() {
   document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   STATIC.forEach(([sel, k]) => { const n = document.querySelector(sel); if (n) n.textContent = tr(k); });
