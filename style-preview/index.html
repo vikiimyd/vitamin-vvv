@@ -1431,7 +1431,7 @@ function goStep(n) {
 const backBtn = () => mk("button", { className: "linkbtn", type: "button", textContent: tr("Back"), onclick: () => step === 0 ? r2El.scrollIntoView({ behavior: motion(), block: "start" }) : goStep(step - (SKIP_INVITE && STEPS[step - 1] === "invite" ? 2 : 1)) });
 const field = (id, label, input) => { const l = mk("label", { className: "field", htmlFor: id }, [mk("span", { className: "up", textContent: label }), input]); return l; };
 const HAT_BASE = "../img/gift/";
-const HAT_IMGS = ["hat-1.jpg", "hat-2.jpg", "hat-3.jpg", "hat-4.jpg"];
+const HAT_IMGS = ["hat-1.jpg", "hat-3.jpg", "hat-4.jpg", "hat-2.jpg"];
 const SHARE_BASE = "https://vikiimyd.github.io/vitamin-vvv/survey-preview/";
 function shareLink() {
   const q = new URLSearchParams();
