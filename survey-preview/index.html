@@ -326,6 +326,40 @@ header, .preview, main { position: relative; z-index: 1; }
   .intro .facts span { padding-block: 11px; }
   .intro > p { font-size: 16px; line-height: 1.55; }
 }
+
+.screen, .vig { position: relative; }
+.lv { position: absolute; display: block; pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.lv img, .lv video, .lv canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
+.lv video, .lv canvas { opacity: 0; }
+.lv .lv-anim { -webkit-mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(to right, transparent, #000 5%, #000 95%, transparent); }
+.lv.on .lv-anim { opacity: 1; }
+.lv.on img { visibility: hidden; }
+.lv[data-video="failed"] video, .lv[data-video="failed"] canvas { display: none; }
+.intro > .lv { top: -42px; right: 0; width: 64px; height: 96px; }
+.vig > .lv { right: 0; bottom: 0; width: 56px; height: 84px; }
+.done > .lv { top: -42px; right: 0; width: 53px; height: 80px; }
+@media (min-width: 900px) and (min-height: 520px) {
+  
+  .intro > .lv { grid-column: 1 / 2; grid-row: 4 / 5; top: -10px; right: 0; width: 60px; height: 90px; }
+  .qhead .vig > .lv { width: 75px; height: 112px; }
+  .done > .lv { top: 40px; right: auto; left: calc(100% + 12px); width: 64px; height: 96px; }
+  .done > .nav > .lv { position: relative; flex: 0 1 64px; min-width: 0; height: 96px; margin-block: -52.5px -43.5px; }
+  .done > .nav:has(> .lv) > :not(.lv) { flex-shrink: 0; }
+}
+@media (min-width: 900px) and (min-height: 701px) {
+  .intro > .lv { width: 80px; height: 120px; }
+  .done > .story { position: relative; }
+  .done:has(> .invite) > .story:has(> .lv) { margin-bottom: 184px; }
+  .done > .story > .lv { top: calc(100% + 28px); right: auto; left: calc(50% - 52px); width: 104px; height: 156px; }
+}
+@media (min-width: 900px) and (min-height: 821px) { .intro > .lv { top: -20px; width: 84px; height: 126px; } }
+@media (min-width: 900px) and (min-height: 1000px) { .intro > .lv { width: 104px; height: 156px; } }
+
+@media (min-width: 1024px) and (min-height: 520px) {
+  .done > .lv { left: calc(100% + 24px); width: 104px; height: 156px; }
+  .done > .nav > .lv { flex-basis: 84px; height: 126px; margin-block: -52.5px -73.5px; }
+}
+@media (min-width: 1180px) and (min-height: 520px) { .done > .lv { left: calc(100% + 56px); } }
 </style>
 </head>
 <body>
@@ -1054,6 +1088,103 @@ function choices(q, opts, box, other, onPick) {
   sync();
   return { sync, isOn };
 }
+const LV_BASE = "../little-v/";
+const LV_FILES = { "welcome": ["1-welcome", "welcome"], "thinking": ["2-thinking"], "halfway": ["3-halfway", "halfway"], "almost-done": ["4-almost-done"], "reveal": ["5-reveal"], "thank-you": ["6-thank-you", "thank-you"] };
+const lvStill = stage => LV_BASE + "little-v-" + LV_FILES[stage][0] + ".webp";
+const LV_MOV = (() => {
+  const ua = navigator.userAgent || "";
+  if (/iP(hone|ad|od)/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1)) return true;
+  return /AppleWebKit\//.test(ua) && !/Chrome\/|Chromium|Android/.test(ua);
+})();
+const lvLite = () => { const c = navigator.connection; return !!c && (c.saveData === true || /(^|-)2g$/.test(c.effectiveType || "")); };
+let lvNow = null;
+const lvSeen = new Set();
+const lvPreload = stage => { if (stage && !lvSeen.has(stage)) { lvSeen.add(stage); new Image().src = lvStill(stage); } };
+const lvPlay = v => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+function lvStop() {
+  const box = lvNow;
+  lvNow = null;
+  if (!box) return;
+  const v = box.querySelector("video");
+  if (v) { v.pause(); v.replaceChildren(); v.removeAttribute("src"); try { v.load(); } catch (e) {} }
+  box.remove();
+}
+function littleV(stage) {
+  if (lvNow && lvNow.dataset.stage === stage) {
+    const v = lvNow.querySelector("video");
+    if (v && lvNow.dataset.video !== "failed") setTimeout(() => { if (v.isConnected && v.paused) lvPlay(v); }, 0);
+    return lvNow;
+  }
+  lvStop();
+  lvSeen.add(stage);
+  const box = lvNow = document.createElement("span");
+  box.className = "lv"; box.dataset.stage = stage; box.setAttribute("aria-hidden", "true");
+  const img = document.createElement("img");
+  img.alt = ""; img.width = 400; img.height = 600; img.loading = "eager"; img.decoding = "async"; img.draggable = false;
+  img.src = lvStill(stage);
+  box.append(img);
+  const anim = LV_FILES[stage][1];
+  if (!anim || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) || lvLite()) return box;
+  const v = document.createElement("video"), src = document.createElement("source");
+  ["autoplay", "muted", "loop", "playsinline", "disablepictureinpicture", "disableremoteplayback"].forEach(k => v.setAttribute(k, ""));
+  v.setAttribute("preload", "auto"); v.setAttribute("aria-hidden", "true"); v.tabIndex = -1;
+  v.muted = v.defaultMuted = true; v.playsInline = true; v.width = 400; v.height = 600;
+  src.src = LV_BASE + "little-v-anim-" + anim + (LV_MOV ? "-alpha.mov" : ".webm");
+  src.type = LV_MOV ? 'video/mp4; codecs="hvc1"' : 'video/webm; codecs="vp9"';
+  v.append(src);
+  const paint = LV_MOV ? null : document.createElement("canvas"), g = paint && paint.getContext ? paint.getContext("2d") : null;
+  (g ? paint : v).classList.add("lv-anim");
+  box.dataset.video = "loading";
+  const fail = () => { if (box.dataset.video === "failed") return; box.dataset.video = "failed"; box.classList.remove("on"); v.pause(); };
+  src.addEventListener("error", fail);
+  v.addEventListener("error", fail);
+  const show = () => { if (box.dataset.video === "loading" && v.isConnected && !v.paused) { box.dataset.video = "playing"; box.classList.add("on"); } };
+  const ready = () => { if (box.dataset.video === "loading") requestAnimationFrame(show); };
+  if (g) {
+    let looping = false, last = -1;
+    const draw = () => {
+      if (!box.isConnected || box.dataset.video === "failed") { looping = false; return; }
+      const k = window.devicePixelRatio || 1, w = Math.round(box.clientWidth * k), h = Math.round(box.clientHeight * k);
+      if (w && h && v.readyState >= 2 && (v.currentTime !== last || paint.width !== w || paint.height !== h)) {
+        if (paint.width !== w || paint.height !== h) { paint.width = w; paint.height = h; }
+        g.imageSmoothingEnabled = true; g.imageSmoothingQuality = "high";
+        g.clearRect(0, 0, w, h); g.drawImage(v, 0, 0, w, h);
+        last = v.currentTime;
+        ready();
+      }
+      if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(draw); else requestAnimationFrame(draw);
+    };
+    v.addEventListener("playing", () => { if (!looping) { looping = true; draw(); } });
+  } else {
+    v.addEventListener("playing", () => { if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(ready); });
+    v.addEventListener("timeupdate", () => { if (v.currentTime > 0.1) ready(); });
+  }
+  box.append(v);
+  if (g) box.append(paint);
+  setTimeout(() => { if (v.isConnected && v.paused && box.dataset.video === "loading") lvPlay(v); }, 0);
+  return box;
+}
+const lvN = new Map();
+let lvAt = -1;
+const lvTotal = (list, k) => k <= lvAt && lvN.has(list[k].id) ? lvN.get(list[k].id) : list.length;
+const lvHalf = (list, k) => { const n = k + 1, N = lvTotal(list, k); return n >= N / 2 && n <= N - 3; };
+const lvStageAt = (list, k) => k >= list.length || k + 1 > lvTotal(list, k) - 3 ? "almost-done" : list.findIndex((x, j) => lvHalf(list, j)) === k ? "halfway" : "thinking";
+function lvStage(list) {
+  if (i > lvAt || !lvN.has(list[i].id)) lvN.set(list[i].id, list.length);
+  lvAt = i;
+  return lvStageAt(list, i);
+}
+const lvMqs = window.matchMedia ? ["(min-width: 900px) and (min-height: 701px)", "(min-width: 900px) and (min-height: 520px)"].map(q => window.matchMedia(q)) : [];
+function lvDone(s, box) {
+  const c = s.querySelector(":scope > .story"), nav = s.querySelector(":scope > .nav");
+  if (c && lvMqs.length && lvMqs[0].matches) c.append(box);
+  else if (c && nav && lvMqs.length && lvMqs[1].matches) nav.insertBefore(box, nav.querySelector(".btn"));
+  else s.append(box);
+}
+lvMqs.forEach(m => {
+  const f = () => { const s = document.querySelector("main .screen.done"); if (s && lvNow && s.contains(lvNow)) lvDone(s, lvNow); };
+  if (m.addEventListener) m.addEventListener("change", f); else if (m.addListener) m.addListener(f);
+});
 let shownI = null;
 function frWJ(s) {
   if (lang === "fr") s.querySelectorAll("h1, h2").forEach(h => h.childNodes.forEach(n => { if (n.nodeType === 3) n.data = n.data.replace(/(\p{L})-(ce|tu|il|elle|on|je|nous|vous|ils|elles)\b/gu, "$1-\u2060$2"); }));
@@ -1077,6 +1208,8 @@ function render() {
       el("div", { className: "facts up" }, [el("span", { textContent: t("10\u201312 minutes") }), el("span", { textContent: t("5 short parts") }), el("span", { textContent: t("A small gift") === "A small gift" ? "Your style result" : t("A small gift") })]),
       el("div", { className: "nav" }, [el("span"), el("button", { className: "btn", textContent: t("Start"), onclick: () => { i = 0; render(); } })])
     );
+    s.append(littleV("welcome"));
+    lvPreload("thinking");
     app.append(frWJ(s)); return;
   }
   const list = visible();
@@ -1092,6 +1225,7 @@ function render() {
         el("a", { className: "btn", href: styleLink(), target: "_blank", rel: "noopener", textContent: t("Take the style test") })
       ])
     );
+    lvDone(s, littleV("almost-done"));
     app.append(frWJ(s)); return;
   }
   const q = list[i];
@@ -1180,6 +1314,8 @@ function render() {
     const kids = [...s.children], h = kids.findIndex(k => k.tagName === "H2"), end = h + (kids[h + 1] && kids[h + 1].matches("p.note") ? 2 : 1);
     s.append(el("div", { className: "qhead" }, kids.slice(kids.findIndex(k => k.classList.contains("vig")), end)), el("div", { className: "qbody" }, kids.slice(end)));
   }
+  s.querySelector(".vig").append(littleV(lvStage(list)));
+  lvPreload(lvStageAt(list, i + 1));
   app.append(frWJ(s));
   const first = s.querySelector("input:not([hidden])"); if (first) first.focus({ preventScroll: true });
 }
