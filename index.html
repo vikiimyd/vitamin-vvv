@@ -15,7 +15,7 @@
 <meta property="og:image:alt" content="Six Vitamin VVV rain looks in a row">
 <meta name="twitter:card" content="summary_large_image">
 <style>body { margin: 0; }</style>
-<title>Vitamin VVV Waitlist</title>
+<title>Vitamin VVV</title>
 <link rel="preload" href="fonts/hanken-grotesk-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face { font-family: "Hanken Grotesk"; font-style: normal; font-weight: 300; font-display: swap; src: url(fonts/hanken-grotesk-latin-300-normal.woff2) format("woff2"); }
@@ -90,7 +90,6 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .hint { color: var(--ink); }
 .kicker { color: var(--grey); }
 .linkbtn { font: inherit; font-size: 12px; background: none; border: 0; padding: 4px 2px; color: var(--grey); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-header .r.link { background: none; border: 0; padding: 14px 0 14px 14px; margin: -14px 0; font-family: inherit; font-weight: inherit; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 
 .rail-bar { display: flex; justify-content: center; align-items: center; gap: 22px; margin-top: 16px; flex-wrap: wrap; min-height: 40px; }
 .rail-btns { display: flex; gap: 22px; }
@@ -210,7 +209,6 @@ footer { border-top: 1px solid var(--hair); padding-inline: 20px; padding-block:
 <header>
   <span class="l up">Rainwear</span>
   <div class="wordmark">Vitamin VVV</div>
-  <button class="r up link" id="toWaitlist" type="button">Waitlist</button>
 </header>
 
 <main>
@@ -625,8 +623,6 @@ if (INTERVIEW) {
   document.querySelector("#thanks .btns").remove();
   document.getElementById("shareNote").remove();
   document.getElementById("endSub").textContent = "You've completed the interview.";
-  const toW = document.getElementById("toWaitlist");
-  toW.replaceWith(Object.assign(document.createElement("span"), { className: "r up", textContent: toW.textContent }));
 } else {
   document.getElementById("gift").remove();
 }
@@ -814,7 +810,6 @@ function openWaitlist() {
 }
 if (!INTERVIEW) {
   document.getElementById("skip").addEventListener("click", openWaitlist);
-  document.getElementById("toWaitlist").addEventListener("click", openWaitlist);
 }
 
 const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbySiEO4GXjxJjIKEKlxY68CbKX9uUJFjvwauzu_AWl_osCK-kt9m1NFfnMFkuRudcnn/exec";
