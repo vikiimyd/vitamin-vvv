@@ -561,7 +561,7 @@ const ZH = {
   "8 minutes": "约 8 分钟", "5 short parts": "5 个小部分", "A small gift": "你的风格结果",
   
   "Thank you": "谢谢", "Thank you for your answers.": "谢谢你的回答。",
-  "Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 4 minutes.": "现在给六套造型排个序，看看你是哪种雨天风格，最后还能看到我们的第一件样衣。大约 4 分钟。", "Take the style test": "去做风格测试",
+  "Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 2 minutes.": "现在给六套造型排个序，看看你是哪种雨天风格，最后还能看到我们的第一件样衣。大约 2 分钟。", "Take the style test": "去做风格测试",
   "Rainy nights": "雨天穿搭", "Preview · answers here are not saved": "预览 · 这里的答案不会保存"
 };
 const OCCZ = { "Ordinary days (work, school, errands)": "平常的日子", [NIGHT]: "晚上出去玩", [CONCERT]: "演唱会和音乐节", "Special events (weddings, openings, shows)": "特别的场合", "Other": "你在乎穿搭的各种场合" };
@@ -621,7 +621,7 @@ const FR = {
   "8 minutes": "8 minutes", "5 short parts": "5 petites parties", "A small gift": "Ton résultat de style",
   
   "Thank you": "Merci", "Thank you for your answers.": "Merci pour tes réponses.",
-  "Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 4 minutes.": "Maintenant, classe six looks et découvre ton style pour les jours de pluie. À la fin, tu verras notre premier échantillon. Ça prend environ 4 minutes.", "Take the style test": "Faire le test de style",
+  "Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 2 minutes.": "Maintenant, classe six looks et découvre ton style pour les jours de pluie. À la fin, tu verras notre premier échantillon. Ça prend environ 2 minutes.", "Take the style test": "Faire le test de style",
   "Rainy nights": "Jours de pluie", "Preview · answers here are not saved": "Aperçu · les réponses ne sont pas enregistrées"
 };
 const NL = {
@@ -680,7 +680,7 @@ const NL = {
   "8 minutes": "8 minuten", "5 short parts": "5 korte delen", "A small gift": "Je stijlresultaat",
   
   "Thank you": "Bedankt", "Thank you for your answers.": "Bedankt voor je antwoorden.",
-  "Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 4 minutes.": "Rangschik nu zes looks en ontdek welke regendagstijl bij jou past. Aan het eind zie je ons eerste sample. Het duurt ongeveer 4 minuten.", "Take the style test": "Doe de stijltest",
+  "Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 2 minutes.": "Rangschik nu zes looks en ontdek welke regendagstijl bij jou past. Aan het eind zie je ons eerste sample. Het duurt ongeveer 2 minuten.", "Take the style test": "Doe de stijltest",
   "Rainy nights": "Regendagen", "Preview · answers here are not saved": "Voorbeeld · antwoorden worden niet opgeslagen"
 };
 const OCCF = { "Ordinary days (work, school, errands)": "les jours ordinaires", [NIGHT]: "les sorties du soir", [CONCERT]: "les concerts et festivals", "Special events (weddings, openings, shows)": "les grandes occasions", "Other": "les moments où tu fais attention à ce que tu portes" };
@@ -1212,7 +1212,7 @@ function render() {
       el("span", { className: "up note", textContent: t("Thank you") }),
       el("h1", { textContent: t("Thank you for your answers.") }),
       ...[storyCard()].filter(Boolean),
-      el("p", { className: "styleline", textContent: t("Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 4 minutes.") }),
+      el("p", { className: "styleline", textContent: t("Now rank six looks and see which rainy-day style is yours. At the end, you'll see our first sample. It takes about 2 minutes.") }),
       el("div", { className: "nav" }, [
         el("button", { className: "link", textContent: t("Back"), onclick: () => { i = list.length - 1; render(); } }),
         el("a", { className: "btn", href: styleLink(), target: "_blank", rel: "noopener", textContent: t("Take the style test") })

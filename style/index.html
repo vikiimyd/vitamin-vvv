@@ -336,7 +336,7 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
       <label class="namefield" for="who" id="nameField" hidden><span class="up">First, your name</span>
         <input id="who" type="text" autocomplete="name" placeholder="Your name" maxlength="60">
       </label>
-      <span class="up kicker" id="kicker">Six looks · about 4 minutes</span>
+      <span class="up kicker" id="kicker">Six looks · about 2 minutes</span>
       <h2>Which would you wear?</h2>
       <p id="introText"></p>
       <p class="ainote" id="aiNote">These looks are AI-generated images, made only for this test.</p>
@@ -651,7 +651,7 @@ const ZH = {
   "We'll use the contact you gave us.": "我们会用你留下的联系方式。",
   "Join the waitlist?": "要加入候补名单吗？",
   "Rainwear": "雨天穿搭", "Preview · answers here are not saved": "预览 · 这里的答案不会保存",
-  "Six looks · about 4 minutes": "六套造型 · 大约 4 分钟", "Which would you wear?": "你会穿哪一套？",
+  "Six looks · about 2 minutes": "六套造型 · 大约 2 分钟", "Which would you wear?": "你会穿哪一套？",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "左右滑动或用箭头查看每一套。{tap}你最喜欢的那套（或点「选这一套」），它会随风飘走；再从剩下的里面继续选，直到六套都排好。改主意了？点「撤销」。之后还有一个很短的第二轮。",
   "You usually wear": "你平时穿", "Womenswear": "女装", "Menswear": "男装", "Start": "开始",
   "Choose this look": "选这一套", "Undo": "撤销", "Double-tap": "双击", "Double-click": "双击",
@@ -710,7 +710,7 @@ const FR = {
   "We'll use the contact you gave us.": "Nous utiliserons le contact que tu nous as laissé.",
   "Join the waitlist?": "Rejoindre la liste d'attente ?",
   "Rainwear": "Vêtements de pluie", "Preview · answers here are not saved": "Aperçu · les réponses ne sont pas enregistrées",
-  "Six looks · about 4 minutes": "Six looks · environ 4 minutes", "Which would you wear?": "Lequel porterais-tu ?",
+  "Six looks · about 2 minutes": "Six looks · environ 2 minutes", "Which would you wear?": "Lequel porterais-tu ?",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "Fais défiler ou utilise les flèches pour voir chaque look. {tap} ton préféré (ou appuie sur Choisir ce look) : il s'envole, puis choisis à nouveau parmi les autres jusqu'à avoir classé les six. Tu as changé d'avis ? Appuie sur Annuler. Ensuite, un court deuxième tour.",
   "You usually wear": "Tu portes surtout", "Womenswear": "Femme", "Menswear": "Homme", "Start": "Commencer",
   "Choose this look": "Choisir ce look", "Undo": "Annuler", "Double-tap": "Touche deux fois", "Double-click": "Double-clique sur",
@@ -769,7 +769,7 @@ const NL = {
   "We'll use the contact you gave us.": "We gebruiken de contactgegevens die je ons gaf.",
   "Join the waitlist?": "Wil je op de wachtlijst?",
   "Rainwear": "Regenkleding", "Preview · answers here are not saved": "Voorbeeld · antwoorden worden niet opgeslagen",
-  "Six looks · about 4 minutes": "Zes looks · ongeveer 4 minuten", "Which would you wear?": "Welke zou jij dragen?",
+  "Six looks · about 2 minutes": "Zes looks · ongeveer 2 minuten", "Which would you wear?": "Welke zou jij dragen?",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "Scroll of gebruik de pijlen om elke look te zien. {tap} je favoriet (of druk op Kies deze look) en hij waait weg; kies daarna opnieuw uit de rest tot je alle zes hebt gerangschikt. Van gedachten veranderd? Druk op Ongedaan maken. Daarna volgt nog een korte tweede ronde.",
   "You usually wear": "Je draagt meestal", "Womenswear": "Dames", "Menswear": "Heren", "Start": "Start",
   "Choose this look": "Kies deze look", "Undo": "Ongedaan maken", "Double-tap": "Dubbeltik op", "Double-click": "Dubbelklik op",
@@ -1733,7 +1733,7 @@ function labelToken(b) {
   if (lang === "en") { delete b.dataset.label; b.classList.remove("typed", "long"); b.style.fontSize = ""; b.textContent = b.dataset.name; return; }
   b.dataset.label = tr(b.dataset.name); b.classList.add("typed"); fitLabel(b);
 }
-const STATIC = [["#aiNote", "These looks are AI-generated images, made only for this test."], ["#pv", "Preview · answers here are not saved"], ["#kicker", "Six looks · about 4 minutes"], ["#intro h2", "Which would you wear?"],
+const STATIC = [["#aiNote", "These looks are AI-generated images, made only for this test."], ["#pv", "Preview · answers here are not saved"], ["#kicker", "Six looks · about 2 minutes"], ["#intro h2", "Which would you wear?"],
   ["#wearLabel", "You usually wear"], ['.gender [data-g="womenswear"]', "Womenswear"], ['.gender [data-g="menswear"]', "Menswear"], ["#start", "Start"],
   ["#choose", "Choose this look"], ["#undo", "Undo"], ["#r2 .round", "Round 2"], ["#r2 h2", "Two takes on your favourite."], ["#otherForm button", "Add"],
   ["#popTitle", "Which one do you prefer?"], ["#endTop h1", "Thank you."], ["#endSub", "Your picks help decide what we make first."], ["footer span:nth-child(2)", "Positive energy, rain or shine"]];
