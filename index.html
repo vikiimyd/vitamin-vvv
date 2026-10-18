@@ -67,6 +67,7 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .intro { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 16px; text-align: center; padding-inline: 16px; z-index: 30; }
 .intro h2 { font-weight: 400; font-size: 22px; margin: 0; }
 .intro p { margin: 0; max-width: 40ch; font-size: 13px; text-wrap: pretty; }
+.intro .ainote { color: var(--grey); font-size: 11.5px; line-height: 1.4; margin-top: -8px; } 
 .namefield { display: grid; gap: 6px; width: min(280px, 80vw); margin-bottom: 10px; }
 .namefield input { font: inherit; font-size: 17px; text-align: center; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; }
 .gender { display: flex; gap: 6px; margin: -2px 0 10px; }
@@ -227,6 +228,7 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
       <span class="up kicker" id="kicker">Six looks · about two minutes</span>
       <h2>Which would you wear?</h2>
       <p id="introText">Vitamin VVV is a designer lifestyle brand built around rainwear: coats you'd wear any day and reach for first when it rains. Rank six looks to help choose what we make first<span id="introJoin">, then join the waitlist to see the collection before anyone else</span>.</p>
+      <p class="ainote" id="aiNote">These looks are AI-generated images, made only for this test.</p>
       <span class="up" id="wearLabel" style="color:var(--grey)">You usually wear</span>
       <div class="gender" role="radiogroup" aria-label="You usually wear">
         <button type="button" role="radio" aria-checked="false" data-g="womenswear">Womenswear</button>
