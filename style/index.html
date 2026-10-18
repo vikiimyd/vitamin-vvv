@@ -1544,7 +1544,7 @@ function finish() {
 
 if (TEST) {
   document.getElementById("review").hidden = false;
-  document.getElementById("modeNote").textContent = "survey version (?lang ?occ ?rid ?inv from the survey; ending: sample, chat invite (skipped with ?inv), waitlist)" + (SURVEY_INV ? " · inv=" + SURVEY_INV : "");
+  document.getElementById("modeNote").textContent = "survey version (?lang ?occ ?rid ?inv from the survey; ending: sample, thank-you)" + (SURVEY_INV ? " · inv=" + SURVEY_INV : "");
   document.getElementById("orderNote").textContent = order.map((l, i) => `Look ${pad(i + 1)} = ${l.name}`).join(" · ");
   if (SUBMIT_URL) document.getElementById("saveNote").textContent = "Answers from this preview are saved to the sheet too, marked Test.";
 }
@@ -1554,7 +1554,7 @@ layout();
 const CONTACT_UI = { Zoom: ["Email or WeChat", "you@example.com or WeChat ID", "Enter an email or WeChat ID."], Phone: ["Phone number (with country code)", "+44 7700 900123", "Enter a phone number, like +44 7700 900123."] };
 const isPhone = c => /^[\d\s()+-]+$/.test(String(c || "").trim()) && /\d/.test(String(c || ""));
 const contactOk = (c, by) => by === "Phone" ? isPhone(c) && (String(c).match(/\d/g) || []).length >= 7 : EMAIL_RE.test(c) || /^[A-Za-z][\w-]{5,19}$/.test(c) || /^\+?[\d\s-]{6,}$/.test(c);
-const STEPS = ["sample", "invite", "waitlist", "done"];
+const STEPS = ["sample", "done"];
 const E = { chat: null, name: "", contact: "", call_by: "Zoom", waitlist: null, email: "" };
 if (KEPT && KEPT.E && typeof KEPT.E === "object") for (const k in E) if (k in KEPT.E) E[k] = KEPT.E[k];
 const ending = document.getElementById("ending");
@@ -1636,7 +1636,7 @@ function renderEnding() {
       mk("p", { className: "endp", textContent: tr("This is our first sample.") }),
       row, dots,
       mk("p", { className: "soft", textContent: tr("If you're a guy, don't worry: we're developing menswear too. And if this feels too plain, too much, or just not you, that's fine. That's exactly why your answers help us. We're still shaping our designs.") }),
-      mk("div", { className: "endnav" }, [backBtn(), mk("button", { className: "btn", type: "button", textContent: tr("Next"), onclick: () => goTo("invite") })])
+      mk("div", { className: "endnav" }, [backBtn(), mk("button", { className: "btn", type: "button", textContent: tr("Next"), onclick: () => goTo("done") })])
     );
   } else if (id === "invite") {
     const occ = OCC_TEXT[lang][OCC_PARAM];
