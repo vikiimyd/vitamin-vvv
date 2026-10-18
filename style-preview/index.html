@@ -247,6 +247,7 @@ body { margin: 0; }
 .giftfig.hat .giftrow:has(> img:nth-child(2):last-child) img { flex: 1 1 0; width: auto; min-width: 0; max-width: none; }
 .giftfig.hat figcaption { display: grid; gap: 6px; padding: 0 14px; font-size: 13px; }
 .giftfig.hat .ainote { color: var(--grey); font-size: 11.5px; }
+.giftfig.hat.both .giftrow img { flex: 1 1 0; width: auto; min-width: 0; max-width: none; }
 .join .endtop .reskicker { color: var(--grey); letter-spacing: .14em; }
 .resfig { margin: 4px auto 0; width: min(220px, 58vw); }
 .resfig img, .resfig svg { display: block; width: 100%; height: auto; max-height: 340px; object-fit: contain; }
@@ -306,6 +307,16 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 @media (max-height: 500px) { .intro > .lv { display: none; } }
 .step > .lv { position: relative; justify-self: center; width: 96px; height: 144px; }
 @media (min-width: 900px) and (min-height: 520px) { .step > .lv { width: 120px; height: 180px; } }
+
+.lv-say { position: absolute; top: 4%; width: max-content; max-width: 200px; box-sizing: border-box; padding: 7px 11px 8px; background: #fff; color: #141414; border: 1px solid #141414; border-radius: 14px; font-family: inherit; font-size: 12.5px; font-weight: 400; line-height: 1.35; letter-spacing: 0.01em; text-align: left; text-transform: none; text-wrap: balance; white-space: normal; z-index: 2; }
+.lv-say.l { right: calc(100% + 9px); transform-origin: right 16px; }
+.lv-say.r { left: calc(100% + 9px); transform-origin: left 16px; }
+.lv-say::after { content: ""; position: absolute; top: 12px; width: 8px; height: 8px; background: #fff; border: 1px solid #141414; box-sizing: border-box; transform: rotate(45deg); }
+.lv-say.l::after { right: -5px; border-left: 0; border-bottom: 0; }
+.lv-say.r::after { left: -5px; border-right: 0; border-top: 0; }
+@keyframes lvSayIn { from { opacity: 0; transform: translateY(3px) scale(0.96); } to { opacity: 1; transform: none; } }
+.lv-say.in { animation: lvSayIn 0.32s ease-out 0.12s both; }
+@media (prefers-reduced-motion: reduce) { .lv-say.in { animation: none; } }
 </style>
 </head>
 <body>
@@ -403,6 +414,7 @@ const PICKS = 6;
 const LV_BASE = "../little-v/";
 const LV_STILL = { "welcome": "1-welcome", "thinking": "2-thinking", "halfway": "3-halfway", "almost-done": "4-almost-done", "reveal": "5-reveal", "thank-you": "6-thank-you" };
 const LV_LOOPS = {"welcome": {"base": "welcome-pad", "win": [94, 61, 639, 650]}, "thinking": {"base": "thinking-pad", "win": [163, 34, 569, 650]}, "halfway": {"base": "halfway-pad", "win": [130, 58, 596, 646]}, "almost-done": {"base": "almost-done-pad", "win": [162, 42, 590, 658]}, "reveal": {"base": "reveal-pad", "win": [177, 70, 572, 650]}, "thank-you": {"base": "thank-you-pad", "win": [150, 70, 587, 668]}};
+const LV_SAY = {"survey_welcome": {"en": "Hey! No wrong answers here, just yours.", "zh": "嗨！没有标准答案，放轻松就好", "fr": "Coucou ! Ici, pas de mauvaise réponse.", "nl": "Hallo! Geen foute antwoorden, beloofd."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favorite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
 const LV_PAD = [170, 75, 570, 720], LV_SM = 320 * 570 / 720;
 const lvStill = stage => LV_BASE + "little-v-" + LV_STILL[stage] + ".webp";
 const LV_MOV = (() => {
@@ -415,17 +427,94 @@ let lvNow = null;
 const lvSeen = new Set(), lvGo = new WeakMap();
 const lvPreload = stage => { if (stage && !lvSeen.has(stage)) { lvSeen.add(stage); new Image().src = lvStill(stage); } };
 const lvPlay = v => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+let lvVid = null;
+const lvOff = new WeakMap();
+function lvVideo() {
+  if (lvVid) return lvVid;
+  const v = lvVid = document.createElement("video");
+  ["autoplay", "muted", "loop", "playsinline", "disablepictureinpicture", "disableremoteplayback"].forEach(k => v.setAttribute(k, ""));
+  v.setAttribute("preload", "auto"); v.setAttribute("aria-hidden", "true"); v.tabIndex = -1;
+  v.muted = v.defaultMuted = true; v.playsInline = true; v.width = 400; v.height = 600;
+  if (LV_MOV) v.classList.add("lv-anim");
+  return v;
+}
+const lvKick = () => { const box = lvNow, v = lvVid; if (box && v && box.contains(v) && box.dataset.video !== "failed" && v.paused) lvPlay(v); };
+["touchend", "click", "keydown"].forEach(k => document.addEventListener(k, lvKick, true));
 function lvStop() {
   const box = lvNow;
   lvNow = null;
   if (!box) return;
+  const off = lvOff.get(box);
+  if (off) off.abort();
   const v = box.querySelector("video");
   if (v) { v.pause(); v.replaceChildren(); v.removeAttribute("src"); try { v.load(); } catch (e) {} }
   box.remove();
 }
-function littleV(stage) {
+const lvLine = key => {
+  if (!key) return "";
+  const [k, n] = String(key).split(":");
+  let x = LV_SAY[k];
+  if (Array.isArray(x)) x = x[(+n || 0) % x.length];
+  let l = "en";
+  try { l = lang; } catch (e) {}
+  return x ? x[l] || x.en || "" : "";
+};
+const LV_OBST = ".opt, button, a, input:not([type=hidden]), textarea, select, .facts, .process, .story, .gift, .giftfig, .vig svg, .vig img, .invite, .shots, .resfig, .sharebox, .tray, .pair, .token, .hole, .ranked";
+function lvSayPlace(box) {
+  const say = box && box.querySelector(":scope > .lv-say");
+  if (!say || !box.isConnected) return;
+  box.style.transform = ""; say.style.display = ""; say.style.visibility = "hidden";
+  const b = box.getBoundingClientRect(), cs = getComputedStyle(box);
+  if (!b.width || !b.height) return;
+  const vw = document.documentElement.clientWidth, EDGE = 12, GAP = 9, rects = [];
+  const seen = e => e.checkVisibility ? e.checkVisibility({ opacityProperty: true, visibilityProperty: true }) : getComputedStyle(e).visibility !== "hidden";
+  const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), rg = document.createRange();
+  for (let n; (n = tw.nextNode());) {
+    const el = n.parentElement;
+    if (!n.data.trim() || !el || el.closest(".lv, script, style, [hidden]") || !seen(el)) continue;
+    rg.selectNodeContents(n);
+    for (const r of rg.getClientRects()) if (r.width > 0 && r.height > 0) rects.push(r);
+  }
+  document.querySelectorAll(LV_OBST).forEach(e => {
+    if (e.closest(".lv") || !seen(e)) return;
+    const r = e.getBoundingClientRect();
+    if (r.width > 0 && r.height > 0 && !(r.left <= b.left + 1 && r.right >= b.right - 1 && r.top <= b.top + 1 && r.bottom >= b.bottom - 1)) rects.push(r);
+  });
+  const clear = (L, T, R, B, m) => !rects.some(r => r.left < R + m && r.right > L - m && r.top < B + 4 && r.bottom > T - 4);
+  const centred = cs.position === "relative" && cs.justifySelf === "center";
+  const fits = (side, w) => {
+    say.classList.toggle("l", side === "l"); say.classList.toggle("r", side === "r");
+    say.style.maxWidth = w + "px";
+    const W = say.offsetWidth, H = say.offsetHeight, dx = centred && side === "r" ? -(W + GAP) / 2 : centred ? (W + GAP) / 2 : 0;
+    const L = side === "l" ? b.left + dx - GAP - W : b.right + dx + GAP, T = b.top + b.height * 0.04;
+    if (W > w + 0.5 || L < EDGE || L + W > vw - EDGE) return false;
+    if (!clear(L, T, L + W, T + H, 6) || (dx && !clear(b.left + dx, b.top, b.right + dx, b.bottom, 2))) return false;
+    box.style.transform = dx ? "translateX(" + dx + "px)" : "";
+    return true;
+  };
+  const room = side => Math.floor(side === "l" ? b.left - GAP - EDGE : vw - EDGE - b.right - GAP) + (centred ? 400 : 0);
+  for (const side of (b.left + b.right) / 2 > vw / 2 + 1 ? ["l", "r"] : ["r", "l"])
+    for (let w = Math.min(210, room(side)); w >= 84; w -= 8) if (fits(side, w)) { say.style.visibility = ""; return; }
+  box.style.transform = ""; say.style.display = "none"; say.style.visibility = "";
+}
+function lvSay(box, key) {
+  if (key !== undefined) box.dataset.say = key || "";
+  const text = lvLine(box.dataset.say);
+  let say = box.querySelector(":scope > .lv-say");
+  if (!text) { if (say) say.remove(); return; }
+  if (!say) { say = document.createElement("span"); say.className = "lv-say"; say.style.visibility = "hidden"; box.append(say); }
+  if (say.textContent !== text) { say.textContent = text; say.classList.remove("in"); void say.offsetWidth; say.classList.add("in"); }
+  requestAnimationFrame(() => lvSayPlace(box));
+  setTimeout(() => lvSayPlace(box), 450);
+  setTimeout(() => lvSayPlace(box), 1200);
+}
+let lvRz = 0;
+window.addEventListener("resize", () => { cancelAnimationFrame(lvRz); lvRz = requestAnimationFrame(() => lvSayPlace(lvNow)); });
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => lvSayPlace(lvNow));
+function littleV(stage, say) {
   if (lvNow && lvNow.dataset.stage === stage) {
     const box = lvNow;
+    lvSay(box, say);
     if (lvGo.has(box)) setTimeout(() => lvGo.get(box)(), 0);
     return box;
   }
@@ -437,14 +526,13 @@ function littleV(stage) {
   img.alt = ""; img.width = 400; img.height = 600; img.loading = "eager"; img.decoding = "async"; img.draggable = false;
   img.src = lvStill(stage);
   box.append(img);
+  lvSay(box, say);
   const loop = LV_LOOPS[stage];
   if (!loop || (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) || lvLite()) return box;
-  const v = document.createElement("video"), src = document.createElement("source");
-  ["autoplay", "muted", "loop", "playsinline", "disablepictureinpicture", "disableremoteplayback"].forEach(k => v.setAttribute(k, ""));
-  v.setAttribute("preload", "auto"); v.setAttribute("aria-hidden", "true"); v.tabIndex = -1;
-  v.muted = v.defaultMuted = true; v.playsInline = true; v.width = 400; v.height = 600;
+  const v = lvVideo(), src = document.createElement("source"), off = new AbortController(), on = { signal: off.signal };
+  lvOff.set(box, off);
   const paint = LV_MOV ? null : document.createElement("canvas"), g = paint && paint.getContext ? paint.getContext("2d") : null;
-  (g ? paint : v).classList.add("lv-anim");
+  if (g) paint.classList.add("lv-anim");
   const fit = document.createElement("span"), win = document.createElement("span");
   fit.className = "lv-fit"; win.className = "lv-win";
   const [X, Y, H, S] = LV_PAD, W = H * 2 / 3, [l, t, r, b] = loop.win, pc = n => n.toFixed(4) + "%";
@@ -454,13 +542,13 @@ function littleV(stage) {
   box.dataset.video = "loading";
   const fail = () => { if (box.dataset.video === "failed") return; box.dataset.video = "failed"; box.classList.remove("on"); v.pause(); };
   src.addEventListener("error", fail);
-  v.addEventListener("error", fail);
+  v.addEventListener("error", fail, on);
   const show = () => { if (box.dataset.video === "loading" && v.isConnected && !v.paused) { box.dataset.video = "playing"; box.classList.add("on"); } };
   const ready = () => { if (box.dataset.video === "loading") requestAnimationFrame(show); };
   if (g) {
     let looping = false, last = -1;
     const draw = () => {
-      if (!box.isConnected || box.dataset.video === "failed") { looping = false; return; }
+      if (!box.isConnected || box.dataset.video === "failed" || off.signal.aborted) { looping = false; return; }
       const k = window.devicePixelRatio || 1, cr = paint.getBoundingClientRect(), w = Math.round(cr.width * k), h = Math.round(cr.height * k);
       if (w && h && v.readyState >= 2 && (v.currentTime !== last || paint.width !== w || paint.height !== h)) {
         if (paint.width !== w || paint.height !== h) { paint.width = w; paint.height = h; }
@@ -471,17 +559,17 @@ function littleV(stage) {
       }
       if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(draw); else requestAnimationFrame(draw);
     };
-    v.addEventListener("playing", () => { if (!looping) { looping = true; draw(); } });
+    v.addEventListener("playing", () => { if (!looping) { looping = true; draw(); } }, on);
   } else {
-    v.addEventListener("playing", () => { if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(ready); });
-    v.addEventListener("timeupdate", () => { if (v.currentTime > 0.1) ready(); });
+    v.addEventListener("playing", () => { if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(ready); }, on);
+    v.addEventListener("timeupdate", () => { if (v.currentTime > 0.1) ready(); }, on);
   }
   win.append(v);
   if (g) win.append(paint);
   fit.append(win);
   box.append(fit);
   lvGo.set(box, () => {
-    if (!box.isConnected || box.dataset.video === "failed") return;
+    if (!box.isConnected || box.dataset.video === "failed" || off.signal.aborted) return;
     if (!src.parentNode) {
       const h = fit.getBoundingClientRect().height;
       if (!h) return;
@@ -495,7 +583,7 @@ function littleV(stage) {
   setTimeout(() => lvGo.get(box)(), 0);
   return box;
 }
-document.getElementById("intro").append(littleV("reveal"));
+document.getElementById("intro").append(littleV("reveal", "style_welcome"));
 
 const IMG = {};
 const SAMPLE_PHOTOS = [
@@ -521,6 +609,9 @@ const ZH = {
   "Follow us": "关注我们",
   "Xiaohongshu": "小红书",
   "These looks are AI-generated images, made only for this test.": "这些 look 是 AI 生成的图片，只用于这次测试。",
+  "A shoulder bag in our clear material with a white floral print": "用我们透明白色印花材料做的单肩包",
+  "As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.": "聊完会送你一份谢礼，这两款是我们正在考虑的，都是和我们外套一样的材料。",
+  "AI-generated concept photos. The real pieces will look different.": "AI 生成的概念图，实物会有所不同。",
   "As a thank-you for the call, you'll get this hat, made from the same material as our coats.": "聊完会送你这顶帽子作为谢礼，用的是和我们外套一样的材料。",
   "AI-generated concept photos. The real hat will look different.": "AI 生成的概念图，实物会有所不同。",
   "A trapper hat with fluffy white trim, in our clear printed material": "白色绒毛边的护耳帽，用我们的透明印花材料做的",
@@ -577,6 +668,9 @@ const FR = {
   "Follow us": "Suis-nous",
   "Xiaohongshu": "Xiaohongshu",
   "These looks are AI-generated images, made only for this test.": "Ces looks sont des images générées par IA, réalisées uniquement pour ce test.",
+  "A shoulder bag in our clear material with a white floral print": "Un sac porté épaule dans notre matière transparente à imprimé floral blanc",
+  "As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.": "Pour te remercier de l'appel, on t'offrira un cadeau. Voici les pièces qu'on envisage, toutes faites dans la même matière que nos manteaux.",
+  "AI-generated concept photos. The real pieces will look different.": "Photos conceptuelles générées par IA : les vraies pièces seront différentes.",
   "As a thank-you for the call, you'll get this hat, made from the same material as our coats.": "Pour te remercier de l'appel, tu recevras cette chapka, faite dans la même matière que nos manteaux.",
   "AI-generated concept photos. The real hat will look different.": "Photos conceptuelles générées par IA : la vraie chapka sera différente.",
   "A trapper hat with fluffy white trim, in our clear printed material": "Une chapka bordée de blanc duveteux, dans notre matière transparente imprimée",
@@ -633,6 +727,9 @@ const NL = {
   "Follow us": "Volg ons",
   "Xiaohongshu": "Xiaohongshu",
   "These looks are AI-generated images, made only for this test.": "Deze looks zijn met AI gemaakte beelden, alleen voor deze test.",
+  "A shoulder bag in our clear material with a white floral print": "Een schoudertas van ons doorzichtige materiaal met witte bloemenprint",
+  "As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.": "Als dank voor het gesprek krijg je een cadeautje. Dit zijn de stukken die we overwegen, allemaal van hetzelfde materiaal als onze jassen.",
+  "AI-generated concept photos. The real pieces will look different.": "Met AI gemaakte conceptfoto's: de echte stukken zien er anders uit.",
   "As a thank-you for the call, you'll get this hat, made from the same material as our coats.": "Als dank voor het gesprek krijg je deze muts, gemaakt van hetzelfde materiaal als onze jassen.",
   "AI-generated concept photos. The real hat will look different.": "Met AI gemaakte conceptfoto's: de echte muts ziet er anders uit.",
   "A trapper hat with fluffy white trim, in our clear printed material": "Een muts met oorkleppen en een pluizige witte rand, van ons doorzichtige bedrukte materiaal",
@@ -1456,6 +1553,7 @@ function goStep(n) {
 const backBtn = () => mk("button", { className: "linkbtn", type: "button", textContent: tr("Back"), onclick: () => step === 0 ? r2El.scrollIntoView({ behavior: motion(), block: "start" }) : goStep(step - (SKIP_INVITE && STEPS[step - 1] === "invite" ? 2 : 1)) });
 const field = (id, label, input) => { const l = mk("label", { className: "field", htmlFor: id }, [mk("span", { className: "up", textContent: label }), input]); return l; };
 const HAT_BASE = "../img/gift/";
+const GIFTS = [["hat-1.jpg", "A trapper hat with fluffy white trim, in our clear printed material"], ["bag-1.jpg", "A shoulder bag in our clear material with a white floral print"]];
 const HAT_IMGS = ["hat-1.jpg", "hat-4.jpg"];
 const SHARE_BASE = "https://vikiimyd.github.io/vitamin-vvv/survey-preview/";
 function shareLink() {
@@ -1546,8 +1644,8 @@ function renderEnding() {
       field("chatName", tr("What should we call you?"), name),
       contactField,
       mk("div", { className: "fieldset" }, [mk("span", { className: "up", textContent: tr("Call by") }), how]),
-      mk("figure", { className: "giftfig hat" }, [mk("div", { className: "giftrow" }, HAT_IMGS.map((f, k) => mk("img", { src: HAT_BASE + f, alt: k ? "" : tr("A trapper hat with fluffy white trim, in our clear printed material"), width: 640, height: 800, loading: k ? "lazy" : "eager", decoding: "async", draggable: false }))),
-        mk("figcaption", {}, [mk("span", { textContent: tr("As a thank-you for the call, you'll get this hat, made from the same material as our coats.") }), mk("span", { className: "ainote", textContent: tr("AI-generated concept photos. The real hat will look different.") })])]),
+      mk("figure", { className: "giftfig hat both" }, [mk("div", { className: "giftrow" }, GIFTS.map(([f, alt]) => mk("img", { src: HAT_BASE + f, alt: tr(alt), width: 640, height: 800, loading: "eager", decoding: "async", draggable: false }))),
+        mk("figcaption", {}, [mk("span", { textContent: tr("As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.") }), mk("span", { className: "ainote", textContent: tr("AI-generated concept photos. The real pieces will look different.") })])]),
       err,
       mk("div", { className: "endnav" }, [backBtn(), yes]),
       mk("button", { className: "linkbtn", type: "button", textContent: tr("Not now"), onclick: () => { E.chat = "not now"; E.name = ""; if (!EMAIL_RE.test(E.contact)) E.contact = ""; who = ""; saveFollowup(); goTo("waitlist"); } })
@@ -1594,7 +1692,7 @@ function renderEnding() {
       mk("div", { className: "endnav" }, [backBtn(), mk("span")])
     );
   }
-  if (id === "done") s.prepend(littleV("thank-you"));
+  if (id === "done") s.prepend(littleV("thank-you", "style_thanks"));
   else { lvStop(); if (id === "waitlist") lvPreload("thank-you"); }
   ending.replaceChildren(s);
 }
@@ -1609,6 +1707,7 @@ const STATIC = [["#aiNote", "These looks are AI-generated images, made only for 
   ["#choose", "Choose this look"], ["#undo", "Undo"], ["#r2 .round", "Round 2"], ["#r2 h2", "Two takes on your favourite."], ["#otherForm button", "Add"],
   ["#popTitle", "Which one do you prefer?"], ["#endTop h1", "Thank you."], ["#endSub", "Your picks help decide what we make first."], ["footer span:nth-child(2)", "Positive energy, rain or shine"]];
 function applyLang() {
+  if (lvNow) lvSay(lvNow);
   document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
   STATIC.forEach(([sel, k]) => { const n = document.querySelector(sel); if (n) n.textContent = tr(k); });
   document.getElementById("introText").textContent = tr("Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.", { tap: tr(TOUCH ? "Double-tap" : "Double-click") });
