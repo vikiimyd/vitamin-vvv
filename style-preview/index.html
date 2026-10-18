@@ -216,7 +216,6 @@ body { margin: 0; }
 .step { display: grid; gap: 18px; text-align: center; animation: settle .4s ease-out; }
 .step h2 { font-weight: 400; font-size: 20px; line-height: 1.35; margin: 0; text-wrap: balance; }
 .step .endp { margin: -6px 0 0; }
-.choices { display: grid; gap: 8px; }
 .choice { font: inherit; font-size: 13px; background: var(--white); color: var(--ink); border: 1px solid var(--hair); padding: 12px 14px; cursor: pointer; }
 .choice[aria-pressed="true"] { background: var(--ink); color: var(--white); border-color: var(--ink); }
 .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -296,7 +295,7 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
       <label class="namefield" for="who" id="nameField" hidden><span class="up">First, your name</span>
         <input id="who" type="text" autocomplete="name" placeholder="Your name" maxlength="60">
       </label>
-      <span class="up kicker" id="kicker">Six looks · about two minutes</span>
+      <span class="up kicker" id="kicker">Six looks · about 3 minutes</span>
       <h2>Which would you wear?</h2>
       <p id="introText"></p>
       <p class="ainote" id="aiNote">These looks are AI-generated images, made only for this test.</p>
@@ -396,8 +395,14 @@ const ZH = {
   "Follow us": "关注我们",
   "Xiaohongshu": "小红书",
   "These looks are AI-generated images, made only for this test.": "这些 look 是 AI 生成的图片，只用于这次测试。",
+  "Phone number (with country code)": "手机号（带区号）",
+  "+44 7700 900123": "+86 138 0013 8000",
+  "Enter a phone number, like +44 7700 900123.": "请填写手机号，比如 +86 138 0013 8000。",
+  "Clear card holder with crystal flowers": "镶着水晶花的透明卡包",
+  "We'll use the contact you gave us.": "我们会用你留下的联系方式。",
+  "Join the waitlist?": "要加入候补名单吗？",
   "Rainwear": "雨天穿搭", "Preview · answers here are not saved": "预览 · 这里的答案不会保存",
-  "Six looks · one minute": "六套造型 · 大约一分钟", "Which would you wear?": "你会穿哪一套？",
+  "Six looks · about 3 minutes": "六套造型 · 大约 3 分钟", "Which would you wear?": "你会穿哪一套？",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "左右滑动或用箭头查看每一套。{tap}你最喜欢的那套（或点「选这一套」），它会随风飘走；再从剩下的里面继续选，直到六套都排好。改主意了？点「撤销」。之后还有一个很短的第二轮。",
   "You usually wear": "你平时穿", "Womenswear": "女装", "Menswear": "男装", "Start": "开始",
   "Choose this look": "选这一套", "Undo": "撤销", "Double-tap": "双击", "Double-click": "双击",
@@ -412,10 +417,7 @@ const ZH = {
   "Thank you.": "谢谢你。", "Your picks help decide what we make first.": "你的选择会帮我们决定先做哪一款。", "Positive energy, rain or shine": "无论晴雨，都有好能量",
   "The sample": "样衣", "See the real piece": "看看实物", "This is our first sample.": "这是我们的第一件样衣。",
   "If you're a guy, don't worry: we're developing menswear too. And if this feels too plain, too much, or just not you, that's fine. That's exactly why your answers help us. We're still shaping our designs.": "如果你是男生，别担心，我们也在开发男装。如果你觉得这个风格太朴素、太浮夸，或者就是不喜欢，也没关系，这正是你的回答对我们有帮助的原因。我们的设计还在一步步成形。",
-  "Next": "下一步", "Back": "返回", "Question {n} of {m}": "第 {n} 题，共 {m} 题",
-  "If a coat looked as good as your favourite one and also worked in the rain, how would its price compare with your last coat?": "如果有一件外套和你最喜欢的那件一样好看，下雨也能穿，它的价格和你上一件外套比会怎样？",
-  "Less": "更便宜", "About the same": "差不多", "A bit more": "贵一点", "A lot more": "贵很多", "I wouldn't buy a coat for this": "我不会为这个买外套",
-  "Would you try one on if it were in a store or pop-up near you?": "如果你附近的店或快闪店有，你会去试穿吗？", "Yes": "会", "Maybe": "可能会", "No": "不会",
+  "Next": "下一步", "Back": "返回",
   "One more thing": "最后一步", "We're designing for {occ} right now.": "我们现在正在为{occ}做设计。",
   "Would you have 30 minutes to talk with our designer?": "你愿意花 30 分钟，和我们的设计师聊一聊吗？",
   "What should we call you?": "我们该怎么称呼你？", "First name": "名字", "Email or WeChat": "邮箱或微信", "you@example.com or WeChat ID": "邮箱或微信号",
@@ -446,8 +448,14 @@ const FR = {
   "Follow us": "Suis-nous",
   "Xiaohongshu": "Xiaohongshu",
   "These looks are AI-generated images, made only for this test.": "Ces looks sont des images générées par IA, réalisées uniquement pour ce test.",
+  "Phone number (with country code)": "Numéro de téléphone (avec l'indicatif)",
+  "+44 7700 900123": "+33 6 12 34 56 78",
+  "Enter a phone number, like +44 7700 900123.": "Indique un numéro de téléphone, comme +33 6 12 34 56 78.",
+  "Clear card holder with crystal flowers": "Porte-cartes transparent orné de fleurs en cristal",
+  "We'll use the contact you gave us.": "Nous utiliserons le contact que tu nous as laissé.",
+  "Join the waitlist?": "Rejoindre la liste d'attente ?",
   "Rainwear": "Vêtements de pluie", "Preview · answers here are not saved": "Aperçu · les réponses ne sont pas enregistrées",
-  "Six looks · one minute": "Six looks · une minute", "Which would you wear?": "Lequel porterais-tu ?",
+  "Six looks · about 3 minutes": "Six looks · environ 3 minutes", "Which would you wear?": "Lequel porterais-tu ?",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "Fais défiler ou utilise les flèches pour voir chaque look. {tap} ton préféré (ou appuie sur Choisir ce look) : il s'envole, puis choisis à nouveau parmi les autres jusqu'à avoir classé les six. Tu as changé d'avis ? Appuie sur Annuler. Ensuite, un court deuxième tour.",
   "You usually wear": "Tu portes surtout", "Womenswear": "Femme", "Menswear": "Homme", "Start": "Commencer",
   "Choose this look": "Choisir ce look", "Undo": "Annuler", "Double-tap": "Touche deux fois", "Double-click": "Double-clique sur",
@@ -462,10 +470,7 @@ const FR = {
   "Thank you.": "Merci.", "Your picks help decide what we make first.": "Tes choix nous aident à décider ce que nous fabriquons en premier.", "Positive energy, rain or shine": "Énergie positive, qu'il pleuve ou qu'il fasse beau",
   "The sample": "L'échantillon", "See the real piece": "Découvre la vraie pièce", "This is our first sample.": "Voici notre premier échantillon.",
   "If you're a guy, don't worry: we're developing menswear too. And if this feels too plain, too much, or just not you, that's fine. That's exactly why your answers help us. We're still shaping our designs.": "Si tu es un garçon, pas d'inquiétude : nous développons aussi une ligne homme. Et si ça te paraît trop simple, trop chargé, ou juste pas toi, ce n'est pas grave. C'est justement pour ça que tes réponses nous aident. Nos créations sont encore en train de prendre forme.",
-  "Next": "Suivant", "Back": "Retour", "Question {n} of {m}": "Question {n} sur {m}",
-  "If a coat looked as good as your favourite one and also worked in the rain, how would its price compare with your last coat?": "Si un manteau était aussi beau que ton préféré et tenait aussi la pluie, son prix serait comment par rapport à ton dernier manteau ?",
-  "Less": "Moins cher", "About the same": "À peu près pareil", "A bit more": "Un peu plus cher", "A lot more": "Beaucoup plus cher", "I wouldn't buy a coat for this": "Je n'achèterais pas de manteau pour ça",
-  "Would you try one on if it were in a store or pop-up near you?": "Tu l'essaierais s'il était dans une boutique ou un pop-up près de chez toi ?", "Yes": "Oui", "Maybe": "Peut-être", "No": "Non",
+  "Next": "Suivant", "Back": "Retour",
   "One more thing": "Une dernière chose", "We're designing for {occ} right now.": "En ce moment, nous créons pour {occ}.",
   "Would you have 30 minutes to talk with our designer?": "Aurais-tu 30 minutes pour parler avec notre designer ?",
   "What should we call you?": "Comment doit-on t'appeler ?", "First name": "Prénom", "Email or WeChat": "E-mail ou WeChat", "you@example.com or WeChat ID": "toi@exemple.com ou ID WeChat",
@@ -496,8 +501,14 @@ const NL = {
   "Follow us": "Volg ons",
   "Xiaohongshu": "Xiaohongshu",
   "These looks are AI-generated images, made only for this test.": "Deze looks zijn met AI gemaakte beelden, alleen voor deze test.",
+  "Phone number (with country code)": "Telefoonnummer (met landcode)",
+  "+44 7700 900123": "+31 6 12345678",
+  "Enter a phone number, like +44 7700 900123.": "Vul een telefoonnummer in, zoals +31 6 12345678.",
+  "Clear card holder with crystal flowers": "Transparante pashouder met kristallen bloemen",
+  "We'll use the contact you gave us.": "We gebruiken de contactgegevens die je ons gaf.",
+  "Join the waitlist?": "Wil je op de wachtlijst?",
   "Rainwear": "Regenkleding", "Preview · answers here are not saved": "Voorbeeld · antwoorden worden niet opgeslagen",
-  "Six looks · one minute": "Zes looks · één minuut", "Which would you wear?": "Welke zou jij dragen?",
+  "Six looks · about 3 minutes": "Zes looks · ongeveer 3 minuten", "Which would you wear?": "Welke zou jij dragen?",
   "Scroll or use the arrows to see each look. {tap} your favourite (or press Choose this look) and it drifts away, then pick again from the rest until you've ranked all six. Changed your mind? Press Undo. Then one short second round.": "Scroll of gebruik de pijlen om elke look te zien. {tap} je favoriet (of druk op Kies deze look) en hij waait weg; kies daarna opnieuw uit de rest tot je alle zes hebt gerangschikt. Van gedachten veranderd? Druk op Ongedaan maken. Daarna volgt nog een korte tweede ronde.",
   "You usually wear": "Je draagt meestal", "Womenswear": "Dames", "Menswear": "Heren", "Start": "Start",
   "Choose this look": "Kies deze look", "Undo": "Ongedaan maken", "Double-tap": "Dubbeltik op", "Double-click": "Dubbelklik op",
@@ -512,10 +523,7 @@ const NL = {
   "Thank you.": "Bedankt.", "Your picks help decide what we make first.": "Jouw keuzes helpen bepalen wat we als eerste maken.", "Positive energy, rain or shine": "Positieve energie, weer of geen weer",
   "The sample": "Het sample", "See the real piece": "Bekijk het echte stuk", "This is our first sample.": "Dit is ons eerste sample.",
   "If you're a guy, don't worry: we're developing menswear too. And if this feels too plain, too much, or just not you, that's fine. That's exactly why your answers help us. We're still shaping our designs.": "Ben je een man? Geen zorgen: we ontwikkelen ook herenkleding. En voelt dit te eenvoudig, te veel of gewoon niet als jij, dan is dat helemaal oké. Juist daarom helpen jouw antwoorden ons. Onze ontwerpen krijgen nog vorm.",
-  "Next": "Volgende", "Back": "Terug", "Question {n} of {m}": "Vraag {n} van {m}",
-  "If a coat looked as good as your favourite one and also worked in the rain, how would its price compare with your last coat?": "Als een jas er net zo goed uitzag als je favoriete jas en ook tegen regen kon, hoe zou de prijs zich verhouden tot je laatste jas?",
-  "Less": "Minder", "About the same": "Ongeveer hetzelfde", "A bit more": "Iets meer", "A lot more": "Veel meer", "I wouldn't buy a coat for this": "Daar zou ik geen jas voor kopen",
-  "Would you try one on if it were in a store or pop-up near you?": "Zou je er een passen als hij in een winkel of pop-up bij jou in de buurt hing?", "Yes": "Ja", "Maybe": "Misschien", "No": "Nee",
+  "Next": "Volgende", "Back": "Terug",
   "One more thing": "Nog één ding", "We're designing for {occ} right now.": "We ontwerpen op dit moment voor {occ}.",
   "Would you have 30 minutes to talk with our designer?": "Heb je 30 minuten om met onze ontwerper te praten?",
   "What should we call you?": "Hoe mogen we je noemen?", "First name": "Voornaam", "Email or WeChat": "E-mail of WeChat", "you@example.com or WeChat ID": "jij@voorbeeld.nl of WeChat-ID",
@@ -547,10 +555,14 @@ let KEPT = null;
 try { KEPT = JSON.parse(sessionStorage.getItem(STYLE_KEY)); } catch (e) {}
 if (!KEPT || typeof KEPT !== "object" || !ID_OK(KEPT.rid)) KEPT = null;
 if (ID_OK(PARAMS.get("rid")) && (!KEPT || KEPT.rid !== PARAMS.get("rid"))) KEPT = { rid: PARAMS.get("rid") };
+const INV_OK = v => ["y", "p", "l", "u"].includes(v);
+if (KEPT && ID_OK(PARAMS.get("rid")) && KEPT.rid === PARAMS.get("rid")) { if (INV_OK(PARAMS.get("inv"))) KEPT.inv = PARAMS.get("inv"); else delete KEPT.inv; }
 const keep = () => { try { if (KEPT) sessionStorage.setItem(STYLE_KEY, JSON.stringify(KEPT)); } catch (e) {} };
 keep();
-if (PARAMS.has("rid")) { const q = new URLSearchParams(location.search); q.delete("rid"); try { history.replaceState(history.state, "", location.pathname + (String(q) ? "?" + q : "") + location.hash); } catch (e) {} }
+if (PARAMS.has("rid") || PARAMS.has("inv")) { const q = new URLSearchParams(location.search); q.delete("rid"); q.delete("inv"); try { history.replaceState(history.state, "", location.pathname + (String(q) ? "?" + q : "") + location.hash); } catch (e) {} }
 const RID = KEPT ? KEPT.rid : "";
+const SURVEY_INV = KEPT && INV_OK(KEPT.inv) ? KEPT.inv : "";
+const SKIP_INVITE = SURVEY_INV !== "";
 
 const HASH = location.hash.toLowerCase();
 const INTERVIEW = false;
@@ -1271,15 +1283,18 @@ function finish() {
 
 if (TEST) {
   document.getElementById("review").hidden = false;
-  document.getElementById("modeNote").textContent = "survey version (?lang ?occ ?rid from the survey; ending: sample, Q24, Q25, chat invite, waitlist)";
+  document.getElementById("modeNote").textContent = "survey version (?lang ?occ ?rid ?inv from the survey; ending: sample, chat invite (skipped with ?inv), waitlist)" + (SURVEY_INV ? " · inv=" + SURVEY_INV : "");
   document.getElementById("orderNote").textContent = order.map((l, i) => `Look ${pad(i + 1)} = ${l.name}`).join(" · ");
   if (SUBMIT_URL) document.getElementById("saveNote").textContent = "Answers from this preview are saved to the sheet too, marked Test.";
 }
 
 layout();
 
-const STEPS = ["sample", "price", "try", "invite", "waitlist", "done"];
-const E = { price_vs_last: null, try_on: null, chat: null, name: "", contact: "", call_by: "Zoom", waitlist: null };
+const CONTACT_UI = { Zoom: ["Email or WeChat", "you@example.com or WeChat ID", "Enter an email or WeChat ID."], Phone: ["Phone number (with country code)", "+44 7700 900123", "Enter a phone number, like +44 7700 900123."] };
+const isPhone = c => /^[\d\s()+-]+$/.test(String(c || "").trim()) && /\d/.test(String(c || ""));
+const contactOk = (c, by) => by === "Phone" ? isPhone(c) && (String(c).match(/\d/g) || []).length >= 7 : EMAIL_RE.test(c) || /^[A-Za-z][\w-]{5,19}$/.test(c) || /^\+?[\d\s-]{6,}$/.test(c);
+const STEPS = ["sample", "invite", "waitlist", "done"];
+const E = { chat: null, name: "", contact: "", call_by: "Zoom", waitlist: null, email: "" };
 if (KEPT && KEPT.E && typeof KEPT.E === "object") for (const k in E) if (k in KEPT.E) E[k] = KEPT.E[k];
 const ending = document.getElementById("ending");
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -1288,7 +1303,7 @@ const mk = (tag, props = {}, kids = []) => { const n = Object.assign(document.cr
 const motion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 function saveFollowup() {
   const callBy = E.chat === "yes" ? (lang === "zh" && E.call_by === "Zoom" ? "Tencent Meeting" : E.call_by) : "";
-  send("followup", { price_vs_last: E.price_vs_last, try_on: E.try_on, chat: E.chat, name: E.chat === "yes" ? E.name : "", contact: E.chat === "yes" || E.waitlist === "yes" ? E.contact : "", call_by: callBy, waitlist: E.waitlist });
+  send("followup", { price_vs_last: "", try_on: "", chat: E.chat, name: E.chat === "yes" ? E.name : "", contact: [E.chat === "yes" || E.waitlist === "yes" ? E.contact : "", E.chat === "yes" && E.waitlist === "yes" ? E.email : ""].filter((c, k, l) => c && l.indexOf(c) === k).join("; "), call_by: callBy, waitlist: E.waitlist });
   if (KEPT) { KEPT.E = Object.assign({}, E); keep(); }
   if (TEST) document.getElementById("saveNote").textContent = "Follow-up: " + JSON.stringify({ ...E, call_by: callBy });
 }
@@ -1298,27 +1313,13 @@ function showEnding(n) {
   joinEl.hidden = false;
   renderEnding();
 }
+const goTo = id => goStep(STEPS.indexOf(id === "invite" && SKIP_INVITE ? "waitlist" : id));
 function goStep(n) {
   showEnding(n);
   joinEl.scrollIntoView({ behavior: motion(), block: "start" });
 }
-const backBtn = () => mk("button", { className: "linkbtn", type: "button", textContent: tr("Back"), onclick: () => step === 0 ? r2El.scrollIntoView({ behavior: motion(), block: "start" }) : goStep(step - 1) });
+const backBtn = () => mk("button", { className: "linkbtn", type: "button", textContent: tr("Back"), onclick: () => step === 0 ? r2El.scrollIntoView({ behavior: motion(), block: "start" }) : goStep(step - (SKIP_INVITE && STEPS[step - 1] === "invite" ? 2 : 1)) });
 const field = (id, label, input) => { const l = mk("label", { className: "field", htmlFor: id }, [mk("span", { className: "up", textContent: label }), input]); return l; };
-function choiceStep(key, q, opts, n) {
-  const box = mk("div", { className: "choices", role: "group" });
-  const next = mk("button", { className: "btn", type: "button", textContent: tr("Next"), disabled: !E[key], onclick: () => goStep(step + 1) });
-  opts.forEach(o => {
-    const b = mk("button", { className: "choice", type: "button", textContent: tr(o) });
-    b.setAttribute("aria-pressed", String(E[key] === o));
-    b.onclick = () => {
-      E[key] = o; saveFollowup();
-      box.querySelectorAll(".choice").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
-      next.disabled = false;
-    };
-    box.append(b);
-  });
-  return [mk("span", { className: "up kicker", textContent: tr("Question {n} of {m}", { n, m: 2 }) }), mk("h2", { textContent: tr(q) }), box, mk("div", { className: "endnav" }, [backBtn(), next])];
-}
 const SHARE_BASE = "https://vikiimyd.github.io/vitamin-vvv/survey-preview/";
 function shareLink() {
   const q = new URLSearchParams();
@@ -1365,22 +1366,25 @@ function renderEnding() {
       mk("p", { className: "endp", textContent: tr("This is our first sample.") }),
       row, dots,
       mk("p", { className: "soft", textContent: tr("If you're a guy, don't worry: we're developing menswear too. And if this feels too plain, too much, or just not you, that's fine. That's exactly why your answers help us. We're still shaping our designs.") }),
-      mk("div", { className: "endnav" }, [backBtn(), mk("button", { className: "btn", type: "button", textContent: tr("Next"), onclick: () => goStep(1) })])
+      mk("div", { className: "endnav" }, [backBtn(), mk("button", { className: "btn", type: "button", textContent: tr("Next"), onclick: () => goTo("invite") })])
     );
-  } else if (id === "price") {
-    s.append(...choiceStep("price_vs_last", "If a coat looked as good as your favourite one and also worked in the rain, how would its price compare with your last coat?", ["Less", "About the same", "A bit more", "A lot more", "I wouldn't buy a coat for this"], 1));
-  } else if (id === "try") {
-    s.append(...choiceStep("try_on", "Would you try one on if it were in a store or pop-up near you?", ["Yes", "Maybe", "No"], 2));
   } else if (id === "invite") {
     const occ = OCC_TEXT[lang][OCC_PARAM];
     const name = mk("input", { id: "chatName", type: "text", autocomplete: "given-name", maxLength: 40, placeholder: tr("First name"), value: E.name });
     const contact = mk("input", { id: "chatContact", type: "text", autocomplete: "email", maxLength: 80, placeholder: tr("you@example.com or WeChat ID"), value: E.contact && E.chat !== "not now" ? E.contact : "" });
     contact.setAttribute("autocapitalize", "off"); contact.setAttribute("spellcheck", "false");
+    const contactField = field("chatContact", "", contact);
+    const setBy = () => {
+      const by = E.call_by === "Phone" ? "Phone" : "Zoom";
+      contactField.firstChild.textContent = tr(CONTACT_UI[by][0]); contact.placeholder = tr(CONTACT_UI[by][1]);
+      contact.autocomplete = by === "Phone" ? "tel" : "email"; contact.inputMode = by === "Phone" ? "tel" : "text";
+    };
+    setBy();
     const how = mk("div", { className: "seg", role: "radiogroup" });
     ["Zoom", "Phone"].forEach(m => {
       const b = mk("button", { className: "choice", type: "button", textContent: tr(m) });
       b.setAttribute("role", "radio"); b.setAttribute("aria-checked", String(E.call_by === m)); b.setAttribute("aria-pressed", String(E.call_by === m));
-      b.onclick = () => { E.call_by = m; how.querySelectorAll(".choice").forEach(x => { x.setAttribute("aria-pressed", String(x === b)); x.setAttribute("aria-checked", String(x === b)); }); };
+      b.onclick = () => { E.call_by = m; setBy(); err.textContent = ""; contact.removeAttribute("aria-invalid"); how.querySelectorAll(".choice").forEach(x => { x.setAttribute("aria-pressed", String(x === b)); x.setAttribute("aria-checked", String(x === b)); }); };
       how.append(b);
     });
     const err = mk("p", { className: "err", role: "alert" });
@@ -1388,11 +1392,11 @@ function renderEnding() {
     yes.onclick = () => {
       const n = name.value.replace(/\s+/g, " ").trim(), c = contact.value.trim();
       [name, contact].forEach(i => i.removeAttribute("aria-invalid"));
-      const okContact = EMAIL_RE.test(c) || /^[A-Za-z][\w-]{5,19}$/.test(c) || /^\+?[\d\s-]{6,}$/.test(c);
+      const okContact = contactOk(c, E.call_by);
       if (!n) { err.textContent = tr("Tell us what to call you."); name.setAttribute("aria-invalid", "true"); name.focus(); return; }
-      if (!okContact) { err.textContent = tr("Enter an email or WeChat ID."); contact.setAttribute("aria-invalid", "true"); contact.focus(); return; }
+      if (!okContact) { err.textContent = tr(CONTACT_UI[E.call_by === "Phone" ? "Phone" : "Zoom"][2]); contact.setAttribute("aria-invalid", "true"); contact.focus(); return; }
       E.chat = "yes"; E.name = n; E.contact = c; who = n;
-      saveFollowup(); goStep(4);
+      saveFollowup(); goTo("waitlist");
     };
     [name, contact].forEach(i => i.addEventListener("keydown", e => { if (e.key === "Enter") yes.click(); }));
     s.append(
@@ -1400,26 +1404,28 @@ function renderEnding() {
       mk("h2", { textContent: tr("We're designing for {occ} right now.", { occ }) }),
       mk("p", { className: "endp", textContent: tr("Would you have 30 minutes to talk with our designer?") }),
       field("chatName", tr("What should we call you?"), name),
-      field("chatContact", tr("Email or WeChat"), contact),
+      contactField,
       mk("div", { className: "fieldset" }, [mk("span", { className: "up", textContent: tr("Call by") }), how]),
-      mk("figure", { className: "giftfig" }, [mk("img", { src: GIFT, alt: "Clear card holder with crystal flowers" }), mk("figcaption", { textContent: tr("As a thank-you for the call, you'll get this card holder, made from the same material as our coats.") })]),
+      mk("figure", { className: "giftfig" }, [mk("img", { src: GIFT, alt: tr("Clear card holder with crystal flowers") }), mk("figcaption", { textContent: tr("As a thank-you for the call, you'll get this card holder, made from the same material as our coats.") })]),
       err,
       mk("div", { className: "endnav" }, [backBtn(), yes]),
-      mk("button", { className: "linkbtn", type: "button", textContent: tr("Not now"), onclick: () => { E.chat = "not now"; E.name = ""; if (!EMAIL_RE.test(E.contact)) E.contact = ""; who = ""; saveFollowup(); goStep(4); } })
+      mk("button", { className: "linkbtn", type: "button", textContent: tr("Not now"), onclick: () => { E.chat = "not now"; E.name = ""; if (!EMAIL_RE.test(E.contact)) E.contact = ""; who = ""; saveFollowup(); goTo("waitlist"); } })
     );
   } else if (id === "waitlist") {
-    const join = c => { E.waitlist = "yes"; if (c) E.contact = c; saveFollowup(); goStep(5); };
-    const no = mk("button", { className: "linkbtn", type: "button", textContent: tr("No thanks"), onclick: () => { E.waitlist = "no"; saveFollowup(); goStep(5); } });
+    const surveyYes = E.chat !== "yes" && (SURVEY_INV === "y" || SURVEY_INV === "p"), callYes = E.chat === "yes" || surveyYes;
+    const phoneOnly = E.chat === "yes" ? isPhone(E.contact) : SURVEY_INV === "p";
+    const join = c => { E.waitlist = "yes"; if (E.chat === "yes") E.email = c || ""; else E.contact = c || ""; saveFollowup(); goTo("done"); };
+    const no = mk("button", { className: "linkbtn", type: "button", textContent: tr("No thanks"), onclick: () => { E.waitlist = "no"; saveFollowup(); goTo("done"); } });
     s.append(mk("span", { className: "up kicker", textContent: tr("Waitlist") }));
-    if (E.chat === "yes") {
+    if (callYes && !phoneOnly) {
       s.append(
         mk("h2", { textContent: tr("Also join the waitlist?") }),
-        mk("p", { className: "endp", textContent: tr("See the first collection before anyone else.") + (lang === "zh" ? "" : " ") + tr("We'll use {c}.", { c: E.contact }) }),
+        mk("p", { className: "endp", textContent: tr("See the first collection before anyone else.") + (lang === "zh" ? "" : " ") + (surveyYes ? tr("We'll use the contact you gave us.") : tr("We'll use {c}.", { c: E.contact })) }),
         mk("div", { className: "endnav" }, [backBtn(), mk("button", { className: "btn", type: "button", textContent: tr("Yes, add me"), onclick: () => join() })]),
         no
       );
     } else {
-      const email = mk("input", { id: "wlEmail", type: "email", autocomplete: "email", placeholder: "you@example.com", value: E.contact });
+      const email = mk("input", { id: "wlEmail", type: "email", autocomplete: "email", placeholder: "you@example.com", value: (E.chat !== "yes" && EMAIL_RE.test(E.contact) ? E.contact : E.email) || "" });
       const err = mk("p", { className: "err", role: "alert" });
       const add = mk("button", { className: "btn", type: "button", textContent: tr("Add to waitlist") });
       add.onclick = () => {
@@ -1429,7 +1435,7 @@ function renderEnding() {
       };
       email.addEventListener("keydown", e => { if (e.key === "Enter") add.click(); });
       s.append(
-        mk("h2", { textContent: tr("Or just join the waitlist?") }),
+        mk("h2", { textContent: tr(callYes ? "Also join the waitlist?" : E.chat === "not now" ? "Or just join the waitlist?" : "Join the waitlist?") }),
         mk("p", { className: "endp", textContent: tr("See the first collection before anyone else.") }),
         field("wlEmail", tr("Your email"), email), err,
         mk("div", { className: "endnav" }, [backBtn(), add]),
@@ -1437,7 +1443,7 @@ function renderEnding() {
       );
     }
   } else {
-    const lines = [E.chat === "yes" && tr("We'll be in touch to pick a time for the call."), E.waitlist === "yes" && tr("You're on the waitlist.")].filter(Boolean);
+    const lines = [(E.chat === "yes" || SURVEY_INV === "y" || SURVEY_INV === "p") && tr("We'll be in touch to pick a time for the call."), E.waitlist === "yes" && tr("You're on the waitlist.")].filter(Boolean);
     s.append(
       mk("h2", { textContent: tr("Thank you.") }),
       mk("p", { className: "endp", textContent: lines.length ? lines.join(lang === "zh" ? "" : " ") : tr("Thank you for taking part.") }),
@@ -1456,7 +1462,7 @@ function labelToken(b) {
   if (lang === "en") { delete b.dataset.label; b.classList.remove("typed", "long"); b.style.fontSize = ""; b.textContent = b.dataset.name; return; }
   b.dataset.label = tr(b.dataset.name); b.classList.add("typed"); fitLabel(b);
 }
-const STATIC = [["#aiNote", "These looks are AI-generated images, made only for this test."], ["#pv", "Preview · answers here are not saved"], ["#kicker", "Six looks · one minute"], ["#intro h2", "Which would you wear?"],
+const STATIC = [["#aiNote", "These looks are AI-generated images, made only for this test."], ["#pv", "Preview · answers here are not saved"], ["#kicker", "Six looks · about 3 minutes"], ["#intro h2", "Which would you wear?"],
   ["#wearLabel", "You usually wear"], ['.gender [data-g="womenswear"]', "Womenswear"], ['.gender [data-g="menswear"]', "Menswear"], ["#start", "Start"],
   ["#choose", "Choose this look"], ["#undo", "Undo"], ["#r2 .round", "Round 2"], ["#r2 h2", "Two takes on your favourite."], ["#otherForm button", "Add"],
   ["#popTitle", "Which one do you prefer?"], ["#endTop h1", "Thank you."], ["#endSub", "Your picks help decide what we make first."], ["footer span:nth-child(2)", "Positive energy, rain or shine"]];
