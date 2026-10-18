@@ -266,8 +266,6 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 .intro .ainote { color: var(--grey); font-size: 11.5px; margin-top: -6px; }
 @media (min-width: 900px) { .intro .ainote { font-size: 13px; } }
 .step > .follow:last-child { margin-top: 18px; }
-.follow .acct { display: inline-flex; flex-direction: column; align-items: center; gap: 3px; }
-.follow .handle { font-size: 12px; color: var(--grey); -webkit-user-select: all; user-select: all; }
 @media (max-width: 359px) { .other { flex-wrap: wrap; } }
 
 
@@ -641,7 +639,6 @@ const ZH = {
   "Copy this link:": "复制这个链接：",
   "Follow us": "关注我们",
   "Xiaohongshu": "小红书",
-  "Vitamin VVV · ID 18775934882": "Vitamin VVV · 小红书号 18775934882",
   "These looks are AI-generated images, made only for this test.": "这些 look 是 AI 生成的图片，只用于这次测试。",
   "A shoulder bag in our clear material with a white floral print": "用我们透明白色印花材料做的单肩包",
   "As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.": "聊完会送你一份谢礼，这两款是我们正在考虑的，都是和我们外套一样的材料。",
@@ -701,7 +698,6 @@ const FR = {
   "Copy this link:": "Copie ce lien :",
   "Follow us": "Suis-nous",
   "Xiaohongshu": "Xiaohongshu",
-  "Vitamin VVV · ID 18775934882": "Vitamin VVV · ID 18775934882",
   "These looks are AI-generated images, made only for this test.": "Ces looks sont des images générées par IA, réalisées uniquement pour ce test.",
   "A shoulder bag in our clear material with a white floral print": "Un sac porté épaule dans notre matière transparente à imprimé floral blanc",
   "As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.": "Pour te remercier de l'appel, on t'offrira un cadeau. Voici les pièces qu'on envisage, toutes faites dans la même matière que nos manteaux.",
@@ -761,7 +757,6 @@ const NL = {
   "Copy this link:": "Kopieer deze link:",
   "Follow us": "Volg ons",
   "Xiaohongshu": "Xiaohongshu",
-  "Vitamin VVV · ID 18775934882": "Vitamin VVV · ID 18775934882",
   "These looks are AI-generated images, made only for this test.": "Deze looks zijn met AI gemaakte beelden, alleen voor deze test.",
   "A shoulder bag in our clear material with a white floral print": "Een schoudertas van ons doorzichtige materiaal met witte bloemenprint",
   "As a thank-you for the call, we'll send you a gift. These are the pieces we're considering, all made from the same material as our coats.": "Als dank voor het gesprek krijg je een cadeautje. Dit zijn de stukken die we overwegen, allemaal van hetzelfde materiaal als onze jassen.",
@@ -1626,10 +1621,8 @@ const IG_SVG = "<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidde
 const XHS_MARK = "data:image/png;base64,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";
 const igIcon = () => { const s = mk("span", { className: "ig" }); s.setAttribute("aria-hidden", "true"); s.innerHTML = IG_SVG; return s; };
 const followEl = () => mk("p", { className: "follow" }, [mk("span", { className: "up", textContent: tr("Follow us") }),
-  mk("span", { className: "acct" }, [mk("a", { href: "https://www.instagram.com/vitaminvvv.studio/", target: "_blank", rel: "noopener", className: "soc" }, [igIcon(), mk("span", { textContent: "Instagram" })]),
-    mk("span", { className: "handle", textContent: "@vitaminvvv.studio" })]),
-  mk("span", { className: "acct" }, [mk("a", { href: "http://xhslink.com/m/6OpSEpuv9o3", target: "_blank", rel: "noopener", className: "soc" }, [mk("img", { src: XHS_MARK, alt: "", width: 42, height: 20, className: "xhs" }), mk("span", { textContent: tr("Xiaohongshu") })]),
-    mk("span", { className: "handle", textContent: tr("Vitamin VVV · ID 18775934882") })])]);
+  mk("a", { href: "https://www.instagram.com/vitaminvvv.studio/", target: "_blank", rel: "noopener", className: "soc" }, [igIcon(), mk("span", { textContent: "Instagram" })]),
+  mk("a", { href: "http://xhslink.com/m/6OpSEpuv9o3", target: "_blank", rel: "noopener", className: "soc" }, [mk("img", { src: XHS_MARK, alt: "", width: 42, height: 20, className: "xhs" }), mk("span", { textContent: tr("Xiaohongshu") })])]);
 function renderEnding() {
   renderResult();
   const s = mk("div", { className: "step" });
