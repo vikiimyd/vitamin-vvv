@@ -366,6 +366,7 @@ header, .preview, main { position: relative; z-index: 1; }
 @media (min-width: 1180px) and (min-height: 520px) { .done > .lv { left: calc(100% + 56px); } }
 
 .lv-say { position: absolute; top: 4%; width: max-content; max-width: 200px; box-sizing: border-box; padding: 7px 11px 8px; background: #fff; color: #141414; border: 1px solid #141414; border-radius: 14px; font-family: inherit; font-size: 12.5px; font-weight: 400; line-height: 1.35; letter-spacing: 0.01em; text-align: left; text-transform: none; text-wrap: balance; white-space: normal; z-index: 2; }
+.lv-say .ph { white-space: nowrap; }
 .lv-say.l { right: calc(100% + 9px); transform-origin: right 16px; }
 .lv-say.r { left: calc(100% + 9px); transform-origin: left 16px; }
 .lv-say::after { content: ""; position: absolute; top: 12px; width: 8px; height: 8px; background: #fff; border: 1px solid #141414; box-sizing: border-box; transform: rotate(45deg); }
@@ -960,7 +961,7 @@ function choices(q, opts, box, other, onPick) {
 const LV_BASE = "../little-v/";
 const LV_STILL = { "welcome": "1-welcome", "thinking": "2-thinking", "halfway": "3-halfway", "almost-done": "4-almost-done", "reveal": "5-reveal", "thank-you": "6-thank-you" };
 const LV_LOOPS = {"welcome": {"base": "welcome-pad", "win": [94, 61, 639, 650]}, "thinking": {"base": "thinking-pad", "win": [163, 34, 569, 650]}, "halfway": {"base": "halfway-pad", "win": [130, 58, 596, 646]}, "almost-done": {"base": "almost-done-pad", "win": [162, 42, 590, 658]}, "reveal": {"base": "reveal-pad", "win": [177, 70, 572, 650]}, "thank-you": {"base": "thank-you-pad", "win": [150, 70, 587, 668]}};
-const LV_SAY = {"survey_welcome": {"en": "Hey! No wrong answers here, just yours.", "zh": "嗨！没有标准答案，放轻松就好", "fr": "Coucou ! Ici, pas de mauvaise réponse.", "nl": "Hallo! Geen foute antwoorden, beloofd."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favorite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
+const LV_SAY = {"survey_welcome": {"en": "Hi, I'm Little V! I'll be with you all the way.", "zh": "嗨，我是 Little V！我陪你一起完成", "fr": "Coucou, moi c'est Little V ! On fait ça ensemble.", "nl": "Hoi, ik ben Little V! We doen dit samen."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favorite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
 const LV_PAD = [170, 75, 570, 720], LV_SM = 320 * 570 / 720;
 const lvStill = stage => LV_BASE + "little-v-" + LV_STILL[stage] + ".webp";
 const LV_MOV = (() => {
@@ -1009,8 +1010,8 @@ const LV_OBST = ".opt, button, a, input:not([type=hidden]), textarea, select, .f
 function lvSayPlace(box) {
   const say = box && box.querySelector(":scope > .lv-say");
   if (!say || !box.isConnected) return;
-  box.style.transform = ""; say.style.display = ""; say.style.visibility = "hidden";
-  const b = box.getBoundingClientRect(), cs = getComputedStyle(box);
+  say.style.display = ""; say.style.visibility = "hidden";
+  const b = box.getBoundingClientRect();
   if (!b.width || !b.height) return;
   const vw = document.documentElement.clientWidth, EDGE = 12, GAP = 9, rects = [];
   const seen = e => e.checkVisibility ? e.checkVisibility({ opacityProperty: true, visibilityProperty: true }) : getComputedStyle(e).visibility !== "hidden";
@@ -1027,21 +1028,29 @@ function lvSayPlace(box) {
     if (r.width > 0 && r.height > 0 && !(r.left <= b.left + 1 && r.right >= b.right - 1 && r.top <= b.top + 1 && r.bottom >= b.bottom - 1)) rects.push(r);
   });
   const clear = (L, T, R, B, m) => !rects.some(r => r.left < R + m && r.right > L - m && r.top < B + 4 && r.bottom > T - 4);
-  const centred = cs.position === "relative" && cs.justifySelf === "center";
   const fits = (side, w) => {
     say.classList.toggle("l", side === "l"); say.classList.toggle("r", side === "r");
     say.style.maxWidth = w + "px";
-    const W = say.offsetWidth, H = say.offsetHeight, dx = centred && side === "r" ? -(W + GAP) / 2 : centred ? (W + GAP) / 2 : 0;
-    const L = side === "l" ? b.left + dx - GAP - W : b.right + dx + GAP, T = b.top + b.height * 0.04;
-    if (W > w + 0.5 || L < EDGE || L + W > vw - EDGE) return false;
-    if (!clear(L, T, L + W, T + H, 6) || (dx && !clear(b.left + dx, b.top, b.right + dx, b.bottom, 2))) return false;
-    box.style.transform = dx ? "translateX(" + dx + "px)" : "";
-    return true;
+    const W = say.offsetWidth, H = say.offsetHeight, s = getComputedStyle(say), inner = say.clientWidth - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight);
+    const L = side === "l" ? b.left - GAP - W : b.right + GAP, T = b.top + b.height * 0.04;
+    if (W > w + 0.5 || [...say.children].some(e => e.offsetWidth > inner + 0.5) || L < EDGE || L + W > vw - EDGE) return false;
+    return clear(L, T, L + W, T + H, 6);
   };
-  const room = side => Math.floor(side === "l" ? b.left - GAP - EDGE : vw - EDGE - b.right - GAP) + (centred ? 400 : 0);
+  const hug = () => {
+    const rr = document.createRange(), s = getComputedStyle(say), k = say.getBoundingClientRect().width / say.offsetWidth || 1;
+    rr.selectNodeContents(say);
+    let lo = Infinity, hi = -Infinity;
+    for (const r of rr.getClientRects()) if (r.width > 0) { lo = Math.min(lo, r.left); hi = Math.max(hi, r.right); }
+    return hi > lo ? Math.ceil((hi - lo) / k + parseFloat(s.paddingLeft) + parseFloat(s.paddingRight) + parseFloat(s.borderLeftWidth) + parseFloat(s.borderRightWidth)) + 1 : 0;
+  };
+  const room = side => Math.floor(side === "l" ? b.left - GAP - EDGE : vw - EDGE - b.right - GAP);
   for (const side of (b.left + b.right) / 2 > vw / 2 + 1 ? ["l", "r"] : ["r", "l"])
-    for (let w = Math.min(210, room(side)); w >= 84; w -= 8) if (fits(side, w)) { say.style.visibility = ""; return; }
-  box.style.transform = ""; say.style.display = "none"; say.style.visibility = "";
+    for (let w = Math.min(210, room(side)); w >= 84; w -= 8) if (fits(side, w)) {
+      const h = hug(), lines = say.offsetHeight;
+      if (h && h < say.offsetWidth - 1 && !(fits(side, h) && say.offsetHeight === lines)) fits(side, w);
+      say.style.visibility = ""; return;
+    }
+  say.style.display = "none"; say.style.visibility = "";
 }
 function lvSay(box, key) {
   if (key !== undefined) box.dataset.say = key || "";
@@ -1049,7 +1058,11 @@ function lvSay(box, key) {
   let say = box.querySelector(":scope > .lv-say");
   if (!text) { if (say) say.remove(); return; }
   if (!say) { say = document.createElement("span"); say.className = "lv-say"; say.style.visibility = "hidden"; box.append(say); }
-  if (say.textContent !== text) { say.textContent = text; say.classList.remove("in"); void say.offsetWidth; say.classList.add("in"); }
+  if (say.textContent !== text) {
+    if (/[\u3400-\u9fff]/.test(text)) say.replaceChildren(...text.match(/[^！？，。、；：…]+[！？，。、；：…]*|[！？，。、；：…]+/g).map(ph => { const e = document.createElement("span"); e.className = "ph"; e.textContent = ph; return e; }));
+    else say.textContent = text;
+    say.classList.remove("in"); void say.offsetWidth; say.classList.add("in");
+  }
   requestAnimationFrame(() => lvSayPlace(box));
   setTimeout(() => lvSayPlace(box), 450);
   setTimeout(() => lvSayPlace(box), 1200);
