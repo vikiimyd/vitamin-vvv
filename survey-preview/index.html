@@ -812,12 +812,14 @@ function choices(q, opts, box, other, onPick) {
   sync();
   return { sync, isOn };
 }
+let shownI = null;
 function frWJ(s) {
   if (lang === "fr") s.querySelectorAll("h1, h2").forEach(h => h.childNodes.forEach(n => { if (n.nodeType === 3) n.data = n.data.replace(/(\p{L})-(ce|tu|il|elle|on|je|nous|vous|ils|elles)\b/gu, "$1-\u2060$2"); }));
   return s;
 }
 function render() {
   persist();
+  if (shownI !== i) { shownI = i; window.scrollTo(0, 0); }
   if (blink) { clearInterval(blink); blink = null; }
   Rain.set(i < 0 ? .25 : rainLevel(visible()));
   app.innerHTML = "";
