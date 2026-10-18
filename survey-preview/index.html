@@ -460,7 +460,7 @@ const Q = [
   ]),
   ...P("Coats, shopping and price", [
     { id: "coat", multi: true, max: 3, q: "When you choose a coat, what matters most?", sub: "Pick up to 3.", o: ["How it looks with my outfit", "The cut and fit", "Fabric and quality", "The brand or designer", "Function (keeps me warm or dry, breathes)", "Comfort, easy to move in", "I can wear it often, with most of what I own", "Price", "Other"] },
-    { id: "price", type: "price", q: "The last time you bought a coat or jacket for yourself, about how much did it cost?", sub: "Choose your currency first.", label: o => t(PRICE_SHOW[o] || o) },
+    { id: "price", type: "price", q: "The last time you bought a coat or jacket for yourself, about how much did it cost?", sub: "Not your currency? Tap another one.", label: o => t(PRICE_SHOW[o] || o) },
     { id: "bought", q: "Where did you buy it?", o: ["In a store", "The brand's own website", "An online shop with many brands", "Second-hand", "Through social media", "It was a gift", "Other"] },
     { id: "discover", multi: true, q: "Where do you usually discover new clothes?", sub: "Pick all that apply.", o: ["Instagram", "Xiaohongshu", "TikTok", "Pinterest", "Friends", "Random stores I walk past", "The stores or websites of brands I like", "Other"] },
     { id: "shopmode", q: "Do you prefer shopping for clothes in stores or online?", o: ["Mostly in stores", "Mostly online", "Both"] },
@@ -550,7 +550,7 @@ const ZH = {
   "Of everything you picked, which bothered you most?": "你选的这些里，哪些最让你困扰？", "Pick up to 3, in order.": "按顺序最多选 3 个。",
   "When you choose a coat, what matters most?": "选外套的时候，你最看重什么？",
   "How it looks with my outfit": "和我的穿搭配不配", "The cut and fit": "版型和合身", "Fabric and quality": "面料和质量", "The brand or designer": "品牌或设计师", "Function (keeps me warm or dry, breathes)": "功能（保暖、防水、透气）", "Comfort, easy to move in": "舒服、好活动", "I can wear it often, with most of what I own": "能经常穿，和我大部分衣服都好搭", "Price": "价格",
-  "The last time you bought a coat or jacket for yourself, about how much did it cost?": "你上一次给自己买外套或夹克，大概花了多少钱？", "Choose your currency first.": "先选货币。", "Don't remember": "不记得了",
+  "The last time you bought a coat or jacket for yourself, about how much did it cost?": "你上一次给自己买外套或夹克，大概花了多少钱？", "Not your currency? Tap another one.": "货币不对的话，点一下换一个。", "Don't remember": "不记得了",
   "Where did you buy it?": "在哪里买的？", "In a store": "实体店", "The brand's own website": "品牌官网或官方旗舰店（天猫、京东等）", "An online shop with many brands": "多品牌网店", "Second-hand": "二手", "Through social media": "在社交媒体上下单（小红书、抖音、微信等）", "It was a gift": "别人送的",
   "Where do you usually discover new clothes?": "你平时在哪里发现新衣服？", "Instagram": "Instagram", "Xiaohongshu": "小红书", "TikTok": "抖音 / TikTok", "Pinterest": "Pinterest", "Friends": "朋友", "Random stores I walk past": "路过随便进的店", "The stores or websites of brands I like": "我喜欢的品牌的店或网站",
   
@@ -610,7 +610,7 @@ const FR = {
   "Of everything you picked, which bothered you most?": "Parmi tout ce que tu as choisi, qu'est-ce qui t'a le plus embêté·e ?", "Pick up to 3, in order.": "Choisis-en 3 maximum, dans l'ordre.",
   "When you choose a coat, what matters most?": "Quand tu choisis un manteau ou une veste, qu'est-ce qui compte le plus ?",
   "How it looks with my outfit": "Comment il va avec ma tenue", "The cut and fit": "La coupe et le tombé", "Fabric and quality": "La matière et la qualité", "The brand or designer": "La marque ou le créateur", "Function (keeps me warm or dry, breathes)": "La fonction (il me garde au chaud ou au sec, il respire)", "Comfort, easy to move in": "Le confort, la liberté de mouvement", "I can wear it often, with most of what I own": "Je peux le porter souvent, avec presque tout ce que j'ai", "Price": "Le prix",
-  "The last time you bought a coat or jacket for yourself, about how much did it cost?": "La dernière fois que tu t'es acheté un manteau ou une veste, ça a coûté combien environ ?", "Choose your currency first.": "Choisis d'abord ta devise.", "Don't remember": "Je ne me souviens pas",
+  "The last time you bought a coat or jacket for yourself, about how much did it cost?": "La dernière fois que tu t'es acheté un manteau ou une veste, ça a coûté combien environ ?", "Not your currency? Tap another one.": "Ce n'est pas ta devise ? Touche-en une autre.", "Don't remember": "Je ne me souviens pas",
   "Where did you buy it?": "Tu l'as acheté où ?", "In a store": "En magasin", "The brand's own website": "Sur le site de la marque", "An online shop with many brands": "Sur une boutique en ligne multimarque", "Second-hand": "En seconde main", "Through social media": "Via les réseaux sociaux", "It was a gift": "C'était un cadeau",
   "Where do you usually discover new clothes?": "Où est-ce que tu découvres de nouveaux vêtements, en général ?", "Instagram": "Instagram", "Xiaohongshu": "Xiaohongshu", "TikTok": "TikTok", "Pinterest": "Pinterest", "Friends": "Mes ami·e·s", "Random stores I walk past": "Des boutiques devant lesquelles je passe par hasard", "The stores or websites of brands I like": "Les boutiques ou sites des marques que j'aime",
   
@@ -669,7 +669,7 @@ const NL = {
   "Of everything you picked, which bothered you most?": "Wat stoorde je het meest van alles wat je koos?", "Pick up to 3, in order.": "Kies er maximaal 3, op volgorde.",
   "When you choose a coat, what matters most?": "Wat vind je het belangrijkst als je een jas kiest?",
   "How it looks with my outfit": "Hoe hij bij mijn outfit staat", "The cut and fit": "De snit en pasvorm", "Fabric and quality": "Stof en kwaliteit", "The brand or designer": "Het merk of de ontwerper", "Function (keeps me warm or dry, breathes)": "Functie (houdt me warm of droog, ademt)", "Comfort, easy to move in": "Comfort, makkelijk bewegen", "I can wear it often, with most of what I own": "Ik kan hem vaak dragen, met het meeste wat ik heb", "Price": "Prijs",
-  "The last time you bought a coat or jacket for yourself, about how much did it cost?": "De laatste keer dat je voor jezelf een jas of jack kocht, hoeveel kostte die ongeveer?", "Choose your currency first.": "Kies eerst je valuta.", "Don't remember": "Weet ik niet meer",
+  "The last time you bought a coat or jacket for yourself, about how much did it cost?": "De laatste keer dat je voor jezelf een jas of jack kocht, hoeveel kostte die ongeveer?", "Not your currency? Tap another one.": "Niet jouw valuta? Tik op een andere.", "Don't remember": "Weet ik niet meer",
   "Where did you buy it?": "Waar heb je hem gekocht?", "In a store": "In een winkel", "The brand's own website": "Op de website van het merk", "An online shop with many brands": "In een webshop met veel merken", "Second-hand": "Tweedehands", "Through social media": "Via social media", "It was a gift": "Het was een cadeau",
   "Where do you usually discover new clothes?": "Waar ontdek je meestal nieuwe kleding?", "Instagram": "Instagram", "Xiaohongshu": "Xiaohongshu", "TikTok": "TikTok", "Pinterest": "Pinterest", "Friends": "Vrienden", "Random stores I walk past": "Winkels waar ik toevallig langsloop", "The stores or websites of brands I like": "De winkels of websites van merken die ik leuk vind",
   
@@ -1246,7 +1246,7 @@ function render() {
   if (q.type === "price") {
     const B = { "€": ["Under €100", "€100–200", "€200–400", "Over €400"], "£": ["Under £80", "£80–170", "£170–350", "Over £350"], "$": ["Under $100", "$100–200", "$200–400", "Over $400"], "¥": ["Under ¥700", "¥700–1,400", "¥1,400–2,800", "Over ¥2,800"] };
     if (!a.cur && a.price) a.cur = Object.keys(B).find(c => B[c].includes(a.price)) || "";
-    if (!a.cur || (a._curCity && !(B[a.cur] || []).includes(a.price))) { a.cur = curGuess(a.city); a._curCity = !!a.cur; }
+    if (!a.cur || (a._curCity && !(B[a.cur] || []).includes(a.price))) { a.cur = curGuess(a.city) || ({ zh: "¥", fr: "€", nl: "€" }[lang] || "$"); a._curCity = true; }
     const cur = a.cur;
     const tg = el("div", { className: "cur", role: "group" });
     [["€", "€ EUR"], ["£", "£ GBP"], ["$", "$ USD"], ["¥", "¥ RMB"]].forEach(([c, l]) => {
