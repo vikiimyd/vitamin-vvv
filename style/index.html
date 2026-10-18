@@ -413,7 +413,7 @@ const PICKS = 6;
 const LV_BASE = "../little-v/";
 const LV_STILL = { "welcome": "1-welcome", "thinking": "2-thinking", "halfway": "3-halfway", "almost-done": "4-almost-done", "reveal": "5-reveal", "thank-you": "6-thank-you" };
 const LV_LOOPS = {"welcome": {"base": "welcome-pad", "win": [94, 61, 639, 650]}, "thinking": {"base": "thinking-pad", "win": [163, 34, 569, 650]}, "halfway": {"base": "halfway-pad", "win": [130, 58, 596, 646]}, "almost-done": {"base": "almost-done-pad", "win": [162, 42, 590, 658]}, "reveal": {"base": "reveal-pad", "win": [177, 70, 572, 650]}, "thank-you": {"base": "thank-you-pad", "win": [150, 70, 587, 668]}};
-const LV_SAY = {"survey_welcome": {"en": "Hi, I'm Little V! I'll be with you all the way.", "zh": "嗨，我是 Little V！我陪你一起完成", "fr": "Coucou, moi c'est Little V ! On fait ça ensemble.", "nl": "Hoi, ik ben Little V! We doen dit samen."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favourite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
+const LV_SAY = {"survey_welcome": {"en": "Hi, I'm Little V! I'll be with you all the way.", "zh": "嗨，我是 Little V！我陪你一起完成", "fr": "Coucou, moi c'est Little V ! On fait ça ensemble.", "nl": "Hoi, ik ben Little V! We doen dit samen."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favourite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
 const LV_PAD = [170, 75, 570, 720], LV_SM = 320 * 570 / 720;
 const lvStill = stage => LV_BASE + "little-v-" + LV_STILL[stage] + ".webp";
 const LV_MOV = (() => {
@@ -457,6 +457,7 @@ const lvLine = key => {
   try { l = lang; } catch (e) {}
   return x ? x[l] || x.en || "" : "";
 };
+const lvPh = text => /[\u3400-\u9fff]/.test(text) ? text.match(/[^！？，。、；：…]+[！？，。、；：…]*|[！？，。、；：…]+/g).map(ph => { const e = document.createElement("span"); e.className = "ph"; e.textContent = ph; return e; }) : null;
 const LV_OBST = ".opt, button, a, input:not([type=hidden]), textarea, select, .facts, .process, .story, .gift, .giftfig, .vig svg, .vig img, .invite, .shots, .resfig, .sharebox, .tray, .pair, .token, .hole, .ranked, .hero svg.flower";
 function lvSayPlace(box) {
   const say = box && box.querySelector(":scope > .lv-say");
@@ -479,28 +480,38 @@ function lvSayPlace(box) {
     if (r.width > 0 && r.height > 0 && !(r.left <= b.left + 1 && r.right >= b.right - 1 && r.top <= b.top + 1 && r.bottom >= b.bottom - 1)) rects.push(r);
   });
   const clear = (L, T, R, B, m) => !rects.some(r => r.left < R + m && r.right > L - m && r.top < B + 4 && r.bottom > T - 4);
+  const ext = () => {
+    const rr = document.createRange(), k = say.getBoundingClientRect().width / say.offsetWidth || 1;
+    rr.selectNodeContents(say);
+    let lo = Infinity, hi = -Infinity;
+    for (const r of rr.getClientRects()) if (r.width > 0) { lo = Math.min(lo, r.left); hi = Math.max(hi, r.right); }
+    return hi > lo ? (hi - lo) / k : 0;
+  };
   const fits = (side, w) => {
     say.classList.toggle("l", side === "l"); say.classList.toggle("r", side === "r");
     say.style.maxWidth = w + "px";
     const W = say.offsetWidth, H = say.offsetHeight, s = getComputedStyle(say), inner = say.clientWidth - parseFloat(s.paddingLeft) - parseFloat(s.paddingRight);
     const L = side === "l" ? b.left - GAP - W : b.right + GAP, T = b.top + b.height * 0.04;
-    if (W > w + 0.5 || [...say.children].some(e => e.offsetWidth > inner + 0.5) || L < EDGE || L + W > vw - EDGE) return false;
+    if (W > w + 0.5 || ext() > inner + Math.max(0, parseFloat(s.paddingRight) - 4) + 0.5 || L < EDGE || L + W > vw - EDGE) return false;
     return clear(L, T, L + W, T + H, 6);
   };
   const hug = () => {
-    const rr = document.createRange(), s = getComputedStyle(say), k = say.getBoundingClientRect().width / say.offsetWidth || 1;
-    rr.selectNodeContents(say);
-    let lo = Infinity, hi = -Infinity;
-    for (const r of rr.getClientRects()) if (r.width > 0) { lo = Math.min(lo, r.left); hi = Math.max(hi, r.right); }
-    return hi > lo ? Math.ceil((hi - lo) / k + parseFloat(s.paddingLeft) + parseFloat(s.paddingRight) + parseFloat(s.borderLeftWidth) + parseFloat(s.borderRightWidth)) + 1 : 0;
+    const s = getComputedStyle(say), x = ext();
+    return x ? Math.ceil(x + parseFloat(s.paddingLeft) + parseFloat(s.paddingRight) + parseFloat(s.borderLeftWidth) + parseFloat(s.borderRightWidth)) + 1 : 0;
   };
   const room = side => Math.floor(side === "l" ? b.left - GAP - EDGE : vw - EDGE - b.right - GAP);
-  for (const side of (b.left + b.right) / 2 > vw / 2 + 1 ? ["l", "r"] : ["r", "l"])
-    for (let w = Math.min(210, room(side)); w >= 84; w -= 8) if (fits(side, w)) {
-      const h = hug(), lines = say.offsetHeight;
-      if (h && h < say.offsetWidth - 1 && !(fits(side, h) && say.offsetHeight === lines)) fits(side, w);
-      say.style.visibility = ""; return;
-    }
+  const place = () => {
+    for (const side of (b.left + b.right) / 2 > vw / 2 + 1 ? ["l", "r"] : ["r", "l"])
+      for (let w = Math.min(210, room(side)); w >= 84; w -= 8) if (fits(side, w)) {
+        const h = hug(), lines = say.offsetHeight;
+        if (h && h < say.offsetWidth - 1 && !(fits(side, h) && say.offsetHeight === lines)) fits(side, w);
+        return true;
+      }
+    return false;
+  };
+  const text = say.textContent, ph = lvPh(text);
+  if (ph && !say.querySelector(".ph")) say.replaceChildren(...ph);
+  if (place() || (ph && (say.textContent = text, place()))) { say.style.visibility = ""; return; }
   say.style.display = "none"; say.style.visibility = "";
 }
 function lvSay(box, key) {
@@ -510,15 +521,18 @@ function lvSay(box, key) {
   if (!text) { if (say) say.remove(); return; }
   if (!say) { say = document.createElement("span"); say.className = "lv-say"; say.style.visibility = "hidden"; box.append(say); }
   if (say.textContent !== text) {
-    if (/[\u3400-\u9fff]/.test(text)) say.replaceChildren(...text.match(/[^！？，。、；：…]+[！？，。、；：…]*|[！？，。、；：…]+/g).map(ph => { const e = document.createElement("span"); e.className = "ph"; e.textContent = ph; return e; }));
+    const ph = lvPh(text);
+    if (ph) say.replaceChildren(...ph);
     else say.textContent = text;
     say.classList.remove("in"); void say.offsetWidth; say.classList.add("in");
     say.addEventListener("animationend", () => say.classList.remove("in"), { once: true });
   }
-  requestAnimationFrame(() => lvSayPlace(box));
+  requestAnimationFrame(() => {
+    lvSayPlace(box);
+    if (document.getAnimations) Promise.all(document.getAnimations().filter(a => a.effect && a.effect.getTiming().iterations !== Infinity).map(a => a.finished.catch(() => {}))).then(() => { if (box.isConnected) lvSayPlace(box); });
+  });
   setTimeout(() => lvSayPlace(box), 450);
   setTimeout(() => lvSayPlace(box), 1200);
-  if (document.getAnimations) Promise.all(document.getAnimations().filter(a => a.effect && a.effect.getTiming().iterations !== Infinity).map(a => a.finished.catch(() => {}))).then(() => { if (box.isConnected) lvSayPlace(box); });
 }
 let lvRz = 0;
 const lvRe = () => { cancelAnimationFrame(lvRz); lvRz = requestAnimationFrame(() => lvSayPlace(lvNow)); };
@@ -1709,8 +1723,8 @@ function renderEnding() {
     );
   }
   if (id === "invite" || id === "waitlist") s.append(followEl());
-  if (id === "done") s.prepend(littleV("thank-you", "style_thanks"));
-  else { lvStop(); if (id === "waitlist") lvPreload("thank-you"); }
+  if (id !== "sample") s.prepend(littleV("thank-you", id === "done" ? "style_thanks" : ""));
+  else { lvStop(); lvPreload("thank-you"); }
   ending.replaceChildren(s);
 }
 
