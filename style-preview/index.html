@@ -1563,7 +1563,6 @@ function renderEnding() {
     s.append(
       mk("h2", { textContent: tr("Thank you.") }),
       mk("p", { className: "endp", textContent: lines.length ? lines.join(lang === "zh" ? "" : " ") : tr("Thank you for taking part.") }),
-      mk("div", { className: "sharerow" }, shareButton("linkbtn", "Send to a friend")),
       mk("p", { className: "follow" }, [mk("span", { className: "up", textContent: tr("Follow us") }),
         mk("a", { href: "https://www.instagram.com/vitaminvvv.studio/", target: "_blank", rel: "noopener", className: "soc" }, [igIcon(), mk("span", { textContent: "Instagram" })]),
         mk("a", { href: "http://xhslink.com/m/6OpSEpuv9o3", target: "_blank", rel: "noopener", className: "soc" }, [mk("img", { src: XHS_MARK, alt: "", width: 42, height: 20, className: "xhs" }), mk("span", { className: lang === "zh" ? "socvh" : "", textContent: tr("Xiaohongshu") })])]),
