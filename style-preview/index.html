@@ -265,6 +265,7 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 .follow a { color: var(--ink); font-size: 14px; text-underline-offset: 3px; }
 .intro .ainote { color: var(--grey); font-size: 11.5px; margin-top: -6px; }
 @media (min-width: 900px) { .intro .ainote { font-size: 13px; } }
+.step > .follow:last-child { margin-top: 18px; }
 @media (max-width: 359px) { .other { flex-wrap: wrap; } }
 
 
@@ -414,7 +415,7 @@ const PICKS = 6;
 const LV_BASE = "../little-v/";
 const LV_STILL = { "welcome": "1-welcome", "thinking": "2-thinking", "halfway": "3-halfway", "almost-done": "4-almost-done", "reveal": "5-reveal", "thank-you": "6-thank-you" };
 const LV_LOOPS = {"welcome": {"base": "welcome-pad", "win": [94, 61, 639, 650]}, "thinking": {"base": "thinking-pad", "win": [163, 34, 569, 650]}, "halfway": {"base": "halfway-pad", "win": [130, 58, 596, 646]}, "almost-done": {"base": "almost-done-pad", "win": [162, 42, 590, 658]}, "reveal": {"base": "reveal-pad", "win": [177, 70, 572, 650]}, "thank-you": {"base": "thank-you-pad", "win": [150, 70, 587, 668]}};
-const LV_SAY = {"survey_welcome": {"en": "Hi, I'm Little V! I'll be with you all the way.", "zh": "嗨，我是 Little V！我陪你一起完成", "fr": "Coucou, moi c'est Little V ! On fait ça ensemble.", "nl": "Hoi, ik ben Little V! We doen dit samen."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favorite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
+const LV_SAY = {"survey_welcome": {"en": "Hi, I'm Little V! I'll be with you all the way.", "zh": "嗨，我是 Little V！我陪你一起完成", "fr": "Coucou, moi c'est Little V ! On fait ça ensemble.", "nl": "Hoi, ik ben Little V! We doen dit samen."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favourite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
 const LV_PAD = [170, 75, 570, 720], LV_SM = 320 * 570 / 720;
 const lvStill = stage => LV_BASE + "little-v-" + LV_STILL[stage] + ".webp";
 const LV_MOV = (() => {
@@ -435,7 +436,6 @@ function lvVideo() {
   ["autoplay", "muted", "loop", "playsinline", "disablepictureinpicture", "disableremoteplayback"].forEach(k => v.setAttribute(k, ""));
   v.setAttribute("preload", "auto"); v.setAttribute("aria-hidden", "true"); v.tabIndex = -1;
   v.muted = v.defaultMuted = true; v.playsInline = true; v.width = 400; v.height = 600;
-  if (LV_MOV) v.classList.add("lv-anim");
   return v;
 }
 const lvKick = () => { const box = lvNow, v = lvVid; if (box && v && box.contains(v) && box.dataset.video !== "failed" && v.paused) lvPlay(v); };
@@ -459,7 +459,7 @@ const lvLine = key => {
   try { l = lang; } catch (e) {}
   return x ? x[l] || x.en || "" : "";
 };
-const LV_OBST = ".opt, button, a, input:not([type=hidden]), textarea, select, .facts, .process, .story, .gift, .giftfig, .vig svg, .vig img, .invite, .shots, .resfig, .sharebox, .tray, .pair, .token, .hole, .ranked";
+const LV_OBST = ".opt, button, a, input:not([type=hidden]), textarea, select, .facts, .process, .story, .gift, .giftfig, .vig svg, .vig img, .invite, .shots, .resfig, .sharebox, .tray, .pair, .token, .hole, .ranked, .hero svg.flower";
 function lvSayPlace(box) {
   const say = box && box.querySelector(":scope > .lv-say");
   if (!say || !box.isConnected) return;
@@ -467,7 +467,7 @@ function lvSayPlace(box) {
   const b = box.getBoundingClientRect();
   if (!b.width || !b.height) return;
   const vw = document.documentElement.clientWidth, EDGE = 12, GAP = 9, rects = [];
-  const seen = e => e.checkVisibility ? e.checkVisibility({ opacityProperty: true, visibilityProperty: true }) : getComputedStyle(e).visibility !== "hidden";
+  const seen = e => e.checkVisibility ? e.checkVisibility({ visibilityProperty: true }) : getComputedStyle(e).visibility !== "hidden";
   const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), rg = document.createRange();
   for (let n; (n = tw.nextNode());) {
     const el = n.parentElement;
@@ -515,13 +515,17 @@ function lvSay(box, key) {
     if (/[\u3400-\u9fff]/.test(text)) say.replaceChildren(...text.match(/[^！？，。、；：…]+[！？，。、；：…]*|[！？，。、；：…]+/g).map(ph => { const e = document.createElement("span"); e.className = "ph"; e.textContent = ph; return e; }));
     else say.textContent = text;
     say.classList.remove("in"); void say.offsetWidth; say.classList.add("in");
+    say.addEventListener("animationend", () => say.classList.remove("in"), { once: true });
   }
   requestAnimationFrame(() => lvSayPlace(box));
   setTimeout(() => lvSayPlace(box), 450);
   setTimeout(() => lvSayPlace(box), 1200);
+  if (document.getAnimations) Promise.all(document.getAnimations().filter(a => a.effect && a.effect.getTiming().iterations !== Infinity).map(a => a.finished.catch(() => {}))).then(() => { if (box.isConnected) lvSayPlace(box); });
 }
 let lvRz = 0;
-window.addEventListener("resize", () => { cancelAnimationFrame(lvRz); lvRz = requestAnimationFrame(() => lvSayPlace(lvNow)); });
+const lvRe = () => { cancelAnimationFrame(lvRz); lvRz = requestAnimationFrame(() => lvSayPlace(lvNow)); };
+window.addEventListener("resize", lvRe);
+document.addEventListener("load", e => { if (e.target && e.target.tagName === "IMG") lvRe(); }, true);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => lvSayPlace(lvNow));
 function littleV(stage, say) {
   if (lvNow && lvNow.dataset.stage === stage) {
@@ -544,6 +548,7 @@ function littleV(stage, say) {
   const v = lvVideo(), src = document.createElement("source"), off = new AbortController(), on = { signal: off.signal };
   lvOff.set(box, off);
   const paint = LV_MOV ? null : document.createElement("canvas"), g = paint && paint.getContext ? paint.getContext("2d") : null;
+  v.classList.toggle("lv-anim", !g);
   if (g) paint.classList.add("lv-anim");
   const fit = document.createElement("span"), win = document.createElement("span");
   fit.className = "lv-fit"; win.className = "lv-win";
@@ -1601,6 +1606,9 @@ function renderResult() {
 const IG_SVG = "<svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\" focusable=\"false\"><defs><radialGradient id=\"igG\" cx=\"0.3\" cy=\"1.07\" r=\"1.5\"><stop offset=\"0\" stop-color=\"#fdf497\"/><stop offset=\"0.05\" stop-color=\"#fdf497\"/><stop offset=\"0.45\" stop-color=\"#fd5949\"/><stop offset=\"0.6\" stop-color=\"#d6249f\"/><stop offset=\"0.9\" stop-color=\"#285aeb\"/></radialGradient></defs><rect width=\"24\" height=\"24\" rx=\"6\" fill=\"url(#igG)\"/><rect x=\"5\" y=\"5\" width=\"14\" height=\"14\" rx=\"4.2\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.7\"/><circle cx=\"12\" cy=\"12\" r=\"3.4\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.7\"/><circle cx=\"16.3\" cy=\"7.7\" r=\"1.05\" fill=\"#fff\"/></svg>";
 const XHS_MARK = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHIAAAA2CAMAAAAsyj01AAAAwFBMVEX/nqj/U2r/U2r/dYj/ZHn/SGH//wD/0Nf/N1H/eYr/ADP/cIT/qlX/qv//JEL/+/wAAAD/NlL/x8//6Ov/mKb/HDv/h5f/ID7/eIv/prP/1dr/u8T/Qlz/SWL/Vm3/////ZHn/JUP/3OH/s73/AAD/JkT/f3//bYH/JUP/N27/PDz/VVX/N1L/OFT/Var/JkP/AP//KEb/NVL/Gzr/AH//JTj/KUb/OVH/NVD/N1L/VW3/f///kJ//JUb/R2L/Z26AF9RGAAAAQHRSTlMLLJ1iatIBEVQeBaYDA/7/AP7////+//7//////v7/A//R//8BbAL/lAQEA2mUA60BOLELAhRTCzDWzwL/FGoHeJNxNAAABSNJREFUeNq9mIlW2zoQQA2l21scj63F8p44JATCTlkKpf//Vx1tXpU82kcyh8NJHFlXo1k0Gi/oSXmK/75dH19O/f8t05v14wFOtyr7DK/3bREEt/cn74BrsOdfPDXtBuQKgcfvyDPU9dcgOHUjV8HD+wOlPL3eBj8dyPIsuL7xdyQ3B8HFfIicz4Njf2cCsA7miz5yvpif+LsUOC8Xz13k/HS1WyLK+efTqxb5afG8c6LvH5aLskGugj0QfTiUYaiRF8Ha34fAK6IU8iJ4/L03//hX+CqZXjA/u710j+Cccu6YEgD+EHl49s8ckWcbA7KK45hltP9wGaZpStpVyUXZdVV1moZkM5TnHxDoXX162JDlIJ2gxHT8MGI6viEHI/J7VhD5QlI0u8AhG+a+siy91UYlIZQzsD5yqWYFq5IRuQQWJpH8cYLfUxIbrUkPygHV9Mpv0zcjOfhKc6VkPGlFgBndyEzkfpFEUUT6k34sr7zg3v8NLSupSFTRERLA6NgIgXiCyLBv2gzVvDv5D2TPZ2sF8Ida1gBZX0ukVXGE/9Oh05bej+lvaBkn8tFSLTzuaCV8yNKBlhOitKwGs37/7F2PUDFBqTpIYIIIluMTMZHz1iyOl5AzRhQlZEzOWzGiXoiEEGpldUHiOB8pcuCN/BUErk2Ggd4qDBIVGLOY0nxmdy1RHpSH2mj2VaYcByNHyA8pyLgdTf/BG2YebiKPWiS+lBp1W/NFMgggV9q0PqmQCSKJRTrkb29oStqQGi01EmfW+9pOB05kBnptoTv5fff8EVK7CO+4j/VT1mipnaqLhCzPlXJRZT+Mco+SfIzMlSZF12OF8UqIiZg16QetnbSJQYg61HswC8NEp6GaOaAwRhZqeE47yBe1l+rnIlGW1kjtTlJLbb2x2JFbkX6lhvaQakNVGoFYe4jZo6RFRhuY1RuQsUb6bqT2pEytnWsHU7Yk0QYmeQOSWT2yBqmPj8xuwYQVhQPpZGKOhSFy6kSGmQ10GSRFpM5BbhxJekghXbaDrAgRQmefWkghpO56WjdIRkUI0Xm6k300clZI54lsXNLWlnZSeLGrlYe0yUEJDBLQ4SjhQW2nAYvkEJmEE88imQ3sKdh6bNcm0POKEfJolNZBRdeycRVpSwNHLVMFnITGllEfOWAsXUhM66PDi5gY6XgsMOvESzQZ/sW+U0uFnGW8G+FDJB5eoyNaBnutqqn2vCzQH4W0jy4aqfzP27ik1JejuEEadXjlQuIRPS5E8PCSnEwlGuU+HHc7qbAmrKWS4uUlk7nPnpcJfmJFu7GZud8BcyBlITIutyoZAngs68piSXUJgBUVZTbWcpCO1A0/0rdlJbD6U9s+6yM/OotKwIqQgq0rNBJkmZCHTeJE1+pHvqCtx3I0Y9I/5prD+AiLSkfprAYxU5SqAMQl+NCk7qTQkepGhkotm3Oj5aCmRC3dFwSg2pLhchg+KmjHBwdBJFUVmELSQue/pH+SSCW3XIMYWkNU3VNN6Oo8xYdEhD1JZb3i44g0ZXoHcXBa4/u9FHvjnc23XfbQ52i/ljD3D9p+NpJBO8COzfAhH1xoPH3ZCzbdvfjWmxvl7dWLd9/Zctc7Cv7d68WdwrlucilkuVjsgXle3pXdJsxfu2/CeN0mDDKf991qCoK7q522RWCN1nO0DR8v99o2VH57upvm6HT94GyO6hbwjx20gF+9QLe1NjW6f355z0b30/n91kb3+7bz4elmfS3b+YtBO/8Xws+QJOMitKYAAAAASUVORK5CYII=";
 const igIcon = () => { const s = mk("span", { className: "ig" }); s.setAttribute("aria-hidden", "true"); s.innerHTML = IG_SVG; return s; };
+const followEl = () => mk("p", { className: "follow" }, [mk("span", { className: "up", textContent: tr("Follow us") }),
+  mk("a", { href: "https://www.instagram.com/vitaminvvv.studio/", target: "_blank", rel: "noopener", className: "soc" }, [igIcon(), mk("span", { textContent: "Instagram" })]),
+  mk("a", { href: "http://xhslink.com/m/6OpSEpuv9o3", target: "_blank", rel: "noopener", className: "soc" }, [mk("img", { src: XHS_MARK, alt: "", width: 42, height: 20, className: "xhs" }), mk("span", { textContent: tr("Xiaohongshu") })])]);
 function renderEnding() {
   renderResult();
   const s = mk("div", { className: "step" });
@@ -1698,12 +1706,11 @@ function renderEnding() {
     s.append(
       mk("h2", { textContent: tr("Thank you.") }),
       mk("p", { className: "endp", textContent: lines.length ? lines.join(lang === "zh" ? "" : " ") : tr("Thank you for taking part.") }),
-      mk("p", { className: "follow" }, [mk("span", { className: "up", textContent: tr("Follow us") }),
-        mk("a", { href: "https://www.instagram.com/vitaminvvv.studio/", target: "_blank", rel: "noopener", className: "soc" }, [igIcon(), mk("span", { textContent: "Instagram" })]),
-        mk("a", { href: "http://xhslink.com/m/6OpSEpuv9o3", target: "_blank", rel: "noopener", className: "soc" }, [mk("img", { src: XHS_MARK, alt: "", width: 42, height: 20, className: "xhs" }), mk("span", { textContent: tr("Xiaohongshu") })])]),
+      followEl(),
       mk("div", { className: "endnav" }, [backBtn(), mk("span")])
     );
   }
+  if (id === "invite" || id === "waitlist") s.append(followEl());
   if (id === "done") s.prepend(littleV("thank-you", "style_thanks"));
   else { lvStop(); if (id === "waitlist") lvPreload("thank-you"); }
   ending.replaceChildren(s);

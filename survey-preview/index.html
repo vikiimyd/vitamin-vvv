@@ -961,7 +961,7 @@ function choices(q, opts, box, other, onPick) {
 const LV_BASE = "../little-v/";
 const LV_STILL = { "welcome": "1-welcome", "thinking": "2-thinking", "halfway": "3-halfway", "almost-done": "4-almost-done", "reveal": "5-reveal", "thank-you": "6-thank-you" };
 const LV_LOOPS = {"welcome": {"base": "welcome-pad", "win": [94, 61, 639, 650]}, "thinking": {"base": "thinking-pad", "win": [163, 34, 569, 650]}, "halfway": {"base": "halfway-pad", "win": [130, 58, 596, 646]}, "almost-done": {"base": "almost-done-pad", "win": [162, 42, 590, 658]}, "reveal": {"base": "reveal-pad", "win": [177, 70, 572, 650]}, "thank-you": {"base": "thank-you-pad", "win": [150, 70, 587, 668]}};
-const LV_SAY = {"survey_welcome": {"en": "Hi, I'm Little V! I'll be with you all the way.", "zh": "嗨，我是 Little V！我陪你一起完成", "fr": "Coucou, moi c'est Little V ! On fait ça ensemble.", "nl": "Hoi, ik ben Little V! We doen dit samen."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favorite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
+const LV_SAY = {"survey_welcome": {"en": "Hi, I'm Little V! I'll be with you all the way.", "zh": "嗨，我是 Little V！我陪你一起完成", "fr": "Coucou, moi c'est Little V ! On fait ça ensemble.", "nl": "Hoi, ik ben Little V! We doen dit samen."}, "thinking": [{"en": "Take your time, I'm right here.", "zh": "慢慢来，我陪着你", "fr": "Prends ton temps, je suis là.", "nl": "Neem rustig de tijd, ik ben er."}, {"en": "The real story beats the perfect one.", "zh": "不用完美，真实就好", "fr": "Mieux vaut vrai que parfait.", "nl": "Liever echt dan perfect."}, {"en": "Tiny details make my day.", "zh": "小细节对我超有用", "fr": "Les petits détails, j'adore.", "nl": "Kleine details? Daar smul ik van."}, {"en": "Honest answers are my favourite.", "zh": "我最喜欢听真心话啦", "fr": "Rien de tel qu'une réponse sincère.", "nl": "Ik hou van eerlijke antwoorden."}, {"en": "Keep going, this really helps.", "zh": "继续继续，你帮了我大忙", "fr": "Continue, tu m'aides beaucoup.", "nl": "Lekker bezig! Je helpt me enorm."}], "halfway": {"en": "Halfway there! Look at you go.", "zh": "已经过半啦！你也太棒了", "fr": "Déjà la moitié ! Tu gères.", "nl": "Halverwege! Kijk jou nou."}, "almost_done": {"en": "Almost there! Finish line in sight.", "zh": "快到啦快到啦，终点就在前面！", "fr": "On y est presque, je vois l'arrivée !", "nl": "Bijna klaar! De finish is in zicht."}, "survey_thanks": {"en": "Thanks so much! Up for the style test?", "zh": "谢谢你呀！再来玩个风格小测试？", "fr": "Mille mercis ! Un petit test de style ?", "nl": "Super bedankt! Zin in de stijltest?"}, "style_welcome": {"en": "Whoa, here they come! Trust your gut.", "zh": "哇！造型登场啦，凭直觉排就好", "fr": "Oh, les voilà ! Écoute ton instinct.", "nl": "Oh, daar komen ze! Volg je gevoel."}, "style_thanks": {"en": "That's a wrap! Big hug, and thank you.", "zh": "全部完成啦！给你比心，谢谢你", "fr": "Et voilà ! Merci du fond du cœur.", "nl": "Dat was 'm! Dikke knuffel en dankjewel."}};
 const LV_PAD = [170, 75, 570, 720], LV_SM = 320 * 570 / 720;
 const lvStill = stage => LV_BASE + "little-v-" + LV_STILL[stage] + ".webp";
 const LV_MOV = (() => {
@@ -982,7 +982,6 @@ function lvVideo() {
   ["autoplay", "muted", "loop", "playsinline", "disablepictureinpicture", "disableremoteplayback"].forEach(k => v.setAttribute(k, ""));
   v.setAttribute("preload", "auto"); v.setAttribute("aria-hidden", "true"); v.tabIndex = -1;
   v.muted = v.defaultMuted = true; v.playsInline = true; v.width = 400; v.height = 600;
-  if (LV_MOV) v.classList.add("lv-anim");
   return v;
 }
 const lvKick = () => { const box = lvNow, v = lvVid; if (box && v && box.contains(v) && box.dataset.video !== "failed" && v.paused) lvPlay(v); };
@@ -1006,7 +1005,7 @@ const lvLine = key => {
   try { l = lang; } catch (e) {}
   return x ? x[l] || x.en || "" : "";
 };
-const LV_OBST = ".opt, button, a, input:not([type=hidden]), textarea, select, .facts, .process, .story, .gift, .giftfig, .vig svg, .vig img, .invite, .shots, .resfig, .sharebox, .tray, .pair, .token, .hole, .ranked";
+const LV_OBST = ".opt, button, a, input:not([type=hidden]), textarea, select, .facts, .process, .story, .gift, .giftfig, .vig svg, .vig img, .invite, .shots, .resfig, .sharebox, .tray, .pair, .token, .hole, .ranked, .hero svg.flower";
 function lvSayPlace(box) {
   const say = box && box.querySelector(":scope > .lv-say");
   if (!say || !box.isConnected) return;
@@ -1014,7 +1013,7 @@ function lvSayPlace(box) {
   const b = box.getBoundingClientRect();
   if (!b.width || !b.height) return;
   const vw = document.documentElement.clientWidth, EDGE = 12, GAP = 9, rects = [];
-  const seen = e => e.checkVisibility ? e.checkVisibility({ opacityProperty: true, visibilityProperty: true }) : getComputedStyle(e).visibility !== "hidden";
+  const seen = e => e.checkVisibility ? e.checkVisibility({ visibilityProperty: true }) : getComputedStyle(e).visibility !== "hidden";
   const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), rg = document.createRange();
   for (let n; (n = tw.nextNode());) {
     const el = n.parentElement;
@@ -1062,13 +1061,17 @@ function lvSay(box, key) {
     if (/[\u3400-\u9fff]/.test(text)) say.replaceChildren(...text.match(/[^！？，。、；：…]+[！？，。、；：…]*|[！？，。、；：…]+/g).map(ph => { const e = document.createElement("span"); e.className = "ph"; e.textContent = ph; return e; }));
     else say.textContent = text;
     say.classList.remove("in"); void say.offsetWidth; say.classList.add("in");
+    say.addEventListener("animationend", () => say.classList.remove("in"), { once: true });
   }
   requestAnimationFrame(() => lvSayPlace(box));
   setTimeout(() => lvSayPlace(box), 450);
   setTimeout(() => lvSayPlace(box), 1200);
+  if (document.getAnimations) Promise.all(document.getAnimations().filter(a => a.effect && a.effect.getTiming().iterations !== Infinity).map(a => a.finished.catch(() => {}))).then(() => { if (box.isConnected) lvSayPlace(box); });
 }
 let lvRz = 0;
-window.addEventListener("resize", () => { cancelAnimationFrame(lvRz); lvRz = requestAnimationFrame(() => lvSayPlace(lvNow)); });
+const lvRe = () => { cancelAnimationFrame(lvRz); lvRz = requestAnimationFrame(() => lvSayPlace(lvNow)); };
+window.addEventListener("resize", lvRe);
+document.addEventListener("load", e => { if (e.target && e.target.tagName === "IMG") lvRe(); }, true);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => lvSayPlace(lvNow));
 function littleV(stage, say) {
   if (lvNow && lvNow.dataset.stage === stage) {
@@ -1091,6 +1094,7 @@ function littleV(stage, say) {
   const v = lvVideo(), src = document.createElement("source"), off = new AbortController(), on = { signal: off.signal };
   lvOff.set(box, off);
   const paint = LV_MOV ? null : document.createElement("canvas"), g = paint && paint.getContext ? paint.getContext("2d") : null;
+  v.classList.toggle("lv-anim", !g);
   if (g) paint.classList.add("lv-anim");
   const fit = document.createElement("span"), win = document.createElement("span");
   fit.className = "lv-fit"; win.className = "lv-win";
