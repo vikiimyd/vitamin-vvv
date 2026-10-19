@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>22 Brand Lookbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..500&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Layout: runway-backdrop grey page, a sticky three-tab bar, brand sections as 5-up look grids; tab 3 is a stack of tag groups with a 21-tick brand meter. */
+:root {
+  --paper: #edefee;
+  --plate: #e2e5e4;
+  --card: #f9faf9;
+  --ink: #16191b;
+  --muted: #5d656b;
+  --line: #d0d6d5;
+  --accent: #3b6176;
+  --accent-soft: #d9e4ea;
+  --plum: #7a4b64;
+  --plum-soft: #eee1e8;
+  --ink-soft: #e4e7e7;
+  --display: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+  --ui: "Jost", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #131617; --plate: #1c2022; --card: #191d1f; --ink: #eceeed; --muted: #9aa3a8;
+    --line: #2d3336; --accent: #8fb3c6; --accent-soft: #22323b; --plum: #d3a3bc; --plum-soft: #3a2631;
+    --ink-soft: #262b2e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #131617; --plate: #1c2022; --card: #191d1f; --ink: #eceeed; --muted: #9aa3a8;
+  --line: #2d3336; --accent: #8fb3c6; --accent-soft: #22323b; --plum: #d3a3bc; --plum-soft: #3a2631;
+  --ink-soft: #262b2e; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--ui); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper); }
+.wrap { max-width: 1240px; margin: 0 auto; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* header */
+.top { padding-block: 40px 20px; display: grid; gap: 10px; }
+.eyebrow { margin: 0; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+h1 { margin: 0; font-family: var(--display); font-style: italic; font-weight: 400; font-size: clamp(2.5rem, 7vw, 4.6rem); line-height: 1; letter-spacing: -.01em; text-wrap: balance; }
+.lede { margin: 6px 0 0; max-width: 62ch; color: var(--muted); }
+.stats { display: flex; flex-wrap: wrap; gap: 6px 22px; margin: 8px 0 0; padding: 0; list-style: none; font-variant-numeric: tabular-nums; }
+.stats b { font-family: var(--display); font-weight: 500; font-size: 1.5rem; margin-right: 4px; }
+.notes { max-width: 70ch; margin-top: 6px; }
+.notes summary { cursor: pointer; font-size: 13px; color: var(--accent); font-weight: 500; width: max-content; }
+.notes ul { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; display: grid; gap: 4px; }
+
+/* tabs */
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); border-bottom: 1px solid var(--line); margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.tab { border: 0; background: none; padding: 14px 14px 12px; font-weight: 500; font-size: 15px; color: var(--muted); border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.tab small { font-size: 12px; color: var(--muted); margin-left: 4px; font-variant-numeric: tabular-nums; }
+
+main { padding-block: 22px 60px; }
+.panel { display: grid; gap: 44px; }
+.index { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; letter-spacing: .04em; }
+.index a { text-decoration: none; color: var(--muted); border-bottom: 1px solid var(--line); }
+.index a:hover { color: var(--ink); border-bottom-color: var(--ink); }
+.index a.miss { font-style: italic; }
+
+/* brand section */
+.brand { display: grid; gap: 14px; scroll-margin-top: 70px; }
+.bh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; border-top: 1px solid var(--ink); padding-top: 12px; }
+.bh h2 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.75rem; line-height: 1.1; }
+.meta { margin: 0; font-size: 13px; color: var(--muted); }
+.meta a { text-decoration: none; border-bottom: 1px solid var(--line); }
+.meta a:hover { border-bottom-color: var(--muted); }
+.missing p { margin: 0; color: var(--muted); }
+.grid10 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px 12px; }
+@media (max-width: 760px) { .grid10 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .tab { padding-inline: 10px; font-size: 14px; } }
+.look { margin: 0; display: grid; gap: 6px; align-content: start; min-width: 0; transition: opacity .2s; }
+.ph { display: block; width: 100%; padding: 0; border: 0; background: var(--plate); aspect-ratio: 2 / 3; max-width: 100%; cursor: zoom-in; overflow: hidden; }
+.ph img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.cap { font-size: 12.5px; color: var(--muted); line-height: 1.35; display: flex; gap: 6px; min-width: 0; }
+.cap span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.cap .se { color: var(--ink); white-space: nowrap; flex: none; }
+
+/* chips */
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip { border: 1px solid transparent; border-radius: 3px; padding: 1px 7px; font-size: 12.5px; line-height: 1.6; cursor: pointer; background: var(--ink-soft); }
+.chip.s { background: var(--ink-soft); color: var(--ink); }
+.chip.h { background: var(--accent-soft); color: var(--accent); }
+.chip.d { background: var(--plum-soft); color: var(--plum); }
+.chip:hover { border-color: currentColor; }
+.chip.on { border-color: currentColor; box-shadow: inset 0 0 0 1px currentColor; }
+.chip i { font-style: normal; opacity: .7; margin-left: 3px; font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); align-items: center; }
+.legend .chip { cursor: default; }
+
+/* tab 2 */
+.sum { display: grid; gap: 6px; background: var(--card); border: 1px solid var(--line); padding: 12px 14px; }
+.sum-row { display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.sum-row > span { font-size: 12px; color: var(--muted); letter-spacing: .06em; }
+.sum-hint { font-size: 12px; color: var(--muted); margin: 0; }
+.tags { display: grid; gap: 4px; }
+.look.dim { opacity: .22; }
+
+/* tab 3 */
+.ctrl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.seg { display: inline-flex; border: 1px solid var(--ink); }
+.seg button { border: 0; background: none; padding: 7px 18px; cursor: pointer; font-weight: 500; }
+.seg button + button { border-left: 1px solid var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+.ctrl p { margin: 0; font-size: 13px; color: var(--muted); max-width: 60ch; }
+.grp { display: grid; gap: 10px; border-top: 1px solid var(--line); padding-top: 14px; scroll-margin-top: 70px; }
+.grp.flash { animation: flash 1.6s ease-out; }
+@keyframes flash { from { background: var(--accent-soft); } to { background: transparent; } }
+.gh { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.gh h3 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.5rem; line-height: 1.1; }
+.gh .n { font-size: 14px; font-variant-numeric: tabular-nums; }
+.gh .n b { font-size: 1.05rem; }
+.meter { display: flex; gap: 2px; }
+.meter i { width: 7px; height: 12px; background: var(--line); display: block; }
+.meter i.f { background: var(--accent); }
+.gbr { margin: 0; font-size: 13px; color: var(--muted); }
+.thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px 8px; }
+.thumbs .cap { font-size: 11.5px; flex-direction: column; gap: 0; }
+.thumbs .cap span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.more { justify-self: start; border: 1px solid var(--line); background: var(--card); padding: 5px 12px; font-size: 13px; cursor: pointer; }
+.more:hover { border-color: var(--ink); }
+.foot { color: var(--muted); font-size: 12.5px; border-top: 1px solid var(--line); padding-top: 14px; }
+
+/* lightbox */
+dialog#lb { border: 0; padding: 0; background: var(--card); color: var(--ink); width: min(980px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); }
+dialog#lb::backdrop { background: rgba(10, 12, 13, .72); }
+.lbi { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+.lbi .big { background: var(--plate); display: flex; align-items: center; justify-content: center; max-height: calc(100dvh - 24px); }
+.lbi .big img { max-height: calc(100dvh - 24px); width: 100%; object-fit: contain; }
+.lbt { padding: 22px 20px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.lbt h4 { margin: 0; font-family: var(--display); font-weight: 500; font-size: 1.6rem; line-height: 1.1; }
+.lbt .meta { font-size: 14px; }
+.lbt .row { display: grid; grid-template-columns: 3.2em minmax(0, 1fr); gap: 8px; align-items: baseline; }
+.lbt .row > span { font-size: 12px; color: var(--muted); }
+.lbnav { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.lbnav button, .lbnav a { border: 1px solid var(--line); background: none; padding: 6px 12px; font-size: 13px; cursor: pointer; text-decoration: none; }
+.lbnav button:hover, .lbnav a:hover { border-color: var(--ink); }
+.lbnav .x { margin-left: auto; }
+@media (max-width: 700px) {
+  .lbi { grid-template-columns: 1fr; }
+  .lbi .big img { max-height: 58dvh; }
+  .lbi .big { max-height: none; }
+  dialog#lb { overflow-y: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .grp.flash { animation: none; } .look { transition: none; } }
+</style>
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">品牌二十选 · 近两季 look</p>
+    <h1>22 Brand Lookbook</h1>
+    <p class="lede">每个品牌 10 个 look。走秀的品牌用 Vogue Runway 上最近两季的秀，没走秀的用官网最新和上一季的上身图。第二页给每个 look 标了款式、廓形和细节，第三页按标签看有几个品牌做了类似的。</p>
+    <ul class="stats" id="stats"></ul>
+    <details class="notes">
+      <summary>图从哪来</summary>
+      <ul>
+        <li>秀场品牌每季挑 5 个 look，从开场到收尾平均取，两季共 10 个。</li>
+        <li>Vivienne Westwood 在 Vogue 上还没有 2027 春夏，用的是 2026 秋冬和 2026 春夏。MARKGONG 用的是上海时装周的两季。</li>
+        <li>Paloma Wool 用官网 lookbook（2026 秋冬、2026 春夏）。Phoebe Philo、With Jéan、Tank Air、Brandy Melville、COYSEIO 用官网最新上架和上一批的上身图。Massimo Dutti 用官网的 Runway 限量系列。</li>
+        <li>款式、廓形、细节是看图标的，标得不对的告诉我改。</li>
+      </ul>
+    </details>
+  </header>
+</div>
+
+<nav class="tabs" aria-label="页面">
+  <div class="wrap" role="tablist">
+    <button class="tab" role="tab" id="t-looks" data-t="looks" aria-selected="true">看 look</button>
+    <button class="tab" role="tab" id="t-brands" data-t="brands" aria-selected="false">每个品牌的标注</button>
+    <button class="tab" role="tab" id="t-styles" data-t="styles" aria-selected="false">按款式 / 廓形看</button>
+  </div>
+</nav>
+
+<main class="wrap">
+  <section class="panel" id="p-looks" role="tabpanel" aria-labelledby="t-looks"></section>
+  <section class="panel" id="p-brands" role="tabpanel" aria-labelledby="t-brands" hidden></section>
+  <section class="panel" id="p-styles" role="tabpanel" aria-labelledby="t-styles" hidden>
+    <div class="ctrl">
+      <div class="seg" role="group" aria-label="分类方式">
+        <button type="button" data-dim="s" aria-pressed="true">款式</button>
+        <button type="button" data-dim="h" aria-pressed="false">廓形</button>
+        <button type="button" data-dim="d" aria-pressed="false">细节</button>
+      </div>
+      <p>按做了这个的品牌数从多到少排。每个品牌先放一张，点「看全部」展开所有 look。</p>
+    </div>
+    <div id="groups" class="panel"></div>
+  </section>
+  <p class="foot">资料截至 2026 年 10 月 19 日。点任意图片看大图和原链接。</p>
+</main>
+
+<dialog id="lb" aria-label="Look 大图">
+  <div class="lbi">
+    <div class="big"><img id="lb-img" alt=""></div>
+    <div class="lbt">
+      <h4 id="lb-b"></h4>
+      <p class="meta" id="lb-m"></p>
+      <div id="lb-tags" class="tags"></div>
+      <div class="lbnav">
+        <button type="button" id="lb-prev">← 上一张</button>
+        <button type="button" id="lb-next">下一张 →</button>
+        <a id="lb-src" href="#" target="_blank" rel="noopener">看原链接 ↗</a>
+        <button type="button" class="x" id="lb-x">关闭</button>
+      </div>
+      <p class="meta" id="lb-pos"></p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const D = {"brands":[{"id":"acne-studios","n":"Acne Studios","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/acne-studios"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/acne-studios"}],"it":[{"f":"img/acne-studios/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/acne-studios","s":["短外套","半身裙"],"h":["短上长下","茧形"],"d":["抽褶"]},{"f":"img/acne-studios/02.jpg","se":"2027 春夏","c":"Look 13","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/acne-studios","s":["背心吊带","长裤"],"h":["直筒"],"d":["皮革"]},{"f":"img/acne-studios/03.jpg","se":"2027 春夏","c":"Look 25","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/acne-studios","s":["衬衫","长裤"],"h":["oversized"],"d":[]},{"f":"img/acne-studios/04.jpg","se":"2027 春夏","c":"Look 37","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/acne-studios","s":["衬衫","长裤"],"h":["直筒"],"d":["印花","拼接"]},{"f":"img/acne-studios/05.jpg","se":"2027 春夏","c":"Look 49","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/acne-studios","s":["长大衣","皮衣"],"h":["收腰","长及脚踝"],"d":["皮革","腰带"]},{"f":"img/acne-studios/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/acne-studios","s":["西装套装"],"h":["修身"],"d":[]},{"f":"img/acne-studios/07.jpg","se":"2026 秋冬","c":"Look 12","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/acne-studios","s":["短外套","半身裙"],"h":["A字"],"d":["格纹"]},{"f":"img/acne-studios/08.jpg","se":"2026 秋冬","c":"Look 23","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/acne-studios","s":["衬衫","半身裙"],"h":["直筒"],"d":["印花"]},{"f":"img/acne-studios/09.jpg","se":"2026 秋冬","c":"Look 33","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/acne-studios","s":["长大衣","连衣裙"],"h":["直筒","层叠"],"d":[]},{"f":"img/acne-studios/10.jpg","se":"2026 秋冬","c":"Look 44","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/acne-studios","s":["针织","半身裙"],"h":["层叠"],"d":["格纹","不对称"]}]},{"id":"alaia","n":"Alaïa","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/azzedine-alaia"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/azzedine-alaia"}],"it":[{"f":"img/alaia/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/azzedine-alaia","s":["西装外套","长裤"],"h":["修身"],"d":["束腰"]},{"f":"img/alaia/02.jpg","se":"2027 春夏","c":"Look 10","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/azzedine-alaia","s":["长大衣"],"h":["收腰","长及脚踝"],"d":["腰带"]},{"f":"img/alaia/03.jpg","se":"2027 春夏","c":"Look 19","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/azzedine-alaia","s":["连衣裙"],"h":["修身","长及脚踝"],"d":["抽褶"]},{"f":"img/alaia/04.jpg","se":"2027 春夏","c":"Look 27","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/azzedine-alaia","s":["连衣裙","针织"],"h":["修身","短款"],"d":["荷叶边"]},{"f":"img/alaia/05.jpg","se":"2027 春夏","c":"Look 36","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/azzedine-alaia","s":["长大衣"],"h":["收腰","茧形"],"d":["毛绒","束腰"]},{"f":"img/alaia/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/azzedine-alaia","s":["连衣裙","针织"],"h":["修身"],"d":["吊带"]},{"f":"img/alaia/07.jpg","se":"2026 秋冬","c":"Look 13","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/azzedine-alaia","s":["连衣裙","针织"],"h":["修身","长及脚踝"],"d":[]},{"f":"img/alaia/08.jpg","se":"2026 秋冬","c":"Look 25","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/azzedine-alaia","s":["连衣裙","针织"],"h":["修身","长及脚踝"],"d":[]},{"f":"img/alaia/09.jpg","se":"2026 秋冬","c":"Look 37","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/azzedine-alaia","s":["连衣裙"],"h":["收腰","长及脚踝"],"d":["皮革","拼接"]},{"f":"img/alaia/10.jpg","se":"2026 秋冬","c":"Look 49","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/azzedine-alaia","s":["短外套","半身裙"],"h":["收腰","层叠"],"d":["荷叶边"]}]},{"id":"ashley-williams","n":"Ashley Williams","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ashley-williams"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ashley-williams"}],"it":[{"f":"img/ashley-williams/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ashley-williams","s":["连衣裙"],"h":["直筒","长及脚踝"],"d":["印花"]},{"f":"img/ashley-williams/02.jpg","se":"2027 春夏","c":"Look 12","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ashley-williams","s":["短外套","半身裙"],"h":["A字"],"d":["透明","褶裥"]},{"f":"img/ashley-williams/03.jpg","se":"2027 春夏","c":"Look 23","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ashley-williams","s":["T恤","长裤"],"h":["修身"],"d":["透明","拼接"]},{"f":"img/ashley-williams/04.jpg","se":"2027 春夏","c":"Look 34","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ashley-williams","s":["连衣裙"],"h":["直筒"],"d":["印花"]},{"f":"img/ashley-williams/05.jpg","se":"2027 春夏","c":"Look 45","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ashley-williams","s":["连衣裙"],"h":["A字"],"d":["印花","吊带"]},{"f":"img/ashley-williams/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ashley-williams","s":["针织","长裤"],"h":["oversized"],"d":["格纹","绗缝"]},{"f":"img/ashley-williams/07.jpg","se":"2026 秋冬","c":"Look 13","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ashley-williams","s":["针织","半身裙"],"h":["直筒"],"d":["印花"]},{"f":"img/ashley-williams/08.jpg","se":"2026 秋冬","c":"Look 26","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ashley-williams","s":["长大衣"],"h":["直筒"],"d":["格纹"]},{"f":"img/ashley-williams/09.jpg","se":"2026 秋冬","c":"Look 39","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ashley-williams","s":["衬衫","半身裙"],"h":["A字","层叠"],"d":["褶裥"]},{"f":"img/ashley-williams/10.jpg","se":"2026 秋冬","c":"Look 51","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ashley-williams","s":["半身裙"],"h":["长及脚踝"],"d":["印花","荷叶边"]}]},{"id":"brandy-melville","n":"Brandy Melville","src":"官网","sh":[{"l":"brandymelville.com","u":"https://us.brandymelville.com"}],"it":[{"f":"img/brandy-melville/01.jpg","se":"官网最新","c":"Autumn Tie Sweatpants","u":"https://us.brandymelville.com/products/autumn-tie-sweatpants-3","s":["背心吊带","长裤"],"h":["短上长下"],"d":[]},{"f":"img/brandy-melville/02.jpg","se":"官网最新","c":"Beyonca Long Tank","u":"https://us.brandymelville.com/products/beyonca-long-tank-3","s":["背心吊带","长裤"],"h":["修身"],"d":["条纹"]},{"f":"img/brandy-melville/03.jpg","se":"官网最新","c":"Skylar Striped Tank","u":"https://us.brandymelville.com/products/skylar-striped-tank-34","s":["背心吊带","长裤"],"h":["短款","修身"],"d":["条纹","丹宁"]},{"f":"img/brandy-melville/04.jpg","se":"官网最新","c":"Tiffany Striped Tank","u":"https://us.brandymelville.com/products/tiffany-striped-tank-5","s":["背心吊带","短裤"],"h":["修身"],"d":[]},{"f":"img/brandy-melville/05.jpg","se":"官网最新","c":"Abi Sweater","u":"https://us.brandymelville.com/products/abi-sweater","s":["针织","长裤"],"h":["修身","直筒"],"d":["丹宁"]},{"f":"img/brandy-melville/06.jpg","se":"官网上一季","c":"Amara Floral Tank","u":"https://us.brandymelville.com/products/amara-floral-tank-5","s":["T恤","长裤"],"h":["短款"],"d":["印花","丹宁"]},{"f":"img/brandy-melville/07.jpg","se":"官网上一季","c":"Priscilla Striped Pants","u":"https://us.brandymelville.com/products/priscilla-pants-25","s":["背心吊带","长裤"],"h":["直筒"],"d":["条纹"]},{"f":"img/brandy-melville/08.jpg","se":"官网上一季","c":"Ashlyn Stripe Top","u":"https://us.brandymelville.com/products/ashlyn-stripe-top-4","s":["T恤","短裤"],"h":["短款","修身"],"d":["条纹","丹宁"]},{"f":"img/brandy-melville/09.jpg","se":"官网上一季","c":"Clara Wrap Top","u":"https://us.brandymelville.com/products/clara-wrap-top","s":["针织","半身裙"],"h":["短款"],"d":["条纹","丹宁"]},{"f":"img/brandy-melville/10.jpg","se":"官网上一季","c":"Jillian Eyelet Top","u":"https://us.brandymelville.com/products/jillian-eyelet-top-1","s":["T恤","短裤"],"h":["修身"],"d":[]}]},{"id":"chanel","n":"Chanel","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chanel"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chanel"}],"it":[{"f":"img/chanel/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chanel","s":["背心吊带","半身裙"],"h":["修身"],"d":["透明"]},{"f":"img/chanel/02.jpg","se":"2027 春夏","c":"Look 21","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chanel","s":["长裤"],"h":["直筒"],"d":["荷叶边","印花"]},{"f":"img/chanel/03.jpg","se":"2027 春夏","c":"Look 42","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chanel","s":["短外套","半身裙"],"h":["A字"],"d":["格纹","缎面"]},{"f":"img/chanel/04.jpg","se":"2027 春夏","c":"Look 63","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chanel","s":["套装","短外套","半身裙"],"h":["短款"],"d":["粗花呢","毛边"]},{"f":"img/chanel/05.jpg","se":"2027 春夏","c":"Look 83","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chanel","s":["套装"],"h":["直筒"],"d":["粗花呢"]},{"f":"img/chanel/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chanel","s":["套装"],"h":["直筒"],"d":[]},{"f":"img/chanel/07.jpg","se":"2026 秋冬","c":"Look 20","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chanel","s":["连衣裙"],"h":["层叠"],"d":["透明","蕾丝","不对称"]},{"f":"img/chanel/08.jpg","se":"2026 秋冬","c":"Look 39","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chanel","s":["长大衣","长裤"],"h":["直筒"],"d":["粗花呢"]},{"f":"img/chanel/09.jpg","se":"2026 秋冬","c":"Look 59","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chanel","s":["长大衣"],"h":["直筒"],"d":["粗花呢"]},{"f":"img/chanel/10.jpg","se":"2026 秋冬","c":"Look 78","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chanel","s":["连衣裙"],"h":["修身","长及脚踝"],"d":[]}]},{"id":"chloe","n":"Chloé","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chloe"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chloe"}],"it":[{"f":"img/chloe/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chloe","s":["连衣裙"],"h":["短款"],"d":["流苏","蕾丝"]},{"f":"img/chloe/02.jpg","se":"2027 春夏","c":"Look 14","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chloe","s":["连衣裙"],"h":["短款"],"d":["荷叶边","蕾丝"]},{"f":"img/chloe/03.jpg","se":"2027 春夏","c":"Look 27","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chloe","s":["风衣"],"h":["oversized","长及脚踝"],"d":[]},{"f":"img/chloe/04.jpg","se":"2027 春夏","c":"Look 41","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chloe","s":["连体衣"],"h":["修身"],"d":["立体花"]},{"f":"img/chloe/05.jpg","se":"2027 春夏","c":"Look 54","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/chloe","s":["半身裙"],"h":["茧形"],"d":["抽褶","蕾丝"]},{"f":"img/chloe/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chloe","s":["西装外套","半身裙"],"h":["层叠","长及脚踝"],"d":["格纹","荷叶边"]},{"f":"img/chloe/07.jpg","se":"2026 秋冬","c":"Look 15","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chloe","s":["皮衣","半身裙"],"h":["短上长下"],"d":["格纹","荷叶边"]},{"f":"img/chloe/08.jpg","se":"2026 秋冬","c":"Look 28","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chloe","s":["衬衫","长裤"],"h":["直筒"],"d":["格纹"]},{"f":"img/chloe/09.jpg","se":"2026 秋冬","c":"Look 41","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chloe","s":["连衣裙","长裤"],"h":["层叠"],"d":["荷叶边"]},{"f":"img/chloe/10.jpg","se":"2026 秋冬","c":"Look 55","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/chloe","s":["连衣裙"],"h":["收腰","长及脚踝"],"d":["荷叶边"]}]},{"id":"coyseio","n":"COYSEIO","src":"官网","sh":[{"l":"coyseio.com","u":"https://www.coyseio.com"}],"it":[{"f":"img/coyseio/01.jpg","se":"官网最新","c":"BUTTON-UP DEEP NECK CARDIGAN MELANGE GREY","u":"https://www.coyseio.com/product/detail.html?product_no=4654","s":["针织","长裤"],"h":["层叠","oversized"],"d":["拼接"]},{"f":"img/coyseio/02.jpg","se":"官网最新","c":"COLOR BLOCK GRAPHIC T-SHIRT GREEN","u":"https://www.coyseio.com/product/detail.html?product_no=4658","s":["T恤","长裤"],"h":["层叠"],"d":["条纹","拼接"]},{"f":"img/coyseio/03.jpg","se":"官网最新","c":"TEJI VINTAGE GRAPHIC T-SHIRT YELLOW","u":"https://www.coyseio.com/product/detail.html?product_no=4675","s":["T恤","半身裙"],"h":["层叠"],"d":["印花","褶裥"]},{"f":"img/coyseio/04.jpg","se":"官网最新","c":"WASHED STRAP LINE PANTS GREY","u":"https://www.coyseio.com/product/detail.html?product_no=4700","s":["衬衫","长裤"],"h":["层叠","oversized"],"d":["毛绒"]},{"f":"img/coyseio/05.jpg","se":"官网最新","c":"HOODED FIELD DOWN JACKET WINE","u":"https://www.coyseio.com/product/detail.html?product_no=4631","s":["长大衣"],"h":["oversized"],"d":["绗缝"]},{"f":"img/coyseio/06.jpg","se":"官网上一季","c":"VINTAGE PUPPY LACE SLEEVELESS LIGHT MELANGE","u":"https://www.coyseio.com/product/detail.html?product_no=4460","s":["T恤","背心吊带"],"h":["层叠"],"d":["印花"]},{"f":"img/coyseio/07.jpg","se":"官网上一季","c":"VINTAGE PUPPY T-SHIRT CLOUD BLUE","u":"https://www.coyseio.com/product/detail.html?product_no=4454","s":["T恤","长裤"],"h":["层叠"],"d":["拼接"]},{"f":"img/coyseio/08.jpg","se":"官网上一季","c":"ROUND COLLAR HALF BLOUSE LEMON","u":"https://www.coyseio.com/product/detail.html?product_no=4463","s":["衬衫","半身裙"],"h":["A字"],"d":["褶裥"]},{"f":"img/coyseio/09.jpg","se":"官网上一季","c":"RUFFLE V-NECK SMOCKED T-SHIRT BLUE","u":"https://www.coyseio.com/product/detail.html?product_no=4452","s":["T恤","半身裙"],"h":["A字"],"d":[]},{"f":"img/coyseio/10.jpg","se":"官网上一季","c":"TRIPLE LAYER PLEATED SKIRT BROWN","u":"https://www.coyseio.com/product/detail.html?product_no=4478","s":["T恤","半身裙"],"h":["层叠"],"d":["褶裥"]}]},{"id":"frankie-shop","n":"The Frankie Shop","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/the-frankie-shop"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/the-frankie-shop"}],"it":[{"f":"img/frankie-shop/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/the-frankie-shop","s":["风衣"],"h":["oversized","收腰"],"d":[]},{"f":"img/frankie-shop/02.jpg","se":"2027 春夏","c":"Look 9","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/the-frankie-shop","s":["针织","半身裙"],"h":["直筒"],"d":["皮革"]},{"f":"img/frankie-shop/03.jpg","se":"2027 春夏","c":"Look 17","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/the-frankie-shop","s":["衬衫","短裤"],"h":["oversized"],"d":[]},{"f":"img/frankie-shop/04.jpg","se":"2027 春夏","c":"Look 24","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/the-frankie-shop","s":["短外套","短裤"],"h":["oversized"],"d":[]},{"f":"img/frankie-shop/05.jpg","se":"2027 春夏","c":"Look 32","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/the-frankie-shop","s":["背心吊带"],"h":["修身"],"d":[]},{"f":"img/frankie-shop/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/the-frankie-shop","s":["长大衣","套装"],"h":["oversized"],"d":["毛绒"]},{"f":"img/frankie-shop/07.jpg","se":"2026 秋冬","c":"Look 9","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/the-frankie-shop","s":["长大衣","套装"],"h":["oversized"],"d":["毛绒"]},{"f":"img/frankie-shop/08.jpg","se":"2026 秋冬","c":"Look 16","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/the-frankie-shop","s":["长大衣"],"h":["直筒"],"d":[]},{"f":"img/frankie-shop/09.jpg","se":"2026 秋冬","c":"Look 23","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/the-frankie-shop","s":["风衣"],"h":["oversized","收腰"],"d":[]},{"f":"img/frankie-shop/10.jpg","se":"2026 秋冬","c":"Look 31","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/the-frankie-shop","s":["西装外套","短裤"],"h":["修身"],"d":[]}]},{"id":"isabel-marant","n":"Isabel Marant","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/isabel-marant"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/isabel-marant"}],"it":[{"f":"img/isabel-marant/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/isabel-marant","s":["衬衫","短裤"],"h":["oversized"],"d":["蕾丝","刺绣"]},{"f":"img/isabel-marant/02.jpg","se":"2027 春夏","c":"Look 13","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/isabel-marant","s":["连体衣"],"h":["oversized"],"d":["工装"]},{"f":"img/isabel-marant/03.jpg","se":"2027 春夏","c":"Look 25","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/isabel-marant","s":["衬衫","长裤","套装"],"h":["oversized"],"d":[]},{"f":"img/isabel-marant/04.jpg","se":"2027 春夏","c":"Look 38","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/isabel-marant","s":["衬衫","短裤"],"h":["oversized"],"d":["印花"]},{"f":"img/isabel-marant/05.jpg","se":"2027 春夏","c":"Look 50","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/isabel-marant","s":["西装外套","连衣裙"],"h":["层叠"],"d":["亮片"]},{"f":"img/isabel-marant/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/isabel-marant","s":["短外套","长裤"],"h":["直筒"],"d":["透明","丹宁"]},{"f":"img/isabel-marant/07.jpg","se":"2026 秋冬","c":"Look 17","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/isabel-marant","s":["短外套","长裤"],"h":["短上长下"],"d":["毛绒","丹宁"]},{"f":"img/isabel-marant/08.jpg","se":"2026 秋冬","c":"Look 33","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/isabel-marant","s":["短外套","长裤"],"h":["oversized"],"d":[]},{"f":"img/isabel-marant/09.jpg","se":"2026 秋冬","c":"Look 49","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/isabel-marant","s":["短外套"],"h":["oversized"],"d":[]},{"f":"img/isabel-marant/10.jpg","se":"2026 秋冬","c":"Look 65","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/isabel-marant","s":["背心吊带","长裤"],"h":["修身"],"d":["丹宁"]}]},{"id":"junya-watanabe","n":"Junya Watanabe","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/junya-watanabe"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/junya-watanabe"}],"it":[{"f":"img/junya-watanabe/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/junya-watanabe","s":["连体衣"],"h":["修身"],"d":["透明"]},{"f":"img/junya-watanabe/02.jpg","se":"2027 春夏","c":"Look 12","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/junya-watanabe","s":["长裤"],"h":["修身"],"d":["金属","不对称"]},{"f":"img/junya-watanabe/03.jpg","se":"2027 春夏","c":"Look 23","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/junya-watanabe","s":["皮衣"],"h":["层叠"],"d":["皮革","解构"]},{"f":"img/junya-watanabe/04.jpg","se":"2027 春夏","c":"Look 34","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/junya-watanabe","s":["风衣"],"h":["oversized"],"d":["解构"]},{"f":"img/junya-watanabe/05.jpg","se":"2027 春夏","c":"Look 45","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/junya-watanabe","s":["连衣裙"],"h":["收腰","长及脚踝"],"d":["荷叶边","透明"]},{"f":"img/junya-watanabe/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/junya-watanabe","s":["连衣裙"],"h":["收腰","茧形"],"d":["皮革","解构"]},{"f":"img/junya-watanabe/07.jpg","se":"2026 秋冬","c":"Look 6","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/junya-watanabe","s":["连衣裙"],"h":["层叠"],"d":["解构","透明"]},{"f":"img/junya-watanabe/08.jpg","se":"2026 秋冬","c":"Look 11","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/junya-watanabe","s":["长大衣"],"h":["oversized"],"d":["拼接"]},{"f":"img/junya-watanabe/09.jpg","se":"2026 秋冬","c":"Look 16","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/junya-watanabe","s":["连衣裙"],"h":["层叠"],"d":["皮革","解构"]},{"f":"img/junya-watanabe/10.jpg","se":"2026 秋冬","c":"Look 21","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/junya-watanabe","s":["长大衣","皮衣"],"h":["长及脚踝"],"d":["皮革"]}]},{"id":"loewe","n":"Loewe","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/loewe"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/loewe"}],"it":[{"f":"img/loewe/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/loewe","s":["西装外套","半身裙"],"h":["茧形"],"d":["格纹"]},{"f":"img/loewe/02.jpg","se":"2027 春夏","c":"Look 17","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/loewe","s":["针织","长裤"],"h":["oversized"],"d":[]},{"f":"img/loewe/03.jpg","se":"2027 春夏","c":"Look 33","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/loewe","s":["针织","长裤"],"h":["直筒"],"d":[]},{"f":"img/loewe/04.jpg","se":"2027 春夏","c":"Look 50","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/loewe","s":["连衣裙"],"h":["直筒"],"d":["拼接"]},{"f":"img/loewe/05.jpg","se":"2027 春夏","c":"Look 66","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/loewe","s":["针织","短裤"],"h":["oversized"],"d":["印花"]},{"f":"img/loewe/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/loewe","s":["连衣裙"],"h":["直筒"],"d":["吊带"]},{"f":"img/loewe/07.jpg","se":"2026 秋冬","c":"Look 17","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/loewe","s":["连衣裙","针织"],"h":["修身"],"d":["毛绒","不对称"]},{"f":"img/loewe/08.jpg","se":"2026 秋冬","c":"Look 33","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/loewe","s":["连衣裙"],"h":["修身"],"d":["毛绒"]},{"f":"img/loewe/09.jpg","se":"2026 秋冬","c":"Look 49","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/loewe","s":["长大衣"],"h":["茧形","oversized"],"d":["毛绒","连帽"]},{"f":"img/loewe/10.jpg","se":"2026 秋冬","c":"Look 65","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/loewe","s":["长大衣"],"h":["oversized"],"d":["格纹"]}]},{"id":"margiela","n":"Maison Margiela","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/maison-martin-margiela"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/maison-martin-margiela"}],"it":[{"f":"img/margiela/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/maison-martin-margiela","s":["风衣"],"h":["收腰"],"d":[]},{"f":"img/margiela/02.jpg","se":"2027 春夏","c":"Look 16","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/maison-martin-margiela","s":["短外套","半身裙"],"h":["短上长下","长及脚踝"],"d":["丹宁"]},{"f":"img/margiela/03.jpg","se":"2027 春夏","c":"Look 31","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/maison-martin-margiela","s":["皮衣","长裤"],"h":["直筒"],"d":["皮革"]},{"f":"img/margiela/04.jpg","se":"2027 春夏","c":"Look 46","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/maison-martin-margiela","s":["半身裙"],"h":["长及脚踝"],"d":["金属","立体造型"]},{"f":"img/margiela/05.jpg","se":"2027 春夏","c":"Look 61","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/maison-martin-margiela","s":["长裤"],"h":["直筒"],"d":["印花","格纹","拼接"]},{"f":"img/margiela/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/maison-martin-margiela","s":["连衣裙"],"h":["长及脚踝"],"d":["解构","抽褶"]},{"f":"img/margiela/07.jpg","se":"2026 秋冬","c":"Look 19","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/maison-martin-margiela","s":["西装套装"],"h":["修身"],"d":[]},{"f":"img/margiela/08.jpg","se":"2026 秋冬","c":"Look 38","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/maison-martin-margiela","s":["皮衣","长裤"],"h":["层叠"],"d":["皮革"]},{"f":"img/margiela/09.jpg","se":"2026 秋冬","c":"Look 57","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/maison-martin-margiela","s":["西装外套","半身裙"],"h":["层叠"],"d":["透明"]},{"f":"img/margiela/10.jpg","se":"2026 秋冬","c":"Look 75","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/maison-martin-margiela","s":["连衣裙"],"h":["长及脚踝"],"d":["抽褶","解构"]}]},{"id":"markgong","n":"MARKGONG","src":"Vogue Runway","sh":[{"l":"2027 春夏（上海）","u":"https://www.vogue.com/fashion-shows/shanghai-spring-2027/markgong"},{"l":"2026 秋冬（上海）","u":"https://www.vogue.com/fashion-shows/shanghai-fall-2026/markgong"}],"it":[{"f":"img/markgong/01.jpg","se":"2027 春夏（上海）","c":"Look 1","u":"https://www.vogue.com/fashion-shows/shanghai-spring-2027/markgong","s":["背心吊带","短裤"],"h":["短款"],"d":["荷叶边"]},{"f":"img/markgong/02.jpg","se":"2027 春夏（上海）","c":"Look 17","u":"https://www.vogue.com/fashion-shows/shanghai-spring-2027/markgong","s":["背心吊带","长裤"],"h":["oversized"],"d":["亮片","工装"]},{"f":"img/markgong/03.jpg","se":"2027 春夏（上海）","c":"Look 33","u":"https://www.vogue.com/fashion-shows/shanghai-spring-2027/markgong","s":["西装外套","短裤"],"h":["oversized"],"d":["缎面"]},{"f":"img/markgong/04.jpg","se":"2027 春夏（上海）","c":"Look 50","u":"https://www.vogue.com/fashion-shows/shanghai-spring-2027/markgong","s":["针织","半身裙"],"h":["茧形"],"d":[]},{"f":"img/markgong/05.jpg","se":"2027 春夏（上海）","c":"Look 66","u":"https://www.vogue.com/fashion-shows/shanghai-spring-2027/markgong","s":["连衣裙"],"h":["收腰"],"d":["透明","立体花"]},{"f":"img/markgong/06.jpg","se":"2026 秋冬（上海）","c":"Look 1","u":"https://www.vogue.com/fashion-shows/shanghai-fall-2026/markgong","s":["短外套","半身裙"],"h":["短款"],"d":[]},{"f":"img/markgong/07.jpg","se":"2026 秋冬（上海）","c":"Look 13","u":"https://www.vogue.com/fashion-shows/shanghai-fall-2026/markgong","s":["半身裙"],"h":["短上长下"],"d":["抽褶"]},{"f":"img/markgong/08.jpg","se":"2026 秋冬（上海）","c":"Look 25","u":"https://www.vogue.com/fashion-shows/shanghai-fall-2026/markgong","s":["短外套","半身裙"],"h":["oversized"],"d":["毛绒"]},{"f":"img/markgong/09.jpg","se":"2026 秋冬（上海）","c":"Look 37","u":"https://www.vogue.com/fashion-shows/shanghai-fall-2026/markgong","s":["针织","半身裙"],"h":["短上长下","A字"],"d":[]},{"f":"img/markgong/10.jpg","se":"2026 秋冬（上海）","c":"Look 49","u":"https://www.vogue.com/fashion-shows/shanghai-fall-2026/markgong","s":["皮衣","半身裙"],"h":["短上长下","茧形"],"d":["皮革"]}]},{"id":"massimo-dutti","n":"Massimo Dutti","src":"官网","sh":[{"l":"massimodutti.com","u":"https://www.massimodutti.com/us"}],"it":[{"f":"img/massimo-dutti/01.jpg","se":"官网 Runway 系列","c":"Runway look 1","u":"https://www.massimodutti.com/us/wool-blend-long-coat--limited-edition-l06403555?pelement=69348987","s":["长大衣"],"h":["直筒","长及脚踝"],"d":[]},{"f":"img/massimo-dutti/02.jpg","se":"官网 Runway 系列","c":"Runway look 2","u":"https://www.massimodutti.com/us/vneck-midi-dress--limited-edition-l06624555?pelement=69348995","s":["连衣裙","长裤"],"h":["层叠","长及脚踝"],"d":[]},{"f":"img/massimo-dutti/03.jpg","se":"官网 Runway 系列","c":"Runway look 3","u":"https://www.massimodutti.com/us/flowing-high-neck-asymmetric-blouse--limited-edition-l05106555?pelement=69349002","s":["长大衣"],"h":["oversized","长及脚踝"],"d":[]},{"f":"img/massimo-dutti/04.jpg","se":"官网 Runway 系列","c":"Runway look 4","u":"https://www.massimodutti.com/us/midi-pencil-leather-skirt--limited-edition-l04706555?pelement=69348964","s":["针织","长裤"],"h":["茧形"],"d":[]},{"f":"img/massimo-dutti/05.jpg","se":"官网 Runway 系列","c":"Runway look 5","u":"https://www.massimodutti.com/us/flowing-slim-fit-pants--limited-edition-l05031555?pelement=68832090","s":["针织","长裤"],"h":["修身"],"d":[]},{"f":"img/massimo-dutti/06.jpg","se":"官网 Runway 系列","c":"Runway look 6","u":"https://www.massimodutti.com/us/poplin-tuxedostyle-collar-shirt--limited-edition-l05114555?pelement=69349533","s":["衬衫"],"h":["oversized"],"d":["不对称"]},{"f":"img/massimo-dutti/07.jpg","se":"官网 Runway 系列","c":"Runway look 7","u":"https://www.massimodutti.com/us/high-neck-leather-blouse--limited-edition-l04703555?pelement=69348950","s":["皮衣","长裤"],"h":["收腰","茧形"],"d":["皮革","腰带"]},{"f":"img/massimo-dutti/08.jpg","se":"官网 Runway 系列","c":"Runway look 8","u":"https://www.massimodutti.com/us/voluminous-woolsilk-blend-blouse--limited-edition-l05109555?pelement=68832566","s":["皮衣"],"h":["直筒"],"d":["皮革"]},{"f":"img/massimo-dutti/09.jpg","se":"官网 Runway 系列","c":"Runway look 9","u":"https://www.massimodutti.com/us/cashmere-wool-ribbed-knit-sweater--limited-edition-l05601555?pelement=68832586","s":["针织","半身裙"],"h":["直筒"],"d":["皮革"]},{"f":"img/massimo-dutti/10.jpg","se":"官网 Runway 系列","c":"Runway look 10","u":"https://www.massimodutti.com/us/fitted-long-coat--limited-edition-l06401555?pelement=68832025","s":["长大衣"],"h":["直筒","长及脚踝"],"d":[]}]},{"id":"miu-miu","n":"Miu Miu","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/miu-miu"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/miu-miu"}],"it":[{"f":"img/miu-miu/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/miu-miu","s":["西装外套","半身裙"],"h":["直筒"],"d":["格纹"]},{"f":"img/miu-miu/02.jpg","se":"2027 春夏","c":"Look 19","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/miu-miu","s":["针织","长裤"],"h":["直筒"],"d":["条纹"]},{"f":"img/miu-miu/03.jpg","se":"2027 春夏","c":"Look 38","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/miu-miu","s":["连衣裙"],"h":["直筒"],"d":["抽褶"]},{"f":"img/miu-miu/04.jpg","se":"2027 春夏","c":"Look 57","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/miu-miu","s":["短外套","短裤"],"h":["oversized"],"d":["皮革"]},{"f":"img/miu-miu/05.jpg","se":"2027 春夏","c":"Look 75","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/miu-miu","s":["连衣裙"],"h":["修身"],"d":["拼接"]},{"f":"img/miu-miu/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/miu-miu","s":["西装套装"],"h":["收腰"],"d":[]},{"f":"img/miu-miu/07.jpg","se":"2026 秋冬","c":"Look 17","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/miu-miu","s":["西装外套","半身裙"],"h":["直筒"],"d":[]},{"f":"img/miu-miu/08.jpg","se":"2026 秋冬","c":"Look 33","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/miu-miu","s":["长大衣"],"h":["直筒"],"d":["毛绒"]},{"f":"img/miu-miu/09.jpg","se":"2026 秋冬","c":"Look 49","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/miu-miu","s":["连衣裙","针织"],"h":["修身","短款"],"d":["蝴蝶结"]},{"f":"img/miu-miu/10.jpg","se":"2026 秋冬","c":"Look 65","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/miu-miu","s":["连衣裙"],"h":["直筒"],"d":["透明"]}]},{"id":"paloma-wool","n":"Paloma Wool","src":"官网","sh":[{"l":"palomawool.com","u":"https://palomawool.com"}],"it":[{"f":"img/paloma-wool/01.jpg","se":"2026 秋冬","c":"aW26 - Look 1","u":"https://palomawool.com/products/aw26-look-45","s":["长大衣","长裤"],"h":["直筒"],"d":[]},{"f":"img/paloma-wool/02.jpg","se":"2026 秋冬","c":"aW26 - Look 11","u":"https://palomawool.com/products/aw26-look-55","s":["短外套","长裤"],"h":["直筒"],"d":[]},{"f":"img/paloma-wool/03.jpg","se":"2026 秋冬","c":"AW26 - Look 26","u":"https://palomawool.com/products/aw26-look-26","s":["针织","长裤"],"h":["修身"],"d":[]},{"f":"img/paloma-wool/04.jpg","se":"2026 秋冬","c":"AW26 - Look 47","u":"https://palomawool.com/products/aw26-look-63","s":["针织","长裤"],"h":["修身"],"d":[]},{"f":"img/paloma-wool/05.jpg","se":"2026 秋冬","c":"AW26 - Look 67","u":"https://palomawool.com/products/aw26-look-83","s":["针织","半身裙","长裤"],"h":["层叠"],"d":[]},{"f":"img/paloma-wool/06.jpg","se":"2026 春夏","c":"SS26 - Drop 7 - Look 8","u":"https://palomawool.com/products/ss26-drop-7-look-8","s":["针织","长裤"],"h":["修身"],"d":["透明","印花"]},{"f":"img/paloma-wool/07.jpg","se":"2026 春夏","c":"SS26 - Drop 7 - Look 6","u":"https://palomawool.com/products/ss26-drop-7-look-6","s":["背心吊带","长裤"],"h":["修身"],"d":[]},{"f":"img/paloma-wool/08.jpg","se":"2026 春夏","c":"SS26 - Drop 7 - Look 4","u":"https://palomawool.com/products/ss26-drop-7-look-4","s":["T恤","短裤"],"h":["修身"],"d":["透明"]},{"f":"img/paloma-wool/09.jpg","se":"2026 春夏","c":"SS26 - Drop 7 - Look 3","u":"https://palomawool.com/products/ss26-drop-7-look-3","s":["背心吊带","半身裙"],"h":["层叠","长及脚踝"],"d":["透明"]},{"f":"img/paloma-wool/10.jpg","se":"2026 春夏","c":"SS26 - Drop 7 - Look 1","u":"https://palomawool.com/products/ss26-drop-7-look-1","s":["T恤","连衣裙"],"h":["层叠"],"d":["印花"]}]},{"id":"phoebe-philo","n":"Phoebe Philo","src":"官网","sh":[{"l":"phoebephilo.com","u":"https://www.phoebephilo.com"}],"it":[{"f":"img/phoebe-philo/01.jpg","se":"官网最新","c":"BOYISH TAILORED TROUSERS","u":"https://www.phoebephilo.com/products/boyish-tailored-trousers-black-wool","s":["针织","长裤"],"h":["直筒"],"d":[]},{"f":"img/phoebe-philo/02.jpg","se":"官网最新","c":"PINCHED COAT","u":"https://www.phoebephilo.com/products/pinched-coat-acid-army-green-wool","s":["长大衣","长裤"],"h":["直筒"],"d":[]},{"f":"img/phoebe-philo/03.jpg","se":"官网最新","c":"UTILITY JACKET","u":"https://www.phoebephilo.com/products/utility-jacket-black-ink-cotton","s":["短外套","短裤"],"h":["oversized","收腰"],"d":["工装"]},{"f":"img/phoebe-philo/04.jpg","se":"官网最新","c":"CREW NECK DRESS","u":"https://www.phoebephilo.com/products/crew-neck-dress-black-silk","s":["连衣裙"],"h":["直筒","长及脚踝"],"d":[]},{"f":"img/phoebe-philo/05.jpg","se":"官网最新","c":"STRAP TROUSERS","u":"https://www.phoebephilo.com/products/strap-trousers-black-wool","s":["针织","长裤"],"h":["oversized"],"d":["工装"]},{"f":"img/phoebe-philo/06.jpg","se":"官网上一季","c":"STRIPE TOP","u":"https://www.phoebephilo.com/products/stripe-top-toffee-black-viscose","s":["针织","长裤"],"h":["直筒"],"d":["条纹"]},{"f":"img/phoebe-philo/07.jpg","se":"官网上一季","c":"HUG DRESS","u":"https://www.phoebephilo.com/products/hug-dress-in-black-viscose","s":["连衣裙"],"h":["修身","长及脚踝"],"d":["透明"]},{"f":"img/phoebe-philo/08.jpg","se":"官网上一季","c":"LIQUID SHORTS","u":"https://www.phoebephilo.com/products/liquid-shorts-cream-silk","s":["背心吊带","短裤"],"h":["层叠"],"d":["不对称"]},{"f":"img/phoebe-philo/09.jpg","se":"官网上一季","c":"PYJAMA SHIRT","u":"https://www.phoebephilo.com/products/pyjama-shirt-dark-khaki-cotton","s":["衬衫","长裤","套装"],"h":["oversized"],"d":[]},{"f":"img/phoebe-philo/10.jpg","se":"官网上一季","c":"SHIRT BODY","u":"https://www.phoebephilo.com/products/shirt-body-dark-grey-white-cotton","s":["衬衫","连体衣"],"h":["oversized","短款"],"d":[]}]},{"id":"ralph-lauren","n":"Ralph Lauren","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ralph-lauren"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ralph-lauren"}],"it":[{"f":"img/ralph-lauren/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ralph-lauren","s":["衬衫","长裤"],"h":["收腰"],"d":["束腰"]},{"f":"img/ralph-lauren/02.jpg","se":"2027 春夏","c":"Look 13","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ralph-lauren","s":["连衣裙"],"h":["修身","长及脚踝"],"d":["印花"]},{"f":"img/ralph-lauren/03.jpg","se":"2027 春夏","c":"Look 25","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ralph-lauren","s":["连衣裙"],"h":["长及脚踝"],"d":["透明","羽毛"]},{"f":"img/ralph-lauren/04.jpg","se":"2027 春夏","c":"Look 37","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ralph-lauren","s":["皮衣","长裤"],"h":["oversized"],"d":["皮革"]},{"f":"img/ralph-lauren/05.jpg","se":"2027 春夏","c":"Look 49","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/ralph-lauren","s":["连衣裙"],"h":["长及脚踝"],"d":["抽褶"]},{"f":"img/ralph-lauren/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ralph-lauren","s":["连衣裙","针织"],"h":["修身","长及脚踝"],"d":[]},{"f":"img/ralph-lauren/07.jpg","se":"2026 秋冬","c":"Look 15","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ralph-lauren","s":["西装外套","半身裙"],"h":["直筒"],"d":["印花"]},{"f":"img/ralph-lauren/08.jpg","se":"2026 秋冬","c":"Look 29","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ralph-lauren","s":["背心吊带","长裤"],"h":["收腰"],"d":["束腰"]},{"f":"img/ralph-lauren/09.jpg","se":"2026 秋冬","c":"Look 44","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ralph-lauren","s":["短外套","长裤"],"h":["收腰"],"d":["束腰","皮革"]},{"f":"img/ralph-lauren/10.jpg","se":"2026 秋冬","c":"Look 58","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/ralph-lauren","s":["连衣裙"],"h":["修身","长及脚踝"],"d":["丝绒"]}]},{"id":"simone-rocha","n":"Simone Rocha","src":"Vogue Runway","sh":[{"l":"2027 春夏","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/simone-rocha"},{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/simone-rocha"}],"it":[{"f":"img/simone-rocha/01.jpg","se":"2027 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/simone-rocha","s":["短外套","半身裙"],"h":["茧形","层叠"],"d":["荷叶边","透明"]},{"f":"img/simone-rocha/02.jpg","se":"2027 春夏","c":"Look 11","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/simone-rocha","s":["连衣裙"],"h":["直筒"],"d":["蕾丝"]},{"f":"img/simone-rocha/03.jpg","se":"2027 春夏","c":"Look 22","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/simone-rocha","s":["半身裙"],"h":["直筒"],"d":["立体花"]},{"f":"img/simone-rocha/04.jpg","se":"2027 春夏","c":"Look 33","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/simone-rocha","s":["衬衫","半身裙"],"h":["茧形","层叠"],"d":[]},{"f":"img/simone-rocha/05.jpg","se":"2027 春夏","c":"Look 43","u":"https://www.vogue.com/fashion-shows/spring-2027-ready-to-wear/simone-rocha","s":["连衣裙"],"h":["茧形"],"d":["亮片","吊带"]},{"f":"img/simone-rocha/06.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/simone-rocha","s":["连衣裙"],"h":["层叠"],"d":["透明","蕾丝"]},{"f":"img/simone-rocha/07.jpg","se":"2026 秋冬","c":"Look 16","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/simone-rocha","s":["西装套装"],"h":["oversized"],"d":[]},{"f":"img/simone-rocha/08.jpg","se":"2026 秋冬","c":"Look 31","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/simone-rocha","s":["长大衣"],"h":["直筒"],"d":["毛绒"]},{"f":"img/simone-rocha/09.jpg","se":"2026 秋冬","c":"Look 45","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/simone-rocha","s":["连衣裙"],"h":["A字","长及脚踝"],"d":["蝴蝶结"]},{"f":"img/simone-rocha/10.jpg","se":"2026 秋冬","c":"Look 60","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/simone-rocha","s":["连衣裙"],"h":["长及脚踝"],"d":["蕾丝","蝴蝶结"]}]},{"id":"tank-air","n":"Tank Air","src":"官网","sh":[{"l":"tankair.com","u":"https://tankair.com"}],"it":[{"f":"img/tank-air/01.jpg","se":"官网最新","c":"Goddess of Mercy Knit in Mung Bean","u":"https://tank-air.myshopify.com/products/goddess-of-mercy-mung-bean","s":["连衣裙"],"h":["oversized","茧形"],"d":["不对称","露肩"]},{"f":"img/tank-air/02.jpg","se":"官网最新","c":"Nocturnal Skirt in Mink","u":"https://tank-air.myshopify.com/products/nocturnal-skirt-mink","s":["背心吊带","半身裙"],"h":["修身","长及脚踝"],"d":[]},{"f":"img/tank-air/03.jpg","se":"官网最新","c":"Wool Jersey Wrap Skirt in Chocolate","u":"https://tank-air.myshopify.com/products/wool-jersey-wrap-skirt-chocolate","s":["针织","半身裙"],"h":["修身","长及脚踝"],"d":["提花"]},{"f":"img/tank-air/04.jpg","se":"官网最新","c":"Dancing Angels Hoodie in Chocolate Plum","u":"https://tank-air.myshopify.com/products/dancing-angels-hoodie-chocolate-plum","s":["针织","长裤"],"h":["短款"],"d":["提花"]},{"f":"img/tank-air/05.jpg","se":"官网最新","c":"Body Twist Knit in Grey","u":"https://tank-air.myshopify.com/products/body-twist-knit-grey","s":["针织","半身裙"],"h":["修身"],"d":["不对称","抽褶"]},{"f":"img/tank-air/06.jpg","se":"官网上一季","c":"Hollywood Starfruit","u":"https://tank-air.myshopify.com/products/hollywood-starfruit-tshirt","s":["T恤","半身裙"],"h":["oversized"],"d":["印花","露肩"]},{"f":"img/tank-air/07.jpg","se":"官网上一季","c":"Half Moon Halter in Blue Hour","u":"https://tank-air.myshopify.com/products/half-moon-halter-blue-hour","s":["背心吊带","短裤"],"h":["修身","短款"],"d":["挂脖"]},{"f":"img/tank-air/08.jpg","se":"官网上一季","c":"Dip Halter in Soil","u":"https://tank-air.myshopify.com/products/dip-halter-soil","s":["背心吊带","长裤"],"h":["修身"],"d":["挂脖"]},{"f":"img/tank-air/09.jpg","se":"官网上一季","c":"Tube Top in Tea Stained","u":"https://tank-air.myshopify.com/products/tube-top-tea-stained","s":["背心吊带","长裤"],"h":["修身"],"d":["抹胸"]},{"f":"img/tank-air/10.jpg","se":"官网上一季","c":"System Tank in Blue Hour","u":"https://tank-air.myshopify.com/products/system-tank-blue-hour","s":["背心吊带","短裤"],"h":["修身","短款"],"d":[]}]},{"id":"vivienne-westwood","n":"Vivienne Westwood","src":"Vogue Runway","sh":[{"l":"2026 秋冬","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/vivienne-westwood"},{"l":"2026 春夏","u":"https://www.vogue.com/fashion-shows/spring-2026-ready-to-wear/vivienne-westwood"}],"it":[{"f":"img/vivienne-westwood/01.jpg","se":"2026 秋冬","c":"Look 1","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/vivienne-westwood","s":["背心吊带","长裤"],"h":["收腰"],"d":["束腰","印花"]},{"f":"img/vivienne-westwood/02.jpg","se":"2026 秋冬","c":"Look 11","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/vivienne-westwood","s":["西装套装"],"h":["直筒"],"d":["格纹"]},{"f":"img/vivienne-westwood/03.jpg","se":"2026 秋冬","c":"Look 20","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/vivienne-westwood","s":["长大衣"],"h":["oversized"],"d":["束腰","格纹"]},{"f":"img/vivienne-westwood/04.jpg","se":"2026 秋冬","c":"Look 29","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/vivienne-westwood","s":["西装外套","半身裙","套装"],"h":["收腰"],"d":[]},{"f":"img/vivienne-westwood/05.jpg","se":"2026 秋冬","c":"Look 39","u":"https://www.vogue.com/fashion-shows/fall-2026-ready-to-wear/vivienne-westwood","s":["长大衣"],"h":["收腰"],"d":[]},{"f":"img/vivienne-westwood/06.jpg","se":"2026 春夏","c":"Look 1","u":"https://www.vogue.com/fashion-shows/spring-2026-ready-to-wear/vivienne-westwood","s":["背心吊带","长裤"],"h":["收腰"],"d":["束腰"]},{"f":"img/vivienne-westwood/07.jpg","se":"2026 春夏","c":"Look 11","u":"https://www.vogue.com/fashion-shows/spring-2026-ready-to-wear/vivienne-westwood","s":["西装套装"],"h":["oversized"],"d":[]},{"f":"img/vivienne-westwood/08.jpg","se":"2026 春夏","c":"Look 21","u":"https://www.vogue.com/fashion-shows/spring-2026-ready-to-wear/vivienne-westwood","s":["短外套","半身裙"],"h":["短上长下"],"d":[]},{"f":"img/vivienne-westwood/09.jpg","se":"2026 春夏","c":"Look 32","u":"https://www.vogue.com/fashion-shows/spring-2026-ready-to-wear/vivienne-westwood","s":["连衣裙"],"h":["直筒"],"d":["透明","印花"]},{"f":"img/vivienne-westwood/10.jpg","se":"2026 春夏","c":"Look 42","u":"https://www.vogue.com/fashion-shows/spring-2026-ready-to-wear/vivienne-westwood","s":["连衣裙","针织"],"h":["修身"],"d":[]}]},{"id":"with-jean","n":"With Jéan","src":"官网","sh":[{"l":"withjean.com","u":"https://withjean.com"}],"it":[{"f":"img/with-jean/01.jpg","se":"官网最新","c":"Veda Top","u":"https://withjean.com/products/veda-top-smoke","s":["针织","半身裙"],"h":["修身","长及脚踝"],"d":[]},{"f":"img/with-jean/02.jpg","se":"官网最新","c":"Veda Skirt","u":"https://withjean.com/products/veda-skirt-chocolate","s":["针织","半身裙"],"h":["修身"],"d":[]},{"f":"img/with-jean/03.jpg","se":"官网最新","c":"Thea Skirt","u":"https://withjean.com/products/thea-skirt-beige","s":["T恤","半身裙"],"h":["短款","A字"],"d":[]},{"f":"img/with-jean/04.jpg","se":"官网最新","c":"Scout Skirt","u":"https://withjean.com/products/scout-skirt-slate","s":["背心吊带","半身裙"],"h":["短上长下","A字"],"d":["不对称"]},{"f":"img/with-jean/05.jpg","se":"官网最新","c":"Pali Skirt","u":"https://withjean.com/products/pali-skirt-golden-yellow","s":["针织","半身裙"],"h":["修身","短上长下"],"d":[]},{"f":"img/with-jean/06.jpg","se":"官网上一季","c":"Vinnie Dress","u":"https://withjean.com/products/vinnie-dress-aqua","s":["连衣裙"],"h":["修身"],"d":["露肩"]},{"f":"img/with-jean/07.jpg","se":"官网上一季","c":"Tatum Top","u":"https://withjean.com/products/tatum-top-pistachio","s":["背心吊带","半身裙"],"h":["修身","长及脚踝"],"d":["挂脖"]},{"f":"img/with-jean/08.jpg","se":"官网上一季","c":"Tatum Skirt","u":"https://withjean.com/products/tatum-skirt-olive","s":["背心吊带","半身裙"],"h":["修身","长及脚踝"],"d":["不对称"]},{"f":"img/with-jean/09.jpg","se":"官网上一季","c":"Rory Shorts","u":"https://withjean.com/products/rory-shorts-powder-blue","s":["针织","短裤"],"h":["短款"],"d":["镂空","荷叶边"]},{"f":"img/with-jean/10.jpg","se":"官网上一季","c":"Norah Pants","u":"https://withjean.com/products/norah-pants-white","s":["针织","长裤"],"h":["直筒"],"d":["镂空","透明"]}]}]};
+const DIM = { s: "款式", h: "廓形", d: "细节" };
+const ORDER = ["s", "h", "d"];
+const REAL = D.brands.filter(b => !b.missing);
+const NB = REAL.length;
+REAL.forEach(b => b.it.forEach((it, i) => { it.b = b; it.i = i; }));
+
+function el(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  for (const k in attrs || {}) {
+    const v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of kids.flat()) if (c != null && c !== false) e.append(c.nodeType ? c : document.createTextNode(c));
+  return e;
+}
+
+/* tag index */
+const TAGS = { s: new Map(), h: new Map(), d: new Map() };
+REAL.forEach(b => b.it.forEach(it => ORDER.forEach(k => it[k].forEach(t => {
+  if (!TAGS[k].has(t)) TAGS[k].set(t, { t, k, looks: [], brands: new Set() });
+  const g = TAGS[k].get(t); g.looks.push(it); g.brands.add(b.id);
+}))));
+function sortedGroups(k) {
+  return [...TAGS[k].values()].sort((a, b) => b.brands.size - a.brands.size || b.looks.length - a.looks.length);
+}
+
+/* stats */
+(() => {
+  const runway = REAL.filter(b => b.src === "Vogue Runway").length;
+  const looks = REAL.reduce((n, b) => n + b.it.length, 0);
+  const s = document.getElementById("stats");
+  [[NB, "个品牌有图"], [looks, "个 look"], [runway, "个秀场品牌"], [NB - runway, "个用官网图"]].forEach(([n, l]) =>
+    s.append(el("li", null, el("b", null, String(n)), l)));
+})();
+
+function photo(it, list) {
+  const img = el("img", { src: it.f, alt: `${it.b.n} ${it.se} ${it.c}`, loading: "lazy", decoding: "async", width: 520, height: 780 });
+  return el("button", { type: "button", class: "ph", "aria-label": `看大图：${it.b.n} ${it.c}`, onclick: () => openLB(list, list.indexOf(it)) }, img);
+}
+function caption(it, withBrand) {
+  return el("figcaption", { class: "cap" },
+    withBrand ? el("span", { class: "se" }, it.b.n) : el("span", { class: "se" }, it.se),
+    el("span", null, withBrand ? it.se : it.c));
+}
+function metaLine(b) {
+  const p = el("p", { class: "meta" }, b.src === "Vogue Runway" ? "Vogue Runway · " : "官网 · ");
+  b.sh.forEach((s, i) => { if (i) p.append(" · "); p.append(el("a", { href: s.u, target: "_blank", rel: "noopener" }, s.l)); });
+  return p;
+}
+function chip(k, t, onclick, count) {
+  return el("button", { type: "button", class: `chip ${k}`, title: onclick ? `看看哪些品牌也做了「${t}」` : null, onclick },
+    t, count != null ? el("i", null, String(count)) : null);
+}
+function brandIndex(prefix) {
+  return el("nav", { class: "index", "aria-label": "品牌" }, D.brands.map(b =>
+    el("a", { href: "#", class: b.missing ? "miss" : null, onclick: e => { e.preventDefault(); document.getElementById(prefix + b.id).scrollIntoView({ behavior: "smooth", block: "start" }); } }, b.n)));
+}
+function missingCard(prefix, b) {
+  return el("article", { class: "brand missing", id: prefix + b.id },
+    el("div", { class: "bh" }, el("h2", null, b.n)),
+    el("p", null, "没找到官网和秀场图。有店铺名或小红书号的话告诉我，我再补上。"));
+}
+
+/* tab 1 */
+(() => {
+  const p = document.getElementById("p-looks");
+  p.append(brandIndex("a-"));
+  D.brands.forEach(b => {
+    if (b.missing) return p.append(missingCard("a-", b));
+    p.append(el("article", { class: "brand", id: "a-" + b.id },
+      el("div", { class: "bh" }, el("h2", null, b.n), metaLine(b)),
+      el("div", { class: "grid10" }, b.it.map(it => el("figure", { class: "look" }, photo(it, b.it), caption(it))))));
+  });
+})();
+
+/* tab 2 */
+(() => {
+  const p = document.getElementById("p-brands");
+  p.append(el("div", { class: "legend" }, "颜色：", chip("s", "款式"), chip("h", "廓形"), chip("d", "细节"),
+    "点品牌下面的标签，只亮出这个品牌里有它的 look；点图下面的标签，跳到第三页看哪些品牌也做了。"));
+  p.append(brandIndex("b-"));
+  D.brands.forEach(b => {
+    if (b.missing) return p.append(missingCard("b-", b));
+    const cards = b.it.map(it => {
+      const fig = el("figure", { class: "look" }, photo(it, b.it), caption(it),
+        el("div", { class: "tags" }, ORDER.filter(k => it[k].length).map(k =>
+          el("div", { class: "chips" }, it[k].map(t => chip(k, t, () => jumpTo(k, t)))))));
+      fig._it = it;
+      return fig;
+    });
+    let active = null;
+    const sum = el("div", { class: "sum" });
+    ORDER.forEach(k => {
+      const c = new Map();
+      b.it.forEach(it => it[k].forEach(t => c.set(t, (c.get(t) || 0) + 1)));
+      const list = [...c].sort((x, y) => y[1] - x[1]);
+      if (!list.length) return;
+      sum.append(el("div", { class: "sum-row" }, el("span", null, DIM[k]),
+        el("div", { class: "chips" }, list.map(([t, n]) => {
+          const c = chip(k, t, () => {
+            const on = active !== c;
+            sum.querySelectorAll(".chip.on").forEach(x => x.classList.remove("on"));
+            active = on ? c : null;
+            if (on) c.classList.add("on");
+            cards.forEach(f => f.classList.toggle("dim", on && !f._it[k].includes(t)));
+          }, n);
+          c.title = `只看 ${b.n} 里有「${t}」的 look`;
+          c.setAttribute("aria-pressed", "false");
+          return c;
+        }))));
+    });
+    p.append(el("article", { class: "brand", id: "b-" + b.id },
+      el("div", { class: "bh" }, el("h2", null, b.n), metaLine(b)),
+      sum,
+      el("div", { class: "grid10" }, cards)));
+  });
+})();
+
+/* tab 3 */
+let curDim = "s";
+const groupsEl = document.getElementById("groups");
+function renderGroups(k) {
+  curDim = k;
+  document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.dim === k)));
+  groupsEl.replaceChildren();
+  sortedGroups(k).forEach(g => {
+    const byBrand = REAL.filter(b => g.brands.has(b.id));
+    const firsts = byBrand.map(b => g.looks.find(it => it.b === b));
+    const thumbs = el("div", { class: "thumbs" });
+    let open = false;
+    const fill = () => {
+      const list = open ? g.looks : firsts;
+      thumbs.replaceChildren(...list.map(it => el("figure", { class: "look" }, photo(it, list), caption(it, true))));
+    };
+    fill();
+    const more = g.looks.length > firsts.length ? el("button", { type: "button", class: "more", onclick: () => {
+      open = !open; fill(); more.textContent = open ? "收起，每个品牌一张" : `看全部 ${g.looks.length} 个 look`;
+    } }, `看全部 ${g.looks.length} 个 look`) : null;
+    const meter = el("span", { class: "meter", "aria-hidden": "true" },
+      Array.from({ length: NB }, (_, i) => el("i", { class: i < g.brands.size ? "f" : null })));
+    const art = el("article", { class: "grp", "data-key": g.t },
+      el("div", { class: "gh" }, el("h3", null, g.t),
+        el("span", { class: "n" }, el("b", null, String(g.brands.size)), ` 个品牌 · ${g.looks.length} 个 look`), meter),
+      el("p", { class: "gbr" }, byBrand.map(b => b.n).join(" · ")),
+      thumbs, more);
+    art._open = () => { if (!open && more) more.click(); };
+    groupsEl.append(art);
+  });
+}
+document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => renderGroups(b.dataset.dim)));
+renderGroups("s");
+
+function jumpTo(k, t) {
+  showTab("styles");
+  if (curDim !== k) renderGroups(k);
+  const g = [...groupsEl.children].find(a => a.dataset.key === t);
+  if (!g) return;
+  g._open();
+  g.scrollIntoView({ behavior: "smooth", block: "start" });
+  g.classList.remove("flash"); void g.offsetWidth; g.classList.add("flash");
+}
+
+/* tabs */
+const TABS = ["looks", "brands", "styles"];
+function showTab(name) {
+  if (!TABS.includes(name)) name = "looks";
+  TABS.forEach(t => {
+    document.getElementById("t-" + t).setAttribute("aria-selected", String(t === name));
+    document.getElementById("p-" + t).hidden = t !== name;
+  });
+  try { history.replaceState(null, "", "#" + name); } catch (e) {}
+}
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => {
+  showTab(b.dataset.t);
+  const top = document.querySelector(".tabs").offsetTop;
+  if (window.scrollY > top) window.scrollTo({ top, behavior: "auto" });
+}));
+showTab((location.hash || "").slice(1));
+
+/* lightbox */
+const lb = document.getElementById("lb");
+let lbList = [], lbIdx = 0;
+function openLB(list, i) {
+  lbList = list; lbIdx = i; paintLB();
+  if (typeof lb.showModal === "function") { if (!lb.open) lb.showModal(); } else lb.setAttribute("open", "");
+}
+function paintLB() {
+  const it = lbList[lbIdx];
+  document.getElementById("lb-img").src = it.f;
+  document.getElementById("lb-img").alt = `${it.b.n} ${it.c}`;
+  document.getElementById("lb-b").textContent = it.b.n;
+  document.getElementById("lb-m").textContent = `${it.se} · ${it.c}`;
+  document.getElementById("lb-src").href = it.u;
+  document.getElementById("lb-pos").textContent = `${lbIdx + 1} / ${lbList.length}`;
+  document.getElementById("lb-tags").replaceChildren(...ORDER.filter(k => it[k].length).map(k =>
+    el("div", { class: "row" }, el("span", null, DIM[k]),
+      el("div", { class: "chips" }, it[k].map(t => chip(k, t, () => { closeLB(); jumpTo(k, t); }))))));
+}
+function step(d) { lbIdx = (lbIdx + d + lbList.length) % lbList.length; paintLB(); }
+function closeLB() { if (lb.open) { if (typeof lb.close === "function") lb.close(); else lb.removeAttribute("open"); } }
+document.getElementById("lb-prev").onclick = () => step(-1);
+document.getElementById("lb-next").onclick = () => step(1);
+document.getElementById("lb-x").onclick = closeLB;
+lb.addEventListener("click", e => { if (e.target === lb) closeLB(); });
+document.addEventListener("keydown", e => {
+  if (!lb.open) return;
+  if (e.key === "ArrowLeft") step(-1);
+  if (e.key === "ArrowRight") step(1);
+});
+</script>
+
+</body>
+</html>
