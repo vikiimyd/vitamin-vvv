@@ -158,6 +158,23 @@ dialog#lb::backdrop { background: rgba(10, 12, 13, .72); }
   .item, .item .ph, .others, .ov .item, .ov .item .ph, .ov .others { width: 104px; }
   .refcard, .refcard .item, .refcard .item .ph { width: 128px; }
 }
+/* phone: the wide table becomes one block per brand, items wrap underneath (no sideways scrolling) */
+@media (max-width: 600px) {
+  .scroller, .scroller.ov { overflow: visible; border-top: 1px solid var(--ink); }
+  .scroller table, .scroller tbody { display: block; width: 100%; }
+  .scroller thead { display: none; }
+  .scroller tbody tr { display: flex; flex-wrap: wrap; gap: 14px 12px; padding: 14px 0 18px; border-bottom: 1px solid var(--line); }
+  .scroller th, .scroller td { border: 0; padding: 0; }
+  .scroller .bcol { position: static; flex: 0 0 100%; width: auto; min-width: 0; max-width: none; border-right: 0; background: none; }
+  .scroller .bcol .bname { font-size: 1.2rem; }
+  .scroller .bcol .chips { display: inline-flex; margin: 4px 0 0; }
+  .scroller td.empty:not([data-l]) { display: none; }
+  .scroller td { width: calc(50% - 6px); }
+  .scroller .item, .scroller .item .ph, .scroller .others, .ov .item, .ov .item .ph, .ov .others { width: 100%; }
+  .scroller .itemw { width: 100%; }
+  .ov td[data-l]::before { content: attr(data-l); display: block; font-size: 12px; letter-spacing: .1em; color: var(--muted); margin-bottom: 4px; }
+  .none { width: auto; }
+}
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
 </head>
@@ -247,11 +264,12 @@ function overview() {
   const head = `<tr><th class="bcol">品牌 · 受欢迎程度</th>${CATS.map(([k, n]) => `<th><span class="lab">${n}</span><span class="cnt">卖得最好的那件</span></th>`).join('')}</tr>`;
   const rows = B().map(b => `<tr>${brandCell(b)}${CATS.map(([k]) => {
     const list = (b.items[k] || []).slice().sort((x, y) => x.rank - y.rank);
-    if (!list.length) return `<td class="empty">${noneText(b, k)}</td>`;
+    const n = CATS.find(c => c[0] === k)[1];
+    if (!list.length) return `<td class="empty" data-l="${n}">${noneText(b, k)}</td>`;
     const rest = {};
     list.slice(1).forEach(it => { const l = label(k, it); rest[l] = (rest[l] || 0) + 1; });
     const others = Object.entries(rest).map(([l, n]) => `<span>${esc(l)}${n > 1 ? ' ×' + n : ''}</span>`).join('');
-    return `<td><div class="cellstack">${itemBtn(b, k, list[0])}${others ? `<div class="others">${others}</div>` : ''}</div></td>`;
+    return `<td data-l="${n}"><div class="cellstack">${itemBtn(b, k, list[0])}${others ? `<div class="others">${others}</div>` : ''}</div></td>`;
   }).join('')}</tr>`).join('');
   return `<p class="hint">每格是这个品牌这一类在热卖榜上排第一的单品。下面的小标签是它前 6 名里的其他款式，×2 表示有两件。点图片看大图和依据，点图片右上角的 ✓ 可以标为 VVVV 参考。</p><div class="scroller ov"><table><thead>${head}</thead><tbody>${rows}</tbody></table></div>`;
 }
@@ -336,7 +354,7 @@ function render() {
   $('#how').innerHTML = D.how.map(t => `<li>${esc(t)}</li>`).join('');
   $('#foot').textContent = D.foot;
   document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', x.dataset.g === G));
-  const tabs = [['all', '总览', '']].concat(CATS.map(([k, n]) => [k, n, styleCols(k).length + ' 种款式']), [['refs', '✓ VVVV 参考', String(picked().length)]]);
+  const tabs = [['all', '总览', ''], ['refs', '✓ VVVV 参考', String(picked().length)]].concat(CATS.map(([k, n]) => [k, n, styleCols(k).length + ' 种款式']));
   $('#tabs').innerHTML = tabs.map(([k, n, s], i) => `<button class="tab" role="tab" id="t-${k}" aria-controls="p-${k}" aria-selected="${i === 0}" data-k="${k}">${n}${s ? `<small>${s}</small>` : ''}</button>`).join('');
   const skip = D[G].skipped && D[G].skipped.length ? `<p class="hint">没有男装线、所以不在这里的品牌：${esc(D[G].skipped.join('、'))}。</p>` : '';
   $('#main').innerHTML = tabs.map(([k, n], i) => `<section class="panel" role="tabpanel" id="p-${k}" aria-labelledby="t-${k}" ${i ? 'hidden' : ''}>${k === 'all' ? skip + overview() : k === 'refs' ? refsPanel() : catPanel(k, n)}</section>`).join('');
