@@ -158,27 +158,28 @@ dialog#lb::backdrop { background: rgba(10, 12, 13, .72); }
   .item, .item .ph, .others, .ov .item, .ov .item .ph, .ov .others { width: 104px; }
   .refcard, .refcard .item, .refcard .item .ph { width: 128px; }
 }
-/* phone: the wide table becomes one block per brand, items wrap underneath (no sideways scrolling) */
-@media (max-width: 600px) {
+/* phones and tablets: nothing scrolls sideways. The wide table becomes one block per brand with its items in a grid,
+   and the tab bar wraps onto a second line. */
+@media (max-width: 900px), (pointer: coarse) {
+  .tabs .wrap { flex-wrap: wrap; overflow: visible; gap: 0 2px; }
+  .tab { padding: 10px 10px 8px; font-size: 14px; }
   .scroller, .scroller.ov { overflow: visible; border-top: 1px solid var(--ink); }
   .scroller table, .scroller tbody { display: block; width: 100%; }
   .scroller thead { display: none; }
-  .scroller tbody tr { display: flex; flex-wrap: wrap; gap: 14px 12px; padding: 14px 0 18px; border-bottom: 1px solid var(--line); }
-  .scroller th, .scroller td { border: 0; padding: 0; }
-  .scroller .bcol { position: static; flex: 0 0 100%; width: auto; min-width: 0; max-width: none; border-right: 0; background: none; }
+  .scroller tbody tr { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 42%), 1fr)); gap: 14px 12px; padding: 14px 0 18px; border-bottom: 1px solid var(--line); }
+  .scroller th, .scroller td { border: 0; padding: 0; width: auto; min-width: 0; }
+  .scroller .bcol { position: static; grid-column: 1 / -1; width: auto; min-width: 0; max-width: none; border-right: 0; background: none; }
   .scroller .bcol .bname { font-size: 1.2rem; }
   .scroller .bcol .chips { display: inline-flex; margin: 4px 0 0; }
   .scroller td.empty:not([data-l]) { display: none; }
-  .scroller td { width: calc(50% - 6px); }
-  .scroller .item, .scroller .item .ph, .scroller .others, .ov .item, .ov .item .ph, .ov .others { width: 100%; }
-  .scroller .itemw { width: 100%; }
+  .scroller .item, .scroller .item .ph, .scroller .others, .ov .item, .ov .item .ph, .ov .others, .scroller .itemw { width: 100%; }
   .ov td[data-l]::before { content: attr(data-l); display: block; font-size: 12px; letter-spacing: .1em; color: var(--muted); margin-bottom: 4px; }
   .none { width: auto; }
+  .refrow { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 42%), 1fr)); }
+  .refcard, .refcard .item, .refcard .item .ph, .refcard .itemw { width: 100%; }
   body .sizeb { display: inline-flex; }
-  body.big1 .scroller td { width: 100%; }
+  body.big1 .scroller tbody tr, body.big1 .refrow { grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); }
   body.big1 .scroller td.empty { display: none; }
-  body.big1 .refcard, body.big1 .refcard .item, body.big1 .refcard .item .ph { width: 100%; }
-  body.big1 .refrow { display: grid; }
 }
 .sizeb { display: none; border: 1px solid var(--ink); width: max-content; margin-top: 10px; }
 .sizeb button { border: 0; background: none; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--muted); }
