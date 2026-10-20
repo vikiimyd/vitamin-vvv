@@ -184,12 +184,7 @@ dialog#lb::backdrop { background: rgba(10, 12, 13, .72); }
 .sizeb { display: none; border: 1px solid var(--ink); width: max-content; margin-top: 10px; }
 .whob { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin-top: 12px; font-size: 13px; color: var(--muted); }
 .whob[hidden] { display: none; }
-.whob button { border: 1px solid var(--plum); background: none; color: var(--plum); padding: 4px 12px; font-size: 13px; font-weight: 500; cursor: pointer; }
-.whob button[aria-pressed="true"] { background: var(--plum); color: #fff; }
 .whob small { font-size: 12px; color: var(--muted); }
-.whos { position: absolute; left: 0; top: 22px; z-index: 1; max-width: calc(100% - 40px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; background: var(--plum); color: #fff; font-size: 11px; padding: 1px 6px; pointer-events: none; }
-.whos:empty { display: none; }
-.refcard .rw { font-size: 12px; color: var(--plum); font-weight: 500; }
 .sizeb button { border: 0; background: none; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--muted); }
 .sizeb button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 /* browsers without aspect-ratio would collapse the picture box to zero height */
@@ -215,12 +210,7 @@ dialog#lb::backdrop { background: rgba(10, 12, 13, .72); }
       <button type="button" data-size="big1" aria-pressed="true">大图</button>
       <button type="button" data-size="two" aria-pressed="false">一排两个</button>
     </div>
-    <div class="whob" id="whob" hidden>你是：
-      <button type="button" data-who="viki" aria-pressed="false">viki</button>
-      <button type="button" data-who="老师" aria-pressed="false">老师 Teacher</button>
-      <button type="button" data-who="?" aria-pressed="false" id="whoother">其他</button>
-      <small id="syncs"></small>
-    </div>
+    <div class="whob" id="whob" hidden><small id="syncs"></small></div>
     <details class="notes">
       <summary>怎么查的</summary>
       <ul id="how"></ul>
@@ -285,7 +275,7 @@ function brandCell(b) { return `<th class="bcol" scope="row"><span class="bname"
 function itemBtn(b, cat, it) {
   const i = items.push({ b, cat, it }) - 1;
   const on = !!(REFS[it.key] && REFS[it.key].picked);
-  return `<div class="itemw"><button class="pick" type="button" data-k="${esc(it.key)}" aria-pressed="${on}" aria-label="标为 VVVV 参考" title="标为 VVVV 参考"${CAN ? '' : ' disabled'}>✓</button><span class="whos" data-k="${esc(it.key)}">${esc(whoText(it.key))}</span>` + itemCore(i, b, cat, it) + '</div>';
+  return `<div class="itemw"><button class="pick" type="button" data-k="${esc(it.key)}" aria-pressed="${on}" aria-label="标为 VVVV 参考" title="标为 VVVV 参考"${CAN ? '' : ' disabled'}>✓</button>` + itemCore(i, b, cat, it) + '</div>';
 }
 function itemCore(i, b, cat, it) {
   return `<button class="item" type="button" data-i="${i}"><span class="ph">${it.file ? `<img loading="lazy" src="${esc(it.file)}" style="object-position:${tile(it)} 0" alt="${esc(b.name + ' ' + it.name)}">` : ''}<span class="n">#${it.rank}</span></span><span class="st">${esc(label(cat, it))}</span>${cat === 'outer' && det(it) ? `<span class="det">${esc(det(it))}</span>` : ''}<span class="nm">${esc(it.name)}${it.price ? ' · ' + esc(it.price) : ''}</span></button>`;
@@ -351,10 +341,7 @@ function catPanel(cat, name) {
 const IDX = {};
 ['women', 'men'].forEach(g => D[g].brands.forEach(b => CATS.forEach(([cat]) => (b.items[cat] || []).forEach(it => { if (!IDX[it.key]) IDX[it.key] = { g, b, cat, it }; }))));
 const mine = k => !!(REFS[k] && REFS[k].picked);
-const theirs = k => (OTHERS[k] || []);
-const picked = () => Object.keys(IDX).filter(k => mine(k) || theirs(k).length);
-// who else ticked it (shared mode), shown on the picture
-const whoText = k => theirs(k).map(o => o.who + ' ✓').join(' · ');
+const picked = () => Object.keys(IDX).filter(mine);
 function refsPanel() {
   const ks = picked();
   if (!ks.length) return `<p class="hint">${CAN ? `还没有打勾。点任意单品图片右上角的 ✓，它就会出现在这里，${LOCAL ? '自动存在这台设备的浏览器里' : REMOTE ? '存进共享表格，你和老师都看得到' : '自动保存'}。` : '还没有标为 VVVV 参考的单品。'}</p>`;
@@ -362,10 +349,8 @@ function refsPanel() {
   const copy = LOCAL ? `<p class="hint">这些勾选存在这台设备的浏览器里，换设备看不到。想让我同步给老师看，点 <button class="copyb" id="copyrefs" type="button">复制我的勾选</button> 然后发给我。</p>` : '';
   return `<p class="hint">标为 VVVV 参考的单品，共 ${ks.length} 件（女装和男装都在这里）。${CAN ? '点图片可以写备注，再点 ✓ 取消。' : ''}</p>${copy}<div class="refs">${groups.map(([n, l]) => `<section><h3>${n} · ${l.length}</h3><div class="refrow">${l.map(k => {
     const { g, b, cat, it } = IDX[k];
-    const people = (mine(k) ? [{ who: REMOTE ? ME : '', note: REFS[k].note || '' }] : []).concat(theirs(k));
-    const names = REMOTE ? `<span class="rw">${esc(people.map(o => o.who + ' ✓').join(' · '))}</span>` : '';
-    const notes = people.filter(o => o.note).map(o => `<span class="rn">${REMOTE ? esc(o.who) + '：' : ''}${esc(o.note)}</span>`).join('');
-    return `<div class="refcard">${itemBtn(b, cat, it)}<span class="rb">${esc(b.name)} · ${g === 'men' ? '男装' : '女装'}</span>${names}${notes}</div>`;
+    const notes = REFS[k].note ? `<span class="rn">${esc(REFS[k].note)}</span>` : '';
+    return `<div class="refcard">${itemBtn(b, cat, it)}<span class="rb">${esc(b.name)} · ${g === 'men' ? '男装' : '女装'}</span>${notes}</div>`;
   }).join('')}</div></section>`).join('')}</div>`;
 }
 function copyText() {
@@ -381,9 +366,6 @@ async function copyRefs(btn) {
 }
 function refreshPicks() {
   document.querySelectorAll('.pick').forEach(x => { x.setAttribute('aria-pressed', mine(x.dataset.k)); x.disabled = !CAN; });
-  document.querySelectorAll('.whos').forEach(x => { x.textContent = whoText(x.dataset.k); });
-  document.querySelectorAll('#whob button').forEach(x => x.setAttribute('aria-pressed', x.dataset.who === '?' ? !!ME && ME !== 'viki' && ME !== '老师' : x.dataset.who === ME));
-  if (ME && ME !== 'viki' && ME !== '老师') $('#whoother').textContent = ME;
   const t = $('#t-refs small'); if (t) t.textContent = picked().length;
   const p = $('#p-refs'); if (p) p.innerHTML = refsPanel();
   if ($('#lb').open && LBK) lbSync();
@@ -417,8 +399,7 @@ function lbSync() {
   $('#lbpick').disabled = !CAN;
   $('#lbnote').hidden = !CAN || !r.picked;
   if (document.activeElement !== $('#lbnote')) $('#lbnote').value = r.note || '';
-  const lines = (!CAN && r.note ? ['备注：' + r.note] : []).concat(theirs(LBK).map(o => o.who + ' 也勾了' + (o.note ? '：' + o.note : '')));
-  $('#lbnotes').hidden = !lines.length; $('#lbnotes').textContent = lines.join('\n'); $('#lbnotes').style.whiteSpace = 'pre-line';
+  $('#lbnotes').hidden = CAN || !r.note; $('#lbnotes').textContent = r.note ? '备注：' + r.note : '';
 }
 function open(i) {
   const { b, cat, it } = items[i];
@@ -438,24 +419,25 @@ function open(i) {
 }
 // ticks: in the artifact they live in its db (collection 'refs', doc id = item key);
 // on the public site (no db) they are kept in this browser, starting from the snapshot baked into D.refs
-// with D.ticks_url set, everyone's ticks live in a shared Google Sheet (Apps Script web app): one row per item per person
+// with D.ticks_url set, the ticks live in a shared Google Sheet (Apps Script web app): one list for everyone, no names (viki: "不用输入名字")
 let REFS = D.refs || {}, CAN = false, REFCOL = null, LOCAL = false;
 const TICKS = D.ticks_url || '';
-let REMOTE = false, ME = '', OTHERS = {};
-try { ME = localStorage.getItem('vvvv-who') || ''; } catch (e) {}
+let REMOTE = false;
+const ME = '共享';
 const pending = {}, rqueue = {};
 let ROWS = [];
 function applyRows(rows) {
   ROWS = rows || [];
-  const m = {}, o = {};
+  const m = {};
+  // every row counts, whoever saved it; an item with rows under two names keeps both notes
   ROWS.forEach(r => {
     if (!IDX[r.key]) return;
-    if (ME && String(r.who) === ME) m[r.key] = { picked: true, note: r.note || '' };
-    else (o[r.key] = o[r.key] || []).push({ who: String(r.who), note: r.note || '' });
+    const n = String(r.note || ''), was = m[r.key];
+    m[r.key] = { picked: true, note: was ? [was.note, n].filter(Boolean).filter((x, i, a) => a.indexOf(x) === i).join(' / ') : n };
   });
   Object.keys(pending).forEach(k => { if (pending[k]) m[k] = pending[k]; else delete m[k]; });
   if (document.activeElement === $('#lbnote') && REFS[LBK] && m[LBK]) m[LBK] = { ...m[LBK], note: REFS[LBK].note };
-  REFS = m; OTHERS = o; refreshPicks();
+  REFS = m; refreshPicks();
 }
 const setSync = t => { const x = $('#syncs'); if (x) x.textContent = t; };
 // Google sometimes never answers; give up after 25 s so one stuck request can't stop later saves or refreshes
@@ -477,21 +459,13 @@ function push(k, body) {
   pending[k] = body; setSync('保存中…');
   rqueue[k] = (rqueue[k] || Promise.resolve()).then(async () => {
     try {
-      const r = await tfetch(TICKS, { method: 'POST', body: JSON.stringify(payload) });
-      const j = await r.json();
+      const whos = body ? [ME] : [...new Set([ME].concat(ROWS.filter(x => x.key === k).map(x => String(x.who))))];
+      let j = null;
+      for (const who of whos) j = await (await tfetch(TICKS, { method: 'POST', body: JSON.stringify({ ...payload, who }) })).json();
       if (pending[k] === body) delete pending[k];
       if (j && j.ok) { GEN++; applyRows(j.rows); setSync('已保存'); } else setSync('没存上，再试一次');
     } catch (e) { if (pending[k] === body) delete pending[k]; setSync('没存上，检查网络后再试'); pull(); }
   });
-}
-function setWho(n) {
-  ME = n; try { localStorage.setItem('vvvv-who', n); } catch (e) {}
-  applyRows(ROWS);
-}
-function askWho() {
-  const n = (window.prompt('你是谁？名字会显示在勾选旁边（比如 viki 或 老师）', '') || '').trim().slice(0, 30);
-  if (n) setWho(n);
-  return !!n;
 }
 const LS = 'vvvv-refs-v1';
 const queue = {};
@@ -507,7 +481,6 @@ function write(k, body) {
 }
 function toggle(k) {
   if (!CAN || !IDX[k]) return;
-  if (REMOTE && !ME && !askWho()) return;
   const { g, b, cat, it } = IDX[k];
   const r = REFS[k];
   if (r && r.picked) { REFS = { ...REFS }; delete REFS[k]; write(k, null); }
@@ -553,7 +526,6 @@ setSize(SIZE);
       return;
     }
     REMOTE = false; REFS = D.refs || {};
-    $('#whob').firstChild.textContent = ''; $('#whob').querySelectorAll('button').forEach(x => x.hidden = true);
     $('#syncs').innerHTML = '这里打的勾只存在 Claude 里，老师看不到。要和老师互相看到，请在<a href="https://vikiimyd.github.io/vitamin-vvv/lookbook/bestsellers/" target="_blank" rel="noopener">公开网站</a>上打勾。';
   }
   const db = await db0;
@@ -589,7 +561,6 @@ document.addEventListener('click', e => {
   const pk = e.target.closest('.pick'); if (pk) return toggle(pk.dataset.k);
   if (e.target.id === 'copyrefs') return copyRefs(e.target);
   const sz = e.target.closest('.sizeb button'); if (sz) return setSize(sz.dataset.size);
-  const wb = e.target.closest('#whob button'); if (wb) return wb.dataset.who === '?' ? askWho() : setWho(wb.dataset.who);
   if (e.target.closest('#lbpick')) return toggle(LBK);
   const it = e.target.closest('.item'); if (it) return open(+it.dataset.i);
   if (e.target.id === 'lbx' || e.target.id === 'lb') $('#lb').close();
