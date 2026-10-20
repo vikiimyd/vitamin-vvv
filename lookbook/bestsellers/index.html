@@ -174,6 +174,19 @@ dialog#lb::backdrop { background: rgba(10, 12, 13, .72); }
   .scroller .itemw { width: 100%; }
   .ov td[data-l]::before { content: attr(data-l); display: block; font-size: 12px; letter-spacing: .1em; color: var(--muted); margin-bottom: 4px; }
   .none { width: auto; }
+  body .sizeb { display: inline-flex; }
+  body.big1 .scroller td { width: 100%; }
+  body.big1 .scroller td.empty { display: none; }
+  body.big1 .refcard, body.big1 .refcard .item, body.big1 .refcard .item .ph { width: 100%; }
+  body.big1 .refrow { display: grid; }
+}
+.sizeb { display: none; border: 1px solid var(--ink); width: max-content; margin-top: 10px; }
+.sizeb button { border: 0; background: none; padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--muted); }
+.sizeb button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+/* browsers without aspect-ratio would collapse the picture box to zero height */
+@supports not (aspect-ratio: 3 / 4) {
+  .item .ph { height: 0; padding-top: 133.33%; }
+  .item .ph img { position: absolute; inset: 0; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
 </style>
@@ -188,6 +201,10 @@ dialog#lb::backdrop { background: rgba(10, 12, 13, .72); }
     <div class="seg" role="group" aria-label="女装还是男装">
       <button type="button" data-g="women" aria-pressed="true">女装</button>
       <button type="button" data-g="men" aria-pressed="false">男装</button>
+    </div>
+    <div class="sizeb" role="group" aria-label="图片大小">
+      <button type="button" data-size="big1" aria-pressed="true">大图</button>
+      <button type="button" data-size="two" aria-pressed="false">一排两个</button>
     </div>
     <details class="notes">
       <summary>怎么查的</summary>
@@ -429,6 +446,14 @@ function saveNote() {
   const p = $('#p-refs'); if (p && !p.hidden) refreshPicks();
 }
 document.body.classList.add('ro');
+// phone picture size: big (one per row) by default, remembered in this browser
+function setSize(v) {
+  document.body.classList.toggle('big1', v === 'big1');
+  document.querySelectorAll('.sizeb button').forEach(x => x.setAttribute('aria-pressed', x.dataset.size === v));
+  try { localStorage.setItem('vvvv-size', v); } catch (e) {}
+}
+let SIZE = 'big1'; try { SIZE = localStorage.getItem('vvvv-size') || 'big1'; } catch (e) {}
+setSize(SIZE);
 (async () => {
   const db = window.claude && window.claude.use ? await window.claude.use('db').catch(() => null) : null;
   if (!db) {
@@ -462,6 +487,7 @@ document.addEventListener('click', e => {
   const t = e.target.closest('.tab'); if (t) return show(t.dataset.k);
   const pk = e.target.closest('.pick'); if (pk) return toggle(pk.dataset.k);
   if (e.target.id === 'copyrefs') return copyRefs(e.target);
+  const sz = e.target.closest('.sizeb button'); if (sz) return setSize(sz.dataset.size);
   if (e.target.closest('#lbpick')) return toggle(LBK);
   const it = e.target.closest('.item'); if (it) return open(+it.dataset.i);
   if (e.target.id === 'lbx' || e.target.id === 'lb') $('#lb').close();
