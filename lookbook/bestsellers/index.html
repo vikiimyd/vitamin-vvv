@@ -118,6 +118,7 @@ thead .bcol { z-index: 3; }
 .pick[disabled] { cursor: default; }
 .ro .pick:not([aria-pressed="true"]) { display: none; }
 .refs { display: grid; gap: 22px; }
+.copyb { border: 1px solid var(--plum); background: none; color: var(--plum); padding: 3px 10px; font-size: 13px; font-weight: 500; cursor: pointer; }
 .refs h3 { margin: 0 0 8px; font-size: 13px; letter-spacing: .12em; color: var(--muted); font-weight: 500; }
 .refrow { display: flex; flex-wrap: wrap; gap: 18px 16px; }
 .refcard { display: grid; gap: 4px; align-content: start; width: 150px; }
@@ -302,13 +303,25 @@ const IDX = {};
 const picked = () => Object.keys(REFS).filter(k => REFS[k] && REFS[k].picked && IDX[k]);
 function refsPanel() {
   const ks = picked();
-  if (!ks.length) return `<p class="hint">${CAN ? '还没有打勾。点任意单品图片右上角的 ✓，它就会出现在这里，自动保存。' : '还没有标为 VVVV 参考的单品。'}</p>`;
+  if (!ks.length) return `<p class="hint">${CAN ? `还没有打勾。点任意单品图片右上角的 ✓，它就会出现在这里，${LOCAL ? '自动存在这台设备的浏览器里' : '自动保存'}。` : '还没有标为 VVVV 参考的单品。'}</p>`;
   const groups = CATS.map(([cat, n]) => [n, ks.filter(k => IDX[k].cat === cat)]).filter(([, l]) => l.length);
-  return `<p class="hint">标为 VVVV 参考的单品，共 ${ks.length} 件（女装和男装都在这里）。${CAN ? '点图片可以写备注，再点 ✓ 取消。' : ''}</p><div class="refs">${groups.map(([n, l]) => `<section><h3>${n} · ${l.length}</h3><div class="refrow">${l.map(k => {
+  const copy = LOCAL ? `<p class="hint">这些勾选存在这台设备的浏览器里，换设备看不到。想让我同步给老师看，点 <button class="copyb" id="copyrefs" type="button">复制我的勾选</button> 然后发给我。</p>` : '';
+  return `<p class="hint">标为 VVVV 参考的单品，共 ${ks.length} 件（女装和男装都在这里）。${CAN ? '点图片可以写备注，再点 ✓ 取消。' : ''}</p>${copy}<div class="refs">${groups.map(([n, l]) => `<section><h3>${n} · ${l.length}</h3><div class="refrow">${l.map(k => {
     const { g, b, cat, it } = IDX[k];
     const note = (REFS[k] && REFS[k].note) || '';
     return `<div class="refcard">${itemBtn(b, cat, it)}<span class="rb">${esc(b.name)} · ${g === 'men' ? '男装' : '女装'}</span>${note ? `<span class="rn">${esc(note)}</span>` : ''}</div>`;
   }).join('')}</div></section>`).join('')}</div>`;
+}
+function copyText() {
+  return 'VVVV 参考勾选\n' + picked().map(k => {
+    const { g, b, cat, it } = IDX[k]; const r = REFS[k] || {};
+    return `✓ ${b.name}（${g === 'men' ? '男装' : '女装'}）${CATS.find(c => c[0] === cat)[1]}：${it.name}${r.note ? '｜备注：' + r.note : ''} [${k}]`;
+  }).join('\n');
+}
+async function copyRefs(btn) {
+  const t = copyText();
+  try { await navigator.clipboard.writeText(t); btn.textContent = '已复制，发给 Claude 就行'; }
+  catch (e) { window.prompt('复制下面这段发给 Claude：', t); }
 }
 function refreshPicks() {
   document.querySelectorAll('.pick').forEach(x => { x.setAttribute('aria-pressed', !!(REFS[x.dataset.k] && REFS[x.dataset.k].picked)); x.disabled = !CAN; });
@@ -363,10 +376,13 @@ function open(i) {
   $('#lbevurl').href = it.evidence_url || '#'; $('#lbevurl').hidden = !it.evidence_url || it.evidence_url === it.url;
   $('#lb').showModal();
 }
-// ticks: live in the artifact's db (collection 'refs', doc id = item key); the public copy shows the snapshot baked into D.refs, read-only
-let REFS = D.refs || {}, CAN = false, REFCOL = null;
+// ticks: in the artifact they live in its db (collection 'refs', doc id = item key);
+// on the public site (no db) they are kept in this browser, starting from the snapshot baked into D.refs
+let REFS = D.refs || {}, CAN = false, REFCOL = null, LOCAL = false;
+const LS = 'vvvv-refs-v1';
 const queue = {};
 function write(k, body) {
+  if (LOCAL) { try { localStorage.setItem(LS, JSON.stringify(REFS)); } catch (e) {} return; }
   if (!REFCOL) return;
   const ref = REFCOL.doc(k);
   queue[k] = (queue[k] || Promise.resolve()).then(() => body ? ref.set(body) : ref.delete()).catch(e => {
@@ -397,7 +413,16 @@ function saveNote() {
 document.body.classList.add('ro');
 (async () => {
   const db = window.claude && window.claude.use ? await window.claude.use('db').catch(() => null) : null;
-  if (!db) return;
+  if (!db) {
+    try {
+      const saved = localStorage.getItem(LS);
+      if (saved) REFS = JSON.parse(saved) || {};
+      localStorage.setItem(LS, JSON.stringify(REFS));
+      LOCAL = CAN = true; document.body.classList.remove('ro');
+    } catch (e) {}
+    refreshPicks();
+    return;
+  }
   REFCOL = db.collection('refs');
   CAN = true; document.body.classList.remove('ro');
   REFCOL.onSnapshot(snap => {
@@ -418,6 +443,7 @@ document.addEventListener('click', e => {
   const g = e.target.closest('.seg button'); if (g) { if (g.dataset.g !== G) { G = g.dataset.g; render(); } return; }
   const t = e.target.closest('.tab'); if (t) return show(t.dataset.k);
   const pk = e.target.closest('.pick'); if (pk) return toggle(pk.dataset.k);
+  if (e.target.id === 'copyrefs') return copyRefs(e.target);
   if (e.target.closest('#lbpick')) return toggle(LBK);
   const it = e.target.closest('.item'); if (it) return open(+it.dataset.i);
   if (e.target.id === 'lbx' || e.target.id === 'lb') $('#lb').close();
