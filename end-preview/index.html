@@ -38,7 +38,8 @@ body { background: var(--white); color: var(--ink); font-family: var(--sans); fo
 .up { text-transform: uppercase; letter-spacing: 0.14em; font-size: 10.5px; }
 
 header { border-bottom: 1px solid var(--hair); padding-inline: 20px; padding-block: 22px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
-header .wordmark { grid-column: 2; } 
+header .wordmark { grid-column: 2; }
+.langsw { grid-column: 3; justify-self: end; color: var(--ink); font-size: 12px; letter-spacing: 0.08em; text-underline-offset: 3px; } 
 .wordmark { font-weight: 500; font-size: 17px; letter-spacing: 0.42em; text-transform: uppercase; padding-left: 0.42em; white-space: nowrap; }
 @media (max-width: 380px) { header { padding-inline: 16px; } .wordmark { font-size: 15px; letter-spacing: 0.3em; padding-left: 0.3em; } }
 
@@ -119,7 +120,7 @@ main { max-width: 1400px; margin: 0 auto; padding-inline: 20px; padding-block: 4
 .join h1 { font-weight: 400; font-size: clamp(28px, 5vw, 46px); line-height: 1.25; margin: 0; text-wrap: balance; text-align: center; }
 .join > p { margin: 0; color: var(--grey); text-align: center; }
 .join[hidden], .r2[hidden], .intro[hidden], [hidden] { display: none !important; }
-.join { gap: 48px; padding-block: 56px 8px; }
+.join { gap: 48px; padding-block: 56px 8px; grid-template-columns: minmax(0, 1fr); }
 .join .endtop { text-align: center; display: grid; gap: 10px; }
 .join.bare { border-top: 0; padding-top: 8px; } 
 .join .endtop h1 { font-weight: 300; font-size: clamp(34px, 6vw, 56px); letter-spacing: -0.03em; line-height: 1; margin: 0; }
@@ -205,6 +206,19 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 .realrow::-webkit-scrollbar { display: none; }
 .realrow figure { margin: 0; flex: 0 0 100%; scroll-snap-align: center; aspect-ratio: 3 / 2; background: #f2f2f2; }
 .realrow img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.followbig { min-width: 0; display: grid; gap: 18px; justify-items: center; text-align: center; background: #eef3f8; padding: 44px 20px 40px; border: 2px solid var(--ink); }
+.followbig h2 { margin: 0; font-weight: 300; font-size: clamp(38px, 8vw, 64px); letter-spacing: -0.03em; line-height: 1; }
+.followp { margin: 0; font-size: 16px; max-width: 30em; text-wrap: balance; }
+.followcards { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; width: 100%; max-width: 620px; }
+@media (max-width: 340px) { .followcards { grid-template-columns: 1fr; } }
+.fcard { min-width: 0; background: var(--white); border: 1px solid var(--ink); padding: 22px 16px 18px; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.fcard .qr { width: 100%; max-width: 200px; height: auto; margin-bottom: 8px; }
+.fcard b { font-weight: 500; font-size: 18px; }
+.fcard .fid { color: var(--grey); font-size: 12px; margin-top: -4px; margin-bottom: 10px; }
+.fcard b { margin-bottom: 10px; } .fcard .fid { margin-top: -14px; }
+.fbtn { margin-top: auto; align-self: stretch; box-sizing: border-box; display: block; padding: 16px 12px; background: var(--ink); color: var(--white); text-decoration: none; text-transform: uppercase; letter-spacing: 0.16em; font-size: 12px; border: 1px solid var(--ink); }
+@media (hover: hover) { .fbtn:hover { background: var(--white); color: var(--ink); } }
+@media (max-width: 560px) { .followcards { gap: 10px; } .fcard { padding: 16px 10px 12px; } .fcard b { font-size: 13px; } .fcard .fid { font-size: 11px; white-space: nowrap; } .fbtn { padding: 14px 6px; } .followbig { padding: 36px 14px 30px; } }
 .realnav { display: flex; align-items: center; gap: 16px; }
 .arrow2 { background: var(--white); border: 1px solid var(--hair); width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; font: inherit; font-size: 15px; color: var(--ink); }
 .realdots { display: flex; gap: 8px; }
@@ -232,6 +246,7 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 <body>
 <header>
   <div class="wordmark">Vitamin VVV</div>
+  <a class="langsw" id="langSwitch" href="?lang=zh">中文</a>
 </header>
 
 <main>
@@ -298,18 +313,13 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
       <span class="up kicker">The real pieces</span>
       <p class="realp">These are photos of what we've actually made.</p>
       <div class="realrow" id="realRow">
-        <figure><img src="../img/real/real-1.jpg" alt="Our hooded lace jacket, worn outdoors in autumn" decoding="async"></figure>
-        <figure><img src="../img/real/real-2.jpg" alt="Our lace jacket, worn sitting in a tree" loading="lazy" decoding="async"></figure>
-        <figure><img src="../img/real/real-3.jpg" alt="The jacket worn outdoors, hood up, tied with a bow" loading="lazy" decoding="async"></figure>
-        <figure><img src="../img/real/real-4.jpg" alt="The jacket held up against the light" loading="lazy" decoding="async"></figure>
-        <figure><img src="../img/real/real-5.jpg" alt="Sleeve detail" loading="lazy" decoding="async"></figure>
+        <figure><img src="../img/pieces/piece-1.jpg" alt="Our hooded jacket, worn outdoors, tied with a bow" decoding="async"></figure>
+        <figure><img src="../img/pieces/piece-2.jpg" alt="Sleeve detail with crystal flowers" loading="lazy" decoding="async"></figure>
+        <figure><img src="../img/pieces/piece-3.jpg" alt="The jacket held up against the light" loading="lazy" decoding="async"></figure>
+        <figure><img src="../img/pieces/piece-4.jpg" alt="The jacket worn at night in town, hood up" loading="lazy" decoding="async"></figure>
+        <figure><img src="../img/pieces/piece-5.jpg" alt="The jacket worn at night over a black tulle skirt" loading="lazy" decoding="async"></figure>
       </div>
       <div class="realnav"><button class="arrow2" id="realPrev" type="button" aria-label="Previous photo">&larr;</button><div class="realdots" id="realDots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i><i></i></div><button class="arrow2" id="realNext" type="button" aria-label="Next photo">&rarr;</button></div>
-      <p class="realp">See more, and the first collection, on our social media.</p>
-      <div class="social">
-        <a class="soc" href="https://www.instagram.com/vitaminvvv.studio/" target="_blank" rel="noopener"><span class="up">Instagram</span><b>@vitaminvvv.studio</b></a>
-        <a class="soc" href="http://xhslink.com/m/6OpSEpuv9o3" target="_blank" rel="noopener"><span class="up">Xiaohongshu</span><b>Vitamin VVV</b></a>
-      </div>
     </div>
     <div class="end">
     <div class="endcol">
@@ -364,6 +374,22 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
     </div>
     </div>
     </div>
+    <div class="followbig" id="followBig" aria-labelledby="followHead">
+      <h2 id="followHead">Follow us!</h2>
+      <p class="followp">Our first collection comes out on Instagram and Xiaohongshu first. Follow us now so you don't miss it.</p>
+      <div class="followcards">
+        <div class="fcard">
+          <img class="qr" src="../img/qr/qr-instagram.png" alt="QR code for our Instagram" width="240" height="240">
+          <span class="up">Instagram</span><b>@vitaminvvv.studio</b>
+          <a class="fbtn" href="https://www.instagram.com/vitaminvvv.studio/" target="_blank" rel="noopener">Follow</a>
+        </div>
+        <div class="fcard">
+          <img class="qr" id="xhsQr" src="../img/qr/qr-xiaohongshu.png" alt="QR code for our Xiaohongshu" width="240" height="240">
+          <span class="up">Xiaohongshu</span><b>Vitamin VVV</b><span class="fid">ID 18775934882</span>
+          <a class="fbtn" href="http://xhslink.com/m/6OpSEpuv9o3" target="_blank" rel="noopener">Follow</a>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -382,6 +408,85 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 <footer class="up"><span>Vitamin VVV</span><span>Positive energy, rain or shine</span><a class="mail" href="mailto:nihao@vitaminvvv.studio">nihao@vitaminvvv.studio</a></footer>
 
 <script>
+// Language: ?lang=zh shows the Chinese version (display only; answers still save in English)
+const LANG = new URLSearchParams(location.search).get("lang") === "zh" ? "zh" : "en";
+const ZH = {
+  "Vitamin VVV · Which would you wear?": "Vitamin VVV · 你会穿哪一套？",
+  "Look test": "造型测试",
+  "Previous look": "上一套", "Next look": "下一套",
+  "Looks. Use the arrow keys to move between them.": "造型，用方向键切换。",
+  "First, your name": "先写下你的名字", "Your name": "你的名字",
+  "You usually wear": "你平时穿", "Womenswear": "女装", "Menswear": "男装",
+  "Six looks · about two minutes": "六套造型 · 大约两分钟", "Six looks · one minute": "六套造型 · 一分钟",
+  "Which would you wear?": "你会穿哪一套？",
+  "Vitamin VVV is a designer lifestyle brand built around rainwear: coats you'd wear any day and reach for first when it rains. Rank six looks to help choose what we make first": "Vitamin VVV 是一个围绕雨天单品的设计师生活方式品牌：平时就想穿、下雨时第一个想拿的外套。给这六套造型排个序，帮我们决定先做哪一款",
+  ", then join the waitlist to see the collection before anyone else": "，然后加入等候名单，比别人先看到系列",
+  "These looks are AI-generated images, made only for this test.": "这些造型是 AI 生成的图片，只用于这次测试。",
+  "Start": "开始", "Or just join the waitlist": "或者直接加入等候名单",
+  "Choose this look": "选这一套", "Undo": "撤销", "Your ranking": "你的排序",
+  "Ranking complete": "排序完成", "All six ranked": "六套都排好了",
+  "Round 2": "第二轮", "Two takes on your favourite.": "你最喜欢的那套，两种版本。",
+  "Other occasion? Type it": "其他场合？写在这里", "Other occasion": "其他场合", "Add": "添加",
+  "Which one do you prefer?": "你更喜欢哪一个？",
+  "Classic heritage": "经典传承", "Quiet luxury": "静奢", "Romantic": "浪漫", "Power tailoring": "利落剪裁", "Gown": "礼服", "Sporty": "运动",
+  "Everyday": "日常", "Class or studio": "上课或工作室", "Client meeting": "见客户", "Bike or scooter": "骑车", "Date": "约会", "Night out": "晚上出去玩", "Party": "派对", "Concert": "演唱会", "Wedding": "婚礼", "Travel photos": "旅行拍照", "Content shoot": "拍内容", "Cosplay": "Cosplay",
+  "Thank you.": "谢谢你！", "You've completed the interview.": "测试完成啦。", "Your picks help decide what we make first.": "你的选择会帮我们决定先做哪一款。",
+  "Our real pieces": "我们的实物", "The real pieces": "实物照片", "These are photos of what we've actually made.": "这些是我们真正做出来的衣服。",
+  "Previous photo": "上一张", "Next photo": "下一张",
+  "Our hooded jacket, worn outdoors, tied with a bow": "我们的连帽外套，户外实拍，系了蝴蝶结", "Sleeve detail with crystal flowers": "袖口的水晶花细节",
+  "The jacket held up against the light": "迎着光拿起来的外套", "The jacket worn at night in town, hood up": "晚上在街上穿，戴着帽子", "The jacket worn at night over a black tulle skirt": "晚上搭黑色纱裙",
+  "Join the waitlist": "加入等候名单", "See the first collection before anyone else.": "比别人先看到我们的第一个系列。",
+  "Your email": "你的邮箱", "First name": "名字", "Optional": "选填",
+  "Leave your address and we'll send you a small gift.": "留下地址，我们会寄给你一份小礼物。", "Optional. Only used to send your gift.": "选填，只用来给你寄礼物。",
+  "Full name": "收件人姓名", "First and last name": "姓名", "Street address": "街道地址", "Street and number": "街道和门牌号", "Apartment, suite": "公寓 / 门牌",
+  "City": "城市", "State / province": "省 / 州", "Postal code": "邮编", "Country": "国家",
+  "We'll only email you about Vitamin VVV.": "我们只会发和 Vitamin VVV 有关的邮件。", "Add to waitlist": "加入等候名单",
+  "You're on the list.": "你已经在名单上啦。", "We'll write when the first collection is ready to see.": "第一个系列准备好时，我们会给你发邮件。",
+  "We'll write when the first collection is ready to see, and your gift is on its way.": "第一个系列准备好时，我们会给你发邮件。礼物也在路上啦。",
+  "Rank the looks": "去排序", "Share the test": "分享测试", "Link copied.": "链接已复制。",
+  "Follow us!": "关注我们！",
+  "Our first collection comes out on Instagram and Xiaohongshu first. Follow us now so you don't miss it.": "我们的第一个系列会先在 Instagram 和小红书上发布。现在就关注，别错过！",
+  "QR code for our Instagram": "Instagram 二维码", "QR code for our Xiaohongshu": "小红书二维码",
+  "Xiaohongshu": "小红书", "Follow": "关注", "ID 18775934882": "小红书号 18775934882",
+  "Positive energy, rain or shine": "无论晴雨，元气满满",
+  "Finish picking your looks above first.": "请先把上面的造型排完。", "Fill the holes in round 2 first.": "请先把第二轮的圆圈填满。",
+  "Enter an email address, like you@example.com.": "请填写邮箱，比如 you@example.com。",
+  "For the gift we need your full name, street, city and country. Or clear the address to join without a gift.": "寄礼物需要收件人姓名、街道、城市和国家。不要礼物的话，把地址清空就可以。",
+};
+const ZH_RX = [
+  [/^Scroll or use the arrows to see each look\. (Double-tap|Double-click) your favourite \(or press Choose this look\) and it drifts away, then pick again from the rest until you've ranked all six\. Changed your mind\? Press Undo\. Then one short second round\.$/, m => `滑动或用箭头看每一套。双击你最喜欢的那套（或按「选这一套」），它会飘走，然后在剩下的里面继续选，直到六套都排好。改主意了就按「撤销」。最后还有一个很短的第二轮。`],
+  [/^Scroll or use the arrows to see each look\. Double-click your favourite and it drifts away, then pick your next favourite\. (\d+) picks and you're done\. Changed your mind\? Press Undo\.$/, m => `滑动或用箭头看每一套。双击你最喜欢的那套，它会飘走，再选下一个喜欢的。选 ${m[1]} 次就完成。改主意了就按「撤销」。`],
+  [/^Where would you wear each one\? Drag an occasion into each empty circle, or (tap|click) one and then a circle\. Three for A, three for B\.$/, m => `你会在什么场合穿它们？把场合拖进空圆圈里，或者先${m[1] === "tap" ? "点" : "点击"}一个场合，再点圆圈。A 放三个，B 放三个。`],
+  [/^Double-(?:tap|click) your favourite$/, () => "双击你最喜欢的那套"],
+  [/^Double-(?:tap|click) your next favourite$/, () => "双击你下一套喜欢的"],
+  [/^Pick (\d+) of (\d+) · look (\d+) \/ (\d+)$/, m => `第 ${m[1]} / ${m[2]} 次挑选 · 第 ${m[3]} / ${m[4]} 套`],
+  [/^Look (\d+) of (\d+)$/, m => `第 ${m[1]} / ${m[2]} 套`],
+  [/^Show look (\d+)$/, m => `看第 ${m[1]} 套`],
+  [/^(\d+) \/ (\d+) filled$/, m => `已放 ${m[1]} / ${m[2]}`],
+];
+const T = s => {
+  if (LANG === "en" || !s) return s;
+  const k = s.trim(); if (ZH[k]) return s.replace(k, ZH[k]);
+  for (const [rx, f] of ZH_RX) { const m = k.match(rx); if (m) return s.replace(k, f(m)); }
+  return s;
+};
+if (LANG === "zh") {
+  document.documentElement.lang = "zh-CN";
+  document.title = "Vitamin VVV · 你会穿哪一套？";
+  const SKIP = el => el.closest && el.closest("script, style, #review");
+  const tNode = n => { if (n.nodeType === 3) { if (!SKIP(n.parentNode)) { const v = T(n.nodeValue); if (v !== n.nodeValue) n.nodeValue = v; } return; }
+    if (n.nodeType !== 1 || SKIP(n)) return;
+    for (const a of ["placeholder", "aria-label", "alt", "title"]) if (n.hasAttribute(a)) { const v = T(n.getAttribute(a)); if (v !== n.getAttribute(a)) n.setAttribute(a, v); }
+    n.childNodes.forEach(tNode); };
+  tNode(document.body);
+  const qr = document.getElementById("xhsQr"); if (qr) qr.src = qr.src.replace("qr-xiaohongshu.png", "qr-xiaohongshu-zh.png");
+  new MutationObserver(ms => ms.forEach(m => {
+    if (m.type === "characterData") tNode(m.target);
+    else if (m.type === "attributes") tNode(m.target);
+    else m.addedNodes.forEach(tNode);
+  })).observe(document.body, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ["placeholder", "aria-label", "alt", "title"] });
+}
+{ const sw = document.getElementById("langSwitch"); if (sw) { const u = new URL(location.href); if (LANG === "zh") u.searchParams.delete("lang"); else u.searchParams.set("lang", "zh"); sw.href = u.pathname + u.search + u.hash; sw.textContent = LANG === "zh" ? "EN" : "中文"; } }
 const PICKS = 6;
 
 const HASH = location.hash.toLowerCase();
@@ -978,8 +1083,8 @@ function setSel(name) {
 }
 const measure = document.createElement("canvas").getContext("2d");
 function fitLabel(el) {
-  const words = el.dataset.name.split(" ");
-  el.classList.remove("long"); el.style.fontSize = ""; el.textContent = el.dataset.name;
+  const shown = T(el.dataset.name), words = shown.split(" ");
+  el.classList.remove("long"); el.style.fontSize = ""; el.textContent = shown;
   const d = el.offsetWidth, inner = el.clientWidth; // not getBoundingClientRect: a hovered or dragged-over hole is zoomed in
   if (!d) return;
   const cs = getComputedStyle(el), r = d / 2 - 1.5, base = parseFloat(cs.fontSize);
