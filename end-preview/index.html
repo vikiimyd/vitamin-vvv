@@ -175,7 +175,7 @@ legend { padding: 0; margin-bottom: 10px; }
 .chips input:checked + label { background: var(--ink); color: var(--white); border-color: var(--ink); }
 .chips input:focus-visible + label { outline: 1px solid var(--ink); outline-offset: 2px; }
 .field { display: grid; gap: 2px; }
-input[type="email"], .field input[type="text"] { font: inherit; font-size: 17px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: 100%; }
+input[type="email"], .field input[type="text"], .field input[type="tel"] { font: inherit; font-size: 17px; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid var(--ink); border-radius: 0; padding: 7px 0; width: 100%; }
 .gift .field input[type="text"] { font-size: 16px; }
 input::placeholder { color: #bdbdbd; }
 .gift { display: grid; gap: 12px; padding-top: 6px; text-align: left; }
@@ -206,17 +206,17 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
 .realrow::-webkit-scrollbar { display: none; }
 .realrow figure { margin: 0; flex: 0 0 100%; scroll-snap-align: center; aspect-ratio: 3 / 2; background: #f2f2f2; }
 .realrow img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.followbig { min-width: 0; display: grid; gap: 18px; justify-items: center; text-align: center; background: #eef3f8; padding: 44px 20px 40px; border: 2px solid var(--ink); }
+.followbig { min-width: 0; display: grid; gap: 18px; justify-items: center; text-align: center; background: linear-gradient(180deg, #e6eef6 0%, #f3f7fb 55%, #ffffff 100%); padding: 48px 20px 44px; border-radius: 28px; }
 .followbig h2 { margin: 0; font-weight: 300; font-size: clamp(38px, 8vw, 64px); letter-spacing: -0.03em; line-height: 1; }
 .followp { margin: 0; font-size: 16px; max-width: 30em; text-wrap: balance; }
 .followcards { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; width: 100%; max-width: 620px; }
 @media (max-width: 340px) { .followcards { grid-template-columns: 1fr; } }
-.fcard { min-width: 0; background: var(--white); border: 1px solid var(--ink); padding: 22px 16px 18px; display: flex; flex-direction: column; gap: 6px; align-items: center; }
+.fcard { min-width: 0; background: rgba(255,255,255,.85); border-radius: 20px; box-shadow: 0 8px 28px rgba(60, 90, 120, .10); padding: 22px 16px 18px; display: flex; flex-direction: column; gap: 6px; align-items: center; }
 .fcard .qr { width: 100%; max-width: 200px; height: auto; margin-bottom: 8px; }
 .fcard b { font-weight: 500; font-size: 18px; }
 .fcard .fid { color: var(--grey); font-size: 12px; margin-top: -4px; margin-bottom: 10px; }
 .fcard b { margin-bottom: 10px; } .fcard .fid { margin-top: -14px; }
-.fbtn { margin-top: auto; align-self: stretch; box-sizing: border-box; display: block; padding: 16px 12px; background: var(--ink); color: var(--white); text-decoration: none; text-transform: uppercase; letter-spacing: 0.16em; font-size: 12px; border: 1px solid var(--ink); }
+.fbtn { margin-top: auto; align-self: stretch; box-sizing: border-box; display: block; padding: 16px 12px; background: var(--ink); color: var(--white); text-decoration: none; text-transform: uppercase; letter-spacing: 0.16em; font-size: 12px; border: 1px solid var(--ink); border-radius: 999px; }
 @media (hover: hover) { .fbtn:hover { background: var(--white); color: var(--ink); } }
 @media (max-width: 560px) { .followcards { gap: 10px; } .fcard { padding: 16px 10px 12px; } .fcard b { font-size: 13px; } .fcard .fid { font-size: 11px; white-space: nowrap; } .fbtn { padding: 14px 6px; } .followbig { padding: 36px 14px 30px; } }
 .realnav { display: flex; align-items: center; gap: 16px; }
@@ -338,6 +338,9 @@ footer a { color: inherit; font-size: 12px; text-transform: none; letter-spacing
         <label class="field" for="shipName"><span class="up">Full name</span>
           <input id="shipName" name="shipName" type="text" autocomplete="section-gift shipping name" maxlength="60" placeholder="First and last name">
         </label>
+        <label class="field" for="shipPhone" id="phoneField"><span class="up">Phone number</span>
+          <input id="shipPhone" name="shipPhone" type="tel" autocomplete="section-gift shipping tel" maxlength="30" placeholder="With country code, like +1">
+        </label>
         <label class="field" for="shipStreet"><span class="up">Street address</span>
           <input id="shipStreet" name="shipStreet" type="text" autocomplete="section-gift shipping address-line1" maxlength="70" placeholder="Street and number">
         </label>
@@ -435,9 +438,10 @@ const ZH = {
   "Previous photo": "上一张", "Next photo": "下一张",
   "Our hooded jacket, worn outdoors, tied with a bow": "我们的连帽外套，户外实拍，系了蝴蝶结", "Sleeve detail with crystal flowers": "袖口的水晶花细节",
   "The jacket held up against the light": "迎着光拿起来的外套", "The jacket worn at night in town, hood up": "晚上在街上穿，戴着帽子", "The jacket worn at night over a black tulle skirt": "晚上搭黑色纱裙",
-  "Join the waitlist": "加入等候名单", "See the first collection before anyone else.": "比别人先看到我们的第一个系列。",
+  "Join the waitlist": "加入等候名单", "Your thank-you gift": "你的谢礼", "Phone number": "电话号码", "With country code, like +1": "带国家区号，比如 +86", "Send": "提交", "Got it, thank you!": "收到啦，谢谢你！", "Your gift is on its way.": "礼物会尽快寄给你。",
+  "For the gift we need your full name, phone number, street, city and country.": "寄礼物需要收件人姓名、电话、街道、城市和国家。", "See the first collection before anyone else.": "比别人先看到我们的第一个系列。",
   "Your email": "你的邮箱", "First name": "名字", "Optional": "选填",
-  "Leave your address and we'll send you a small gift.": "留下地址，我们会寄给你一份小礼物。", "Optional. Only used to send your gift.": "选填，只用来给你寄礼物。",
+  "Leave your address and we'll send you a small gift.": "留下地址，我们会寄给你一份小礼物。", "Optional. Only used to send your gift.": "选填，只用来给你寄礼物。", "Only used to send your gift.": "只用来给你寄礼物。",
   "Full name": "收件人姓名", "First and last name": "姓名", "Street address": "街道地址", "Street and number": "街道和门牌号", "Apartment, suite": "公寓 / 门牌",
   "City": "城市", "State / province": "省 / 州", "Postal code": "邮编", "Country": "国家",
   "We'll only email you about Vitamin VVV.": "我们只会发和 Vitamin VVV 有关的邮件。", "Add to waitlist": "加入等候名单",
@@ -769,6 +773,15 @@ if (INTERVIEW) {
   document.querySelector("#thanks .btns").remove();
   document.getElementById("shareNote").remove();
   document.getElementById("endSub").textContent = "You've completed the interview.";
+  // the form is only for the thank-you gift: no waitlist wording; email sits with the phone number
+  document.getElementById("joinHead").textContent = "Your thank-you gift";
+  document.getElementById("joinLine").hidden = true;
+  document.getElementById("giftNote").textContent = "Only used to send your gift.";
+  document.getElementById("phoneField").after(document.getElementById("email").closest(".field"));
+  document.querySelector('#signup button[type="submit"]').textContent = "Send";
+  document.querySelector("#thanks h2").textContent = "Got it, thank you!";
+  document.getElementById("thanksNote").textContent = "Your gift is on its way.";
+  document.getElementById("join").setAttribute("aria-label", "Your thank-you gift");
 } else {
   document.getElementById("gift").remove();
 }
@@ -1260,19 +1273,20 @@ document.getElementById("signup").addEventListener("submit", e => {
   if (INTERVIEW && (!r2 || !r2.prefer)) { fail("Fill the holes in round 2 first."); r2El.scrollIntoView({ behavior: "smooth" }); return; }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim())) { fail("Enter an email address, like you@example.com.", f.email); return; }
   const ship = {};
-  ["Name", "Street", "Apt", "City", "State", "Postcode", "Country"].forEach(k => { ship[k.toLowerCase()] = f["ship" + k] ? f["ship" + k].value.replace(/\s+/g, " ").trim() : ""; });
+  ["Name", "Phone", "Street", "Apt", "City", "State", "Postcode", "Country"].forEach(k => { ship[k.toLowerCase()] = f["ship" + k] ? f["ship" + k].value.replace(/\s+/g, " ").trim() : ""; });
   const started = ["street", "apt", "city", "state", "postcode"].some(k => ship[k]);
-  const missing = ["name", "street", "city", "country"].find(k => !ship[k]);
-  if (started && missing) { fail("For the gift we need your full name, street, city and country. Or clear the address to join without a gift.", f["ship" + missing[0].toUpperCase() + missing.slice(1)]); return; }
+  const missing = ["name", ...(INTERVIEW ? ["phone"] : []), "street", "city", "country"].find(k => !ship[k]);
+  if (started && missing) { fail(INTERVIEW ? "For the gift we need your full name, phone number, street, city and country." : "For the gift we need your full name, street, city and country. Or clear the address to join without a gift.", f["ship" + missing[0].toUpperCase() + missing.slice(1)]); return; }
   err.textContent = "";
-  const address = started ? [ship.name, [ship.street, ship.apt].filter(Boolean).join(", "), [ship.city, [ship.state, ship.postcode].filter(Boolean).join(" ")].filter(Boolean).join(", "), ship.country].join("\n") : "";
+  const phoneLine = ship.phone ? "Phone: " + ship.phone : "";
+  const address = started ? [ship.name, [ship.street, ship.apt].filter(Boolean).join(", "), [ship.city, [ship.state, ship.postcode].filter(Boolean).join(" ")].filter(Boolean).join(", "), ship.country, phoneLine].filter(Boolean).join("\n") : phoneLine;
   const first = f.firstName ? f.firstName.value.replace(/\s+/g, " ").trim().slice(0, 40) : "";
   if (first && !who) who = first;
   clearTimeout(resendTimer); resendTimer = 0;
   if (!seq) lastSent = JSON.stringify([who, answers()]);
   else if (answersChanged() || responsePending()) send("response");
   send("email", { email: f.email.value.trim(), address, ship: started ? ship : null });
-  if (address) document.getElementById("thanksNote").textContent = "We'll write when the first collection is ready to see, and your gift is on its way.";
+  if (address && !INTERVIEW) document.getElementById("thanksNote").textContent = "We'll write when the first collection is ready to see, and your gift is on its way.";
   f.hidden = true;
   document.getElementById("joinHead").hidden = true;
   document.getElementById("joinLine").hidden = true;
